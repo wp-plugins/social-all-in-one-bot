@@ -23,66 +23,69 @@ From Facts, Stats, surveys, info graphics and expert reports everyone in should 
 Highlights & stats on each social media from various online sources as follows
 
 Facebook Marketing Facts
-•	100% more comments for Questions type posts
-•	57% more likes increases by using emoticons increases 
-•	33% by comments and shares increases by using emoticons
-•	42% Facebook Fans like a page to get a coupon or discount
-•	35% Facebook Fans like a page to participate in contests 
-•	39% more interaction for Photo posts get in facebook
-•	23% more interaction for Shorter posts (70 Chars)
-•	2X more engagement for posts with photo album or picture in facebook
+*	100% more comments for Questions type posts
+*	57% more likes increases by using emoticons increases 
+*	33% by comments and shares increases by using emoticons
+*	42% Facebook Fans like a page to get a coupon or discount
+*	35% Facebook Fans like a page to participate in contests 
+*	39% more interaction for Photo posts get in facebook
+*	23% more interaction for Shorter posts (70 Chars)
+*	2X more engagement for posts with photo album or picture in facebook
+
 Best Time
-•	6-9 AM and 1-5 PM in weekdays is best time
-•	18% higher Engagement rates on Thursday and Friday 
-•	32% Engagement rates on Sunday
+*	6-9 AM and 1-5 PM in weekdays is best time
+*	18% higher Engagement rates on Thursday and Friday 
+*	32% Engagement rates on Sunday
 
 Google+ Marketing Facts
-•	Sharing a link on Google+, the anchor text becomes the title of the page you are sharing. 
-•	Only "shared" links - the links that show up beneath your posts are followed. 
-•	External links in post body are no followed and don’t pass any link equity.
-•	Uploaded images don't pass external link equity even good image may increase post popularity and click-through rate
-•	Photos and media get more engagement
-•	URL's number of Google +1s is highly correlated with search rankings next to Page Authority in seo.
-•	Posts are crawled and indexed almost immediately as Google+ is to discover new content 
-•	Proven more value to seo and organic ranking boost
-•	230M more users linked to articles
-•	241M more users linked to blogs
-•	9-11 AM is the best time
-•	6 PM -7 AM Worst time to post - mostly night time
+*	Sharing a link on Google+, the anchor text becomes the title of the page you are sharing. 
+*	Only "shared" links - the links that show up beneath your posts are followed. 
+*	External links in post body are no followed and don’t pass any link equity.
+*	Uploaded images don't pass external link equity even good image may increase post popularity and click-through rate
+*	Photos and media get more engagement
+*	URL's number of Google +1s is highly correlated with search rankings next to Page Authority in seo.
+*	Posts are crawled and indexed almost immediately as Google+ is to discover new content 
+*	Proven more value to seo and organic ranking boost
+*	230M more users linked to articles
+*	241M more users linked to blogs
+*	9-11 AM is the best time
+*	6 PM -7 AM Worst time to post - mostly night time
 
 Twitter Marketing Facts
-•	17% more engagements for tweets lesser than 100 character
-•	21% increased engagement for 1 or 2 #tags
-•	23X retweets rate when tweet with retweets
-•	12X retweets rate when tweet with retweets or RT
-•	2X more engagements for #tags
-•	53% retweets others
-•	55% users share links and stories
+*	17% more engagements for tweets lesser than 100 character
+*	21% increased engagement for 1 or 2 #tags
+*	23X retweets rate when tweet with retweets
+*	12X retweets rate when tweet with retweets or RT
+*	2X more engagements for #tags
+*	53% retweets others
+*	55% users share links and stories
+
 Best time
-•	9-11 AM and 1-3 PM have heavy traffic 
-•	30% of engagement at 8 AM to 7 PM and 64% of brands take this advantage
-•	17% engagement rate increase on Saturdays and Sundays. 
-•	19% brand tweets on sat and Sunday
-•	Lowest rate on wed and Thurs days
+*	9-11 AM and 1-3 PM have heavy traffic 
+*	30% of engagement at 8 AM to 7 PM and 64% of brands take this advantage
+*	17% engagement rate increase on Saturdays and Sundays. 
+*	19% brand tweets on sat and Sunday
+*	Lowest rate on wed and Thurs days
 
 Linkedin Marketing Facts
-•	38.5% said it helped to build new potential customer relationship
-•	2.1M Groups in linkedin
-•	81% of 259M professionals are in 1 group at least, 
-•	Overall in average Users in 7 groups, 
-•	35.5% is member of 1-9 groups, 
-•	25.1% in 10-19 groups
-•	41% use linkedin for marketing
-•	28% are senior executives 
-•	50% are decision makers
-•	61% industry networking
+*	38.5% said it helped to build new potential customer relationship
+*	2.1M Groups in linkedin
+*	81% of 259M professionals are in 1 group at least, 
+*	Overall in average Users in 7 groups, 
+*	35.5% is member of 1-9 groups, 
+*	25.1% in 10-19 groups
+*	41% use linkedin for marketing
+*	28% are senior executives 
+*	50% are decision makers
+*	61% industry networking
+
 Highlights
-•	28.3% said it helped to identify business opportunities
-•	35.8% said it helped to increase branding/marketing presence
-•	29% said it is important to grow business/network
-•	1.2M products/services showcased, 
-•	53.6% used pages to display product/services 
-•	3M Linked business pages, 35.5% said they have company pages
+*	28.3% said it helped to identify business opportunities
+*	35.8% said it helped to increase branding/marketing presence
+*	29% said it is important to grow business/network
+*	1.2M products/services showcased, 
+*	53.6% used pages to display product/services 
+*	3M Linked business pages, 35.5% said they have company pages
 
 How? Ok, but how to control all my social updates to perform based on these stats and reports? Why i need this plugin? 
 Yes, yes, yes. All serious bloggers, marketers, web masters, SEO professionals, warriors, social media experts who are hungry to generating social media traffic, leads, sales and brand awareness are in real need of such plugin. If you are one among then you should have our plugin.
@@ -94,31 +97,35 @@ Is all these stats and survey reports need to match my marketing strategy? And i
 No need. This is an overall view on high performance social impacts. It may differ in result and values in real time. That is why we like to an AB testing features to sample and test your status to get actual ground report of your total network behavior. Base d on above stats you can learn how to set up your AB testing samples with minimum effort and resource.
 
 Why social media?
-•	27M online content is shared daily - you can be one.
-•	92% marketers says content creation is very effective for seo
-•	44% impact of social in seo
-•	66% of social media users made a black Friday/Cyber Monday purchase
-•	65% of recommendation made or led to a purchase 
-•	52% users willing to pay/purchase more on brand they trust
-•	36% social media users trust the brands with social media presence
-•	25% of B2c leads are generated from social media
-•	18% of B2B leads are generated from social media
-•	55% have closed deals from social media
-•	60% is specific to industry brand or product
-•	60% decision makers says branded content helps on product decisions
+*	27M online content is shared daily - you can be one.
+*	92% marketers says content creation is very effective for seo
+*	44% impact of social in seo
+*	66% of social media users made a black Friday/Cyber Monday purchase
+*	65% of recommendation made or led to a purchase 
+*	52% users willing to pay/purchase more on brand they trust
+*	36% social media users trust the brands with social media presence
+*	25% of B2c leads are generated from social media
+*	18% of B2B leads are generated from social media
+*	55% have closed deals from social media
+*	60% is specific to industry brand or product
+*	60% decision makers says branded content helps on product decisions
+
 By Facebook
-•	3200M likes generated daily in Facebook
-•	4.5B avg likes/day in Facebook
+*	3200M likes generated daily in Facebook
+*	4.5B avg likes/day in Facebook
+
 In Google+
-•	241M more users linked to blogs
-•	230M more users linked to articles
-•	Proven more value to seo and organic ranking boost
+*	241M more users linked to blogs
+*	230M more users linked to articles
+*	Proven more value to seo and organic ranking boost
+
 In Twitter
-•	55% users share links and stories
-•	53% retweets others
+*	55% users share links and stories
+*	53% retweets others
+
 In Linked in
-•	32.8% said it is extremely important to grow business/network
-•	35.8% said it helped to increase branding/marketing presence
+*	32.8% said it is extremely important to grow business/network
+*	35.8% said it helped to increase branding/marketing presence
 And finally almost $12.5B invested in online content alone. This is why content marketing is such a mass weapon for modern marketing, SEO and brand awareness strategy.
 
 This is just a summary and notable highlight. Learn more here from  full report in http://blog.smackcoders.com.
