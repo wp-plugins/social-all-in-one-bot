@@ -154,10 +154,12 @@ class SkinnyController extends SkinnyBaseController
 		global $wpdb;
 		# droping table starts here
 		$table_name = WP_SOCIAL_ALL_IN_ONE_BOT_QUEUE_TABLE;
-		$sql = "DROP TABLE IF_EXISTS $table_name;";
+		$sql = "DROP TABLE IF EXISTS $table_name;";
 		$res = $wpdb->query($sql);
 		# droping table ends here
-
+		delete_option('__saiob_facebookkeys');
+		delete_option('__saiob_twitterkeys');
+		delete_option('__wp_saiob_bulkcomposer_template');
 		# clearing cron 
 		wp_clear_scheduled_hook('wordpress_social_all_in_one_bot_queue');
 		# clearing cron ends here

@@ -144,7 +144,7 @@ No need. This is an overall view on high performance social impacts. It may diff
 
 And finally almost $12.5B invested in online content alone. This is why content marketing is such a mass weapon for modern marketing, SEO and brand awareness strategy.
 
-**Features in queue for next release **
+**Features in queue for next release**
 
 * Google+
 * Linked In
@@ -191,11 +191,11 @@ Or view our how to guide video guide in our [Youtube Channel](http://youtube.com
 
 == Changelog ==
 
-= 1.0.0 =	Initial release version. Tested and found works well without any issues.
+= 1.0.0 Beta =	Initial release version. Tested and found works well without any issues.
 
 == Upgrade Notice ==
 
-=v 1.0.0 =	Initial release of plugin. 
+=v 1.0.0 Beta =	Initial Beta release of plugin. 
 
 
 

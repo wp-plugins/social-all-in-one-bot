@@ -66,7 +66,9 @@ class saiob_include_getmetainfo
 		else if($provider == 'twitter')
 		{
 			$rand = array();$html = array();
-			$html['text'] = $metainfo['title'].$metainfo['description'];
+			$metainfo['title'] = isset($metainfo['title']) ? $metainfo['title'] : '';
+			$metainfo['description'] = isset($metainfo['description']) ? $metainfo['description'] : '';
+			$html['text'] = $metainfo['title'].' '.$metainfo['description'];
 			$splited_tag = explode(',', $smartbotvalues[1]);
 			$tagnos = $smartbotvalues[3];
 
@@ -103,7 +105,9 @@ class saiob_include_getmetainfo
 			$tag = null;
 			foreach($rand as $singlerand)
 			{
-				$splittedtag = trim($splited_tag[$singlerand]);
+				if(isset($splited_tag[$singlerand]))
+					$splittedtag = trim($splited_tag[$singlerand]);
+
 				if(!empty($splittedtag))
 					$tag .= " #{$splittedtag}";
 			}
@@ -135,12 +139,16 @@ class saiob_include_getmetainfo
 
 			for($i = 1; $i <= $days_interval; $i ++)
 			{
+				$smartbotvalues[7] = mysql_real_escape_string($smartbotvalues[7]);
+				$serializedhtml = mysql_real_escape_string($serializedhtml);
 				$wpdb->query("insert into $queuetablename (provider, period, socialmessage, scheduledtimetorun, dateorweek) value ('$provider', '{$smartbotvalues[7]}', '$serializedhtml', '$timetorun', '$dateorweek')");
 				$dateorweek = date('Y-m-d', strtotime($dateorweek . ' + 1 day'));
 			}
 		}
 		else
 		{
+			$smartbotvalues[7] = mysql_real_escape_string($smartbotvalues[7]);
+			$serializedhtml = mysql_real_escape_string($serializedhtml);
 			$wpdb->query("insert into $queuetablename (provider, period, socialmessage, scheduledtimetorun, dateorweek) value ('$provider', '{$smartbotvalues[7]}', '$serializedhtml', '$timetorun', '$dateorweek')");
 		}
 
