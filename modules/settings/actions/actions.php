@@ -67,13 +67,13 @@ class SettingsActions extends SkinnyActions {
 			{
 				$value[2] = $facebook_accesstoken;
 				$data['notification'] = "Facebook settings stored Successfully.";
-				$data['notificationclass'] = 'alert-success';
+				$data['notificationclass'] = 'alert alert-success';
 			}
 			else
 			{
 				$value = array();
 				$data['notification'] = "Error getting access token from facebook";
-				$data['notificationclass'] = 'alert-danger';
+				$data['notificationclass'] = 'alert alert-danger';
 
 			}
 			update_option('__saiob_facebookkeys', $value);

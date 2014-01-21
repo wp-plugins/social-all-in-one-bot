@@ -1,4 +1,6 @@
 <!-- SmartBOT page for social-all-in-one -->
+<!-- Fix for div shown up at the footer of the wordpress-->
+<style> #ui-datepicker-div { display:none } </style>
 <?php
 $facebookbot_weekly_div_style = 'display:none';
 $facebookbot_date_div_style = 'display:none';
@@ -86,7 +88,7 @@ $this->notificationclass = isset($skinnyData['notificationclass']) ? $skinnyData
 	      			<div class = "col-sm-2">
 			      		<?php echo $skinnyData['facebookbot_hours_from']; ?>
 				</div>
-        			<div class = 'col-sm-1' style = 'margin-left:20px;'> to </div>
+        			<div class = 'col-sm-1' style = 'margin-left:30px;'> to </div>
       					<div class = 'col-sm-2'>
       						<?php echo $skinnyData['facebookbot_hours_to']; ?>
 	      				</div>
@@ -168,7 +170,7 @@ $this->notificationclass = isset($skinnyData['notificationclass']) ? $skinnyData
       			<div class = "col-sm-2">
 		      		<?php echo $skinnyData['twitterbot_hours_from']; ?>
 			</div>
-        		<div class = 'col-sm-1' style = 'margin-left:20px;'> to </div>
+        		<div class = 'col-sm-1' style = 'margin-left:30px;'> to </div>
       				<div class = 'col-sm-2' style = ''>
       					<?php echo $skinnyData['twitterbot_hours_to']; ?>
       				</div>

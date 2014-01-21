@@ -75,5 +75,5 @@ foreach($skinnyData['queuelist'] as $singleQueue)
 		<td> <?php echo $status; ?> </td>
 	</tr>
 <?php } ?>
-<table> 
+</table> 
 <?php echo $pagination; ?>
