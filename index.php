@@ -8,11 +8,11 @@
   Author URI: http://www.smackcoders.com/social-all-in-one-bot.html
 */
 global $wpdb;
-define('WP_SOCIAL_ALL_IN_ONE_BOT_URL', 'http://www.smackcoders.com/wp-social-all-in-one-bot.html');
+define('WP_SOCIAL_ALL_IN_ONE_BOT_URL', 'http://www.smackcoders.com/social-all-in-one-bot.html');
 define('WP_SOCIAL_ALL_IN_ONE_BOT_NAME', 'Social All in One Bot');
 define('WP_SOCIAL_ALL_IN_ONE_BOT_SLUG', 'social-all-in-one-bot');
 define('WP_SOCIAL_ALL_IN_ONE_BOT_SETTINGS', 'Social All in One Bot');
-define('WP_SOCIAL_ALL_IN_ONE_BOT_VERSION', '1.0.0');
+define('WP_SOCIAL_ALL_IN_ONE_BOT_VERSION', '1.0.0 Beta');
 define('WP_SOCIAL_ALL_IN_ONE_BOT_DIR', WP_PLUGIN_URL . '/' . WP_SOCIAL_ALL_IN_ONE_BOT_SLUG . '/');
 define('WP_SOCIAL_ALL_IN_ONE_BOT_DIRECTORY', plugin_dir_path( __FILE__ ));
 define('WP_PLUGIN_BASE', WP_SOCIAL_ALL_IN_ONE_BOT_DIRECTORY);
@@ -53,12 +53,13 @@ function action_admin_init()
 	wp_enqueue_style('social_all_in_one_bot_font_awesome', plugins_url('css/font-awesome.css', __FILE__));
 }
 add_action('admin_init', 'action_admin_init');
+add_action('init', array('saiob_include_saiobhelper', 'register_session'));
 
 # ajax
 add_action('wp_ajax_generatemetainformation', array('SkinnyController', 'generatemetainformation'));
 add_action('wp_ajax_saiob_gettemplate', array('saiob_include_saiobhelper','saiob_gettemplate'));
 add_action('wp_ajax_saiob_checkbulkcomposertemplate', array('SkinnyController', 'saiob_checkbulkcomposertemplate'));
-add_action('wp_ajax_saiob_storesocialkeys', array('SkinnyController', 'saiob_storesocialkeys'));
+add_action('wp_ajax_saiob_storesocialkeys', array('saiob_include_saiobhelper', 'saiob_storesocialkeys'));
 add_action('wp_ajax_saiob_storesmartbotinfo', array('saiob_include_saiobhelper', 'saiob_storesmartbotinfo'));
 
 # cron schedule

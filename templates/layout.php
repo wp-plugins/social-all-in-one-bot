@@ -1,5 +1,15 @@
 <?php
-$mod = $_REQUEST['__module'];
+# check whether social keys are stored. If no redirect them to settings page
+$facebook = get_option('__saiob_facebookkeys'); $twitter = get_option('__saiob_twitterkeys');
+$mod = isset($_REQUEST['__module']) ? $_REQUEST['__module'] : '';
+if(empty($facebook) && empty($twitter) && $mod != 'settings')
+{ ?>
+	<script type = 'text/javascript'>
+		window.location.href = "admin.php?page=social-all-in-one-bot/saiob.php&__module=settings";
+	</script> <?php 
+	die; 
+}
+# social key check ends here
 $composer_menu = ''; $bulk_composer_menu = '';$smartbot_menu = ''; $queue_menu = 'queue'; $settings_menu = 'settings';
 if($mod == 'smartbot')
 	$smartbot_menu = 'active';
@@ -13,7 +23,7 @@ else
 ?>
 <!-- header starts -->
 <div class = "breadcrumb" style = 'padding:5px;'> <b style = "padding-left:10px;font-size: 14px;"> <img src = "<?php echo WP_SOCIAL_ALL_IN_ONE_BOT_DIR; ?>images/icon.png" alt = "icon"> <?php echo WP_SOCIAL_ALL_IN_ONE_BOT_NAME; ?> Settings </b> </div>
-<div id = "notification_saio" class = "<?php echo $this->notificationclass; ?>">
+<div id = "notification_saio" class = "<?php if(isset($this->notificationclass) && !empty($this->notificationclass)) { echo $this->notificationclass; } ?>">
 	<?php if(isset($this->notification) && !empty($this->notification)) { echo $this->notification; } ?>
 </div>
 <!-- nav menu starts -->

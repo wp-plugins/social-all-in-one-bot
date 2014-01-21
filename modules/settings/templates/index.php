@@ -1,5 +1,9 @@
 <!-- settings page of social-all-in-one-bot -->
-<?php $facebook = get_option('__saiob_facebookkeys'); $twitter = get_option('__saiob_twitterkeys'); ?>
+<?php $facebook = get_option('__saiob_facebookkeys'); $twitter = get_option('__saiob_twitterkeys'); 
+# for notification
+$this->notification = isset($skinnyData['notification']) ? $skinnyData['notification'] : '';
+$this->notificationclass = isset($skinnyData['notificationclass']) ? $skinnyData['notificationclass'] : '';
+?>
 <div class="panel-group" id="accordion">
 	<div class="panel panel-default">
 		<div class="panel-heading">

@@ -8,8 +8,17 @@ $twitterbot_weekly_div_style = 'display:none';
 $twitterbot_date_div_style = 'display:none';
 $twitterbot_tag_nos_div = 'display:none';
 
-$this->notification = $skinnyData['notification'];
-$this->notificationclass = $skinnyData['notificationclass'];
+$facebook = get_option('__saiob_facebookkeys'); $twitter = get_option('__saiob_twitterkeys');
+$facebook_show = 'display:block';
+$twitter_show = 'display:block';
+if(empty($facebook))
+	$facebook_show = "display:none";
+
+if(empty($twitter))
+	$twitter_show = "display:none";
+
+$this->notification = isset($skinnyData['notification']) ? $skinnyData['notification'] : '';
+$this->notificationclass = isset($skinnyData['notificationclass']) ? $skinnyData['notificationclass'] : '';
 ?>
 <div style = 'height:50px;padding-left:15px;padding-top:10px;' class="form-group"> <?php echo $skinnyData['bulkcomposer_template']; ?> </div>
 <div class="panel-group" id="accordion">
@@ -25,7 +34,7 @@ $this->notificationclass = $skinnyData['notificationclass'];
 		<?php echo $skinnyData['bulkcomposer']; ?>
     </div>
   </div>
-  <div class="panel panel-default">
+  <div class="panel panel-default" style = '<?php echo $facebook_show; ?>'>
     <div class="panel-heading">
       <h4 class="panel-title">
         <a data-toggle="collapse" data-parent="#accordion" href="#facebook">
@@ -41,13 +50,13 @@ $this->notificationclass = $skinnyData['notificationclass'];
       			<div class="form-group">
       				<label for="facebookbot_maxchars" class="col-sm-2 control-label"> Maximum Characters </label>
 			      	<div class="col-sm-1">
-      					<input type="email" class="form-control" id="facebookbot_maxchars" maxlength = '3' name = 'facebookbot_maxchars'>
+      					<input type="text" class="form-control" id="facebookbot_maxchars" maxlength = '5' name = 'facebookbot_maxchars' placeholder = '60000+'>
 				</div>
       			</div>
       			<div class="form-group">
       				<label for="facebookbot_calltoactions" class="col-sm-2 control-label"> Call to actions </label>
       				<div class="col-sm-5">
-      					<input type="text" class="form-control" id="facebookbot_calltoactions" name = "facebookbot_calltoactions">
+      					<input type="text" class="form-control" id="facebookbot_calltoactions" name = "facebookbot_calltoactions" placeholder = 'like us'>
       				</div>
       				<div class = 'col-sm-1'>
       					<label class = "checkbox-inline"> <input type = 'checkbox' id = 'facebookbot_action_rotate' name = 'facebookbot_action_rotate' > Rotate </label>
@@ -73,7 +82,7 @@ $this->notificationclass = $skinnyData['notificationclass'];
       					<input type = 'text' name = 'facebookbot_todate' id = 'facebookbot_todate' class = 'form-control' style = 'width:100px;' >
       				</div>
      			</div>
-      			<div class = "col-sm-3" id = 'facebookbot_time_div' style = '<?php echo $facebookbot_time_div_style ?>' >
+      			<div class = "col-sm-3" id = 'facebookbot_time_div'>
 	      			<div class = "col-sm-2">
 			      		<?php echo $skinnyData['facebookbot_hours_from']; ?>
 				</div>
@@ -94,7 +103,7 @@ $this->notificationclass = $skinnyData['notificationclass'];
       </div>
     </div>
   </div>
-  <div class="panel panel-default">
+  <div class="panel panel-default" style = '<?php echo $twitter_show; ?>'>
     <div class="panel-heading">
       <h4 class="panel-title">
         <a data-toggle="collapse" data-parent="#accordion" href="#twitter">
@@ -110,18 +119,18 @@ $this->notificationclass = $skinnyData['notificationclass'];
       			<div class="form-group">
       				<label class="col-sm-2 control-label"> Maximum Characters </label>
 			      	<div class="col-sm-1">
-      					<input type="email" class="form-control" id="twitterbot_maxchars" maxlength = '3' name = "twitterbot_maxchars">
+      					<input type="email" class="form-control" id="twitterbot_maxchars" maxlength = '3' name = "twitterbot_maxchars" placeholder = '140'>
 				</div>
       			</div>
       			<div class="form-group">
 	      			<label class="col-sm-2 control-label"> Tags # </label>
       				<div class="col-sm-5">
-      					<input type="text" class="form-control" id="twitterbot_tags" name = "twitterbot_tags">
+      					<input type="text" class="form-control" id="twitterbot_tags" name = "twitterbot_tags" placeholder = '#smackcoders, #sachin, #sun'>
       				</div>
       				<div class = 'col-sm-1'> 
       					<label class = "checkbox-inline"> <input type = 'checkbox' id = 'twitterbot_tag_rotate' name = 'twitterbot_tag_rotate' onclick = "shownos(this.name, this.checked)" > Rotate </label>
       				</div>
-     	 			<div class = "col-sm-2" id = 'twitter_tag_nos_div' style = '<?php echo $skinnyData['twitterbot_tag_nos_div']; ?>'>
+     	 			<div class = "col-sm-2" id = 'twitter_tag_nos_div'>
       					<label class = "col-sm-1 control-label" style = 'width:50px;'> Nos </label>
      	 				<div class = "col-sm-1"> <?php echo $skinnyData['twitterbot_tag_nos']; ?> </div> 
       				</div>
@@ -129,7 +138,7 @@ $this->notificationclass = $skinnyData['notificationclass'];
       			<div class="form-group">
       				<label for="twitter_calltoactions" class="col-sm-2 control-label"> Call to actions </label>
       				<div class="col-sm-5">
-      					<input type="text" class="form-control" id="twitterbot_calltoactions" name = "twitterbot_calltoactions">
+      					<input type="text" class="form-control" id="twitterbot_calltoactions" name = "twitterbot_calltoactions" placeholder = "retweet us">
       				</div>
       				<div class = 'col-sm-1'>
       					<label class = "checkbox-inline"> <input type = 'checkbox' id = 'twitterbot_action_rotate' name = 'twitterbot_action_rotate' > Rotate </label>
@@ -155,7 +164,7 @@ $this->notificationclass = $skinnyData['notificationclass'];
       					<input type = 'text' name = 'twitterbot_todate' id = 'twitterbot_todate' class = 'form-control' style = 'width:100px;' >
       				</div>
      			</div>
-      			<div class = "col-sm-3" id = 'twitterbot_time_div' style = '<?php echo $twitterbot_time_div_style ?>' >
+      			<div class = "col-sm-3" id = 'twitterbot_time_div' >
       			<div class = "col-sm-2">
 		      		<?php echo $skinnyData['twitterbot_hours_from']; ?>
 			</div>

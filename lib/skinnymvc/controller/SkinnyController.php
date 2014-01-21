@@ -8,6 +8,8 @@ require_once('base/SkinnyBaseController.php');
 
 class SkinnyController extends SkinnyBaseController 
 {
+	public $types = array('Page', 'Post');
+
 	public function __construct()
 	{
 
@@ -102,35 +104,17 @@ class SkinnyController extends SkinnyBaseController
 		if($mode == 'create')	
 		{
 			$bulktemplate = get_option('__wp_saiob_bulkcomposer_template');	
-			foreach($bulktemplate as $templatekey => $singletemplate)
+			if(!empty($bulktemplate))
                         {
-                                if($singletemplate['templatename'] == $templatename)    {
-					print_r(false);die;
-                                }
-                        }
+				foreach($bulktemplate as $templatekey => $singletemplate)
+				{
+					if($singletemplate['templatename'] == $templatename)    {
+						print_r(false);die;
+					}
+				}
+			}
 		}
 		print_r(true);die;
-	}
-
-	/**
-	 *  store social app keys
-	 *  @param string $provider (facebook, linkedin, twiiter ...)
-	 *  @param value $value
-	 **/
-	public function saiob_storesocialkeys()
-	{
-		$provider = $_REQUEST['provider'];
-		$value = $_REQUEST['value'];
-		if($provider == 'facebook')	{
-			update_option('__saiob_facebookkeys', $value);
-			print_r('Facebook keys updated successfully');
-		}
-		else if($provider == 'twitter')
-		{
-                        update_option('__saiob_twitterkeys', $value);
-                        print_r('Twitter keys updated successfully');
-		}
-		die;	
 	}
 
 	/**
@@ -167,6 +151,7 @@ class SkinnyController extends SkinnyBaseController
 	 **/
 	function deactivate()
 	{
+		global $wpdb;
 		# droping table starts here
 		$table_name = WP_SOCIAL_ALL_IN_ONE_BOT_QUEUE_TABLE;
 		$sql = "DROP TABLE IF_EXISTS $table_name;";
@@ -185,7 +170,7 @@ class SkinnyController extends SkinnyBaseController
 		$day  = date('l');
 		$date = date('Y-d-m');
 		$time = date('H:i');
-		#$time = "18:32";
+
 		$query = "select * from $queuetablename where isrun = 0 and ((period = 'Daily') or (period = 'Weekly' and dateorweek = '$day') or (period = 'Date' and dateorweek = '$date')) and scheduledtimetorun <= '$time'";
 		$getqueue = $wpdb->get_results($query);
 
