@@ -29,7 +29,7 @@ class QueueActions extends SkinnyActions
 		$data = array();
 		global $wpdb;
 
-		$page = $_REQUEST['paged'];
+		$page = isset($_REQUEST['paged']) ? $_REQUEST['paged'] : 0;
 		if(empty($page) || ($page == 0)) 
 			$page = 1;		
 

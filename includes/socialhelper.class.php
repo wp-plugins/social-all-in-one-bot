@@ -26,25 +26,29 @@ class saiob_include_socialhelper
 			unset($status_array['link']);
 
 		$facebook->setAccessToken($facebook_key[2]);
-		$user = $facebook->getUser();
-		if($user) 
+		try 
 		{
-			try 
-			{
-				$response = $facebook->api('/me/feed', 'POST', $status_array);
-				$msg = "Status updated on facebook. Id - {$response['id']}";
-			}
-			catch(SAIOB_FacebookApiException $e) 
-			{
-				$msg = $e->result['error']['message'];
-				$user = null;
-			}
+			$response = $facebook->api('/me/feed', 'POST', $status_array);
+			$msg = "Status updated on facebook. Id - {$response['id']}";
 		}
-		else
+		catch(SAIOB_FacebookApiException $e) 
 		{
-			$msg = 'User not loggedin to facebook';
+			$msg = $e->result['error']['message'];
+			$user = null;
 		}
 		return $msg;
+	}
+
+	/**
+	 *  check whether twitter api key is correct
+	 *  @param array $config ** twitter keys **
+	 *  @return array $response
+	 **/
+	public function validatetwitter($config)
+	{
+		$twitterobj = new TwitterOAuth_SAIO($config);
+		$response = $twitterobj->get('account/verify_credentials');	
+		return $response;
 	}
 
 	/**

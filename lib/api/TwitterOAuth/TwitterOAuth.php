@@ -6,7 +6,7 @@
  * @author Ricardo Pereira <github@ricardopereira.es>
  * @copyright 2013
  */
-require_once(__DIR__.'/Exception/TwitterException.php');
+require_once(WP_SOCIAL_ALL_IN_ONE_BOT_DIRECTORY.'lib/api/TwitterOAuth/Exception/TwitterException.php');
 class TwitterOAuth_SAIO
 {
     protected $url = 'https://api.twitter.com/1.1/';

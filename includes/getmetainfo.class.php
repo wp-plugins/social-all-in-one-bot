@@ -38,11 +38,12 @@ class saiob_include_getmetainfo
 			$imagein = false;
 			$parse_url = parse_url($url);
 
-			$html['image'] = $metainfo['image'];
-			$html['title'] = $metainfo['title'];
+			$html['image'] = isset($metainfo['image']) ? $metainfo['image'] : '';
+			$html['title'] = isset($metainfo['title']) ? $metainfo['title'] : '';
 			$html['link'] = $url;
 
 			$maxchars = !empty($smartbotvalues[0]) && $smartbotvalues != 0 ? $smartbotvalues[0] : $default_maxchars;
+			$metainfo['description'] = isset($metainfo['description']) ? $metainfo['description'] : '';
                         if(strlen($metainfo['description']) >= $maxchars)
                                 $metainfo['description'] = substr($metainfo['description'], 0 ,$maxchars).'...';
 
@@ -259,18 +260,18 @@ class saiob_include_getmetainfo
 	{
 		$metainformation = array();
 		$seokeys = $this->getseopluginkeyvalue();
-		$selectedseo = $smartbotvalues['saiob_seoplugin'];
+		$selectedseo = isset($smartbotvalues['saiob_seoplugin']) ? $smartbotvalues['saiob_seoplugin'] : '';
 
 		$postmeta = get_post_meta($postid);
 		# fetching meta description 
-		if($templatevalues['metadesc'] == 'on')
+		if(isset($templatevalues['metadesc']) && $templatevalues['metadesc'] == 'on' && isset($selectedseo['title']))
 		{
 			$metainformation['description'] = $postmeta[$selectedseo['title']];
 		}
 		# fetching meta description ends here
 
 		# fetching meta title
-		if($templatevalues['metatitle'] == 'on')
+		if(isset($templatevalues['metatitle']) && $templatevalues['metatitle'] == 'on' && isset($selectedseo['metadesc'])) 
 		{
 			$metainformation['title'] = $postmeta[$selectedseo['metadesc']];
 		}
@@ -314,7 +315,7 @@ class saiob_include_getmetainfo
 		$postcontent = $postvalues->post_content;
 		$dom = new DOMDocument();
     		$dom->loadHTML($postcontent);
-		if($templatevalues['htag'] == 'on')
+		if(isset($templatevalues['htag']) && $templatevalues['htag'] == 'on')
 		{
 			$metainfo = array();
                         $list = array('h1', 'h2', 'h3');
@@ -347,7 +348,7 @@ class saiob_include_getmetainfo
 	public static function getimagefromdom($dom)
 	{
 		$images = saiob_include_getmetainfo::getmetainformation($dom, 'img');
-                $selectedimage = $images['img'][0];
+                $selectedimage = isset($images['img'][0]) ? $images['img'][0] : '';
 		return $selectedimage;
 	}
 }

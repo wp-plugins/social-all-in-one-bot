@@ -2,7 +2,7 @@
 Author: smackcoders
 Author URI: http://profiles.wordpress.org/smackcoders/
 Contributors: smackcoders, mayavee, fenzik, rajkumarmohan, fredricksujin,
-Tags: facebook, google, twitter, social, social media, admin, page, content, post, comments, posts, image, links, images, plugin, shortcode, sidebar, widget, pinterest, stumbleupon, scoopit, linkedin, marketing, media, eCommerce, reviews, rating
+Tags: facebook, google, google+, twitter, social, social media, admin, page, content, post, comments, posts, image, links, images, plugin, shortcode, sidebar, widget, pinterest, stumbleupon, scoopit, linkedin, marketing, media, eCommerce, reviews, rating
 Requires at least: 3.5.0
 Tested up to: 3.8.0
 Stable tag: 1.0.0 Beta

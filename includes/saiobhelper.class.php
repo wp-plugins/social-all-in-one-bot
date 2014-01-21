@@ -6,6 +6,60 @@ class saiob_include_saiobhelper
 
 	}
 
+	public function register_session()
+	{
+		if( !session_id())
+			session_start();
+	}
+
+	/**
+         *  store social app keys
+         *  @param string $provider (facebook, linkedin, twitter ...)
+         *  @param value $value
+         **/
+        public function saiob_storesocialkeys()
+        {
+                $provider = $_REQUEST['provider'];
+                $value = $_REQUEST['value'];
+                if($provider == 'facebook')     
+		{
+                        update_option('__saiob_facebookkeys', $value);
+                        print_r('Facebook keys updated successfully');
+                }
+                else if($provider == 'twitter')
+                {
+			# check whether twitter api keys are correct. If so update the keys else dont
+			$socialhelper = new saiob_include_socialhelper();
+			$config = array(
+                                'consumer_key' => $value[0],
+                                'consumer_secret' => $value[1],
+                                'oauth_token' => $value[2],
+                                'oauth_token_secret' => $value[3],
+                                'output_format' => 'array'
+                               );	
+
+			$response = $socialhelper->validatetwitter($config);
+			if(!isset($response['errors']))
+			{
+                        	update_option('__saiob_twitterkeys', $value);
+				$result['msg'] = 'Twitter keys updated successfully';
+                                $result['msgclass'] = 'success';
+			}
+			else
+			{
+				$errormsg = "";
+				foreach($response['errors'] as $singleerror)
+				{
+					$errormsg .= "{$singleerror['message']} - Code: {$singleerror['code']} ";
+				}
+				$result['msg'] = 'Twitter keys are not updated. Error: '.$errormsg;
+				$result['msgclass'] = 'danger';
+			}
+                }
+		print_r(wp_send_json($result));
+                die;
+        }
+
         /**
          *  generate tweet/fbstatus and update it on queue
          *  @param string $_REQUEST['provider']
@@ -80,6 +134,8 @@ class saiob_include_saiobhelper
          **/
         public function saiob_gettemplate($templatename, $callmode = 'normal')
         {
+		$fromdate = ''; $todate = ''; $fromid = ''; $toid = ''; $posttitle = ''; $htag = ''; 
+		$metatitle = ''; $postcontent = ''; $excerptmsg = ''; $metadesc = ''; $images = '';
                 # below two check for ajax request
                 if(isset($_REQUEST['templatename']) && !empty($_REQUEST['templatename']) && empty($templatename))
                         $templatename = $_REQUEST['templatename'];
@@ -88,7 +144,7 @@ class saiob_include_saiobhelper
                         $callmode = $_REQUEST['callmode'];
 
                 $skinnycontroller = new SkinnyController();
-                $dropdownlist = SmartbotActions::$types;
+                $dropdownlist = $skinnycontroller->types;
 
                 $bulktemplate = get_option('__wp_saiob_bulkcomposer_template');
                 $gettemplate  = "<select name = 'bulkcomposertemplate' id = 'bulkcomposertemplate' onchange = 'changetemplate(this.value)'>";
@@ -112,8 +168,7 @@ class saiob_include_saiobhelper
                         $mode = 'create';
                         $datediv_display = 'display:create';
                         $iddiv_display = 'display:none';
-                        $templatenametype = 'text';
-                        $tempname = "<label class = 'control-label col-sm-3'> Template Name </label> <div class = 'col-sm-5'> <input type = '$templatenametype' name = 'templatename' id = 'templatename' value = '$templatename_composer' class = 'form-control'> </div>";
+                        $tempname = "<label class = 'control-label col-sm-3'> Template Name </label> <div class = 'col-sm-5'> <input type = 'text' name = 'templatename' id = 'templatename' class = 'form-control' placeholder = 'Enter Template Name'> </div>";
                 }
                 else
                 {
@@ -160,33 +215,42 @@ class saiob_include_saiobhelper
                         $video = empty($templatevalue['video']) ? '' : 'checked';
 
                         $thumbnails = empty($templatevalue['metatitle']) ? '' : 'checked';
-                        $variation = $templatevalue['variation'];
+                        $variation = empty($templatevalue['variation']) ? '' : $templatevalue['variation'];
                         $keyword_check = empty($templatevalue['keyword_check']) ? '' : 'checked';
-                        $keyword = $templatevalue['keyword'];
+                        $keyword = empty($templatevalue['keyword']) ? '' : $templatevalue['keyword'];
 
-                        $charbefore = $templatevalue['charbefore'];
-                        $charafter = $templatevalue['charafter'];
-                        $tags = $templatevalue['tags'];
+                        $charbefore = empty($templatevalue['charbefore']) ? '' : $templatevalue['charbefore'];
+                        $charafter = empty($templatevalue['charafter']) ? '' : $templatevalue['charafter'];
+                        $tags = empty($templatevalue['tags']) ? '' : $templatevalue['tags'];
 
 			$tempname = "<label class = 'control-label col-sm-3'> </label> <div class = 'col-sm-5'> <input type = '$templatenametype' name = 'templatename' id = 'templatename' value = '$templatename_composer'> </div>";
 		}
 
                 $settingstype_array = array('Date', 'ID');
                 $settingstype = "<select name = 'settingstype' id = 'settingstype' onchange = 'changetype(this.value)'>";
-                foreach($settingstype_array as $singlesettingstype)     {
+                foreach($settingstype_array as $singlesettingstype)     
+		{
                         $settings_selected = '';
-                        if($singlesettingstype == $templatevalue['settingstype'])
-                                $settings_selected = "selected = 'selected'";
+			if(isset($templatevalue['settingstype']))
+			{
+                        	if($singlesettingstype == $templatevalue['settingstype'])	{
+                                	$settings_selected = "selected = 'selected'";
+				}
+			}
 
                         $settingstype .= "<option $settings_selected value = '$singlesettingstype'> $singlesettingstype </option>";
                 }
                 $settingstype .= "</select>";
-                $dropdown = '<select name = "type" class = "form-control" style = "padding:5px;" id = "type">';
+                $dropdown = '<select name = "type" class = "form-control" id = "type">';
                 $dropdown .= '<option name = ""> Select </option>';
                 foreach($dropdownlist as $singledropdownlist)   {
                         $dropdown_selected = '';
-                        if($singledropdownlist == $templatevalue['type'])
-                                $dropdown_selected = "selected = 'selected'";
+			if(isset($templatevalue['settingstype']))
+                        {
+                        	if($singledropdownlist == $templatevalue['type'])	{
+                                	$dropdown_selected = "selected = 'selected'";
+				}
+			}
 
                         $dropdown .= "<option {$dropdown_selected} name = '$singledropdownlist'> $singledropdownlist </option>";
                 }
@@ -198,11 +262,11 @@ class saiob_include_saiobhelper
                                 <input type = 'hidden' name = 'mode' id = 'mode' value = '$mode'>
                                 <div class = 'header_settings form-group' style = 'width:100%; margin-top: 20px; margin-left: 20px;'>
                 <div class = 'form-group'>
-                        <label class = 'col-sm-2 text-right'> Select Template </label>
+                        <label class = 'col-sm-2 text-center'> Select Template </label>
                         <div class = 'col-sm-4'> $gettemplate <span id = 'changetemplategif' style = 'display:none;'> <img src = '".WP_SOCIAL_ALL_IN_ONE_BOT_DIR."/images/loading.gif' alt = 'loading'> </span> </div>
                 </div>
                 <div class = 'form-group'>
-                        <label class = 'control-label col-sm-2'> Select Source </label>
+                        <label class = 'text-center col-sm-2'> Select Source </label>
                         <div class = 'col-sm-10'>
                                 <div class = 'col-sm-2'> {$data['dropdown']} </div>
                                 <div class = 'col-sm-1'> {$settingstype} </div>
@@ -226,20 +290,20 @@ class saiob_include_saiobhelper
 
                 $container .= "<div id = 'template_saiob' style = 'width:100%'>
                                 <div class = 'form-group'>
-                                        <label class='control-label col-sm-2'> Title </label>
-                                        <label class='checkbox-inline col-sm-2'> <input type = 'checkbox' name = 'posttitle' id = 'posttitle' $posttitle> Post Title </label>
-                                        <label class='checkbox-inline col-sm-2'> <input type = 'checkbox' name = 'htag' id = 'htag' $htag> H1, H2, H3 </label>
-                                        <label class='checkbox-inline col-sm-2'> <input type = 'checkbox' name = 'metatitle' id = 'metatitle' $metatitle> Meta Title </label>
+                                        <label class='text-center col-sm-2'> Title </label>
+                                        <label class='checkbox-inline col-sm-2'> <input style = 'vertical-align:bottom;float:none' type = 'checkbox' name = 'posttitle' id = 'posttitle' $posttitle> Post Title </label>
+                                        <label class='checkbox-inline col-sm-2'> <input style = 'vertical-align:bottom;float:none' type = 'checkbox' name = 'htag' id = 'htag' $htag> H1, H2, H3 </label>
+                                        <label class='checkbox-inline col-sm-2'> <input style = 'vertical-align:bottom;float:none' type = 'checkbox' name = 'metatitle' id = 'metatitle' $metatitle> Meta Title </label>
                                 </div>
                                 <div class = 'form-group'>
-                                        <label class = 'control-label col-sm-2'> Message </label>
-                                        <label class = 'checkbox-inline col-sm-2'> <input type = 'checkbox' name = 'postcontent' id = 'postcontent' $postcontent> Post Content </label>
-                                        <label class = 'checkbox-inline col-sm-2'> <input type = 'checkbox' name = 'excerptmsg' id = 'excerptmsg' $excerptmsg> Excerpt </label>
-                                        <label class = 'checkbox-inline col-sm-2'> <input type = 'checkbox' name = 'metadesc' id = 'metadesc' $metadesc> Meta Description </label>
+                                        <label class = 'text-center col-sm-2'> Message </label>
+                                        <label class = 'checkbox-inline col-sm-2'> <input style = 'vertical-align:bottom;float:none' type = 'checkbox' name = 'postcontent' id = 'postcontent' $postcontent> Post Content </label>
+                                        <label class = 'checkbox-inline col-sm-2'> <input style = 'vertical-align:bottom;float:none' type = 'checkbox' name = 'excerptmsg' id = 'excerptmsg' $excerptmsg> Excerpt </label>
+                                        <label class = 'checkbox-inline col-sm-2'> <input style = 'vertical-align:bottom;float:none' type = 'checkbox' name = 'metadesc' id = 'metadesc' $metadesc> Meta Description </label>
                                 </div>
                                 <div class = 'form-group'>
-                                        <label class='control-label col-sm-2'> Media </label>
-                                        <label class='checkbox-inline col-sm-2'> <input type = 'checkbox' name = 'images' id = 'images' $images> Images </label>
+                                        <label class='text-center col-sm-2'> Media </label>
+                                        <label class='checkbox-inline col-sm-2'> <input style = 'vertical-align:bottom;float:none' type = 'checkbox' name = 'images' id = 'images' $images> Images </label>
                                 </div>";
                 $container .=  "<div class = 'form-group' style = 'padding-top:10px;'>
                                 <div class = 'col-sm-7'> $tempname

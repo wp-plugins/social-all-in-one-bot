@@ -5,8 +5,6 @@
  */
 class SmartbotActions extends SkinnyActions 
 {
-	public static $types = array('Post', 'Page');
-
 	public function __construct()
 	{
 
@@ -105,7 +103,7 @@ class SmartbotActions extends SkinnyActions
                 }
                 $settingstype .= "</select>";
 
-                $dropdown = '<select name = "type" class = "form-control" style = "padding:5px;" id = "type">';
+                $dropdown = '<select name = "type" class = "form-control" id = "type">';
                 $dropdown .= '<option name = ""> Select </option>';
                 foreach($dropdownlist as $singledropdownlist)   {
                         $dropdown_selected = '';
@@ -123,7 +121,7 @@ class SmartbotActions extends SkinnyActions
         <input type = 'hidden' name = 'mode' id = 'mode' value = '$mode'>
         <div class = 'header_settings form-group' style = 'width:100%; margin-top: 20px; margin-left: 20px;'>
 		<div class = 'form-group'> 
-			<label class = 'col-sm-2 text-right'> Select Template </label>
+			<label class = 'col-sm-2 control-label'> Select Template </label>
 			<div class = 'col-sm-4'> $gettemplate </div>
 		</div>
                 <div class = 'form-group'>
@@ -199,7 +197,7 @@ class SmartbotActions extends SkinnyActions
 		// return an array of name value pairs to send data to the template
 		$data = array();
 		# storing template information starts here
-		if($request['POST']['mode'] && !empty($request['POST']['mode']))
+		if(isset($request['POST']['mode']) && !empty($request['POST']['mode']))
                 {
                         $mode = $request['POST']['mode'];
 			$alreadypresent = false;
@@ -210,7 +208,7 @@ class SmartbotActions extends SkinnyActions
 
                         unset($request['POST']['mode']);
                         $data['notification'] = "Template Added Successfully.";
-			$data['notificationclass'] = 'alert-success';
+			$data['notificationclass'] = 'alert alert-success';
 
                         if($mode == 'create' && empty($request['POST']['bulkcomposertemplate']))
                         {
@@ -220,7 +218,7 @@ class SmartbotActions extends SkinnyActions
 					if($singletemplate['templatename'] == $templatename)	{
 						$alreadypresent = true;
 						$data['notification'] = "Template Name already present.";
-                        			$data['notificationclass'] = 'alert-warning';
+                        			$data['notificationclass'] = 'alert alert-warning';
 					}
 				}
 
@@ -246,7 +244,8 @@ class SmartbotActions extends SkinnyActions
 		# storing template information ends here
 
 		$saiobhelper = new saiob_include_saiobhelper();
-		$data['bulkcomposer'] = $saiobhelper->saiob_gettemplate($request['POST']['templatename']);
+		$request_templatename = isset($request['POST']['templatename']) ? $request['POST']['templatename'] : '';
+		$data['bulkcomposer'] = $saiobhelper->saiob_gettemplate($request_templatename);
 		$bulktemplate = get_option('__wp_saiob_bulkcomposer_template');
                 $gettemplate  = "<select name = 'bulkcomposer_template' id = 'bulkcomposer_template'>";
 		$gettemplate .= "<option value = ''> Select Template </option>";

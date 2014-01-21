@@ -115,7 +115,7 @@ function savesocialkeys(provider, form)
 			if(data.loginurl)	{
 				window.location.href = data.loginurl;
 			}
-			shownotification(data, 'success');
+			shownotification(data.msg, data.msgclass);
 			jQuery('#'+buttonid).button('reset');
                 },
                 error: function(errorThrown){
