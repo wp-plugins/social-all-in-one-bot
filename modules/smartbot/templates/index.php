@@ -40,7 +40,7 @@ $this->notificationclass = isset($skinnyData['notificationclass']) ? $skinnyData
     <div class="panel-heading">
       <h4 class="panel-title">
         <a data-toggle="collapse" data-parent="#accordion" href="#facebook">
-          facebook
+          Facebook
         </a>
       </h4>
     </div>
@@ -121,13 +121,13 @@ $this->notificationclass = isset($skinnyData['notificationclass']) ? $skinnyData
       			<div class="form-group">
       				<label class="col-sm-2 control-label"> Maximum Characters </label>
 			      	<div class="col-sm-1">
-      					<input type="email" class="form-control" id="twitterbot_maxchars" maxlength = '3' name = "twitterbot_maxchars" placeholder = '140'>
+      					<input type="text" class="form-control" id="twitterbot_maxchars" maxlength = '3' name = "twitterbot_maxchars" placeholder = '140'>
 				</div>
       			</div>
       			<div class="form-group">
 	      			<label class="col-sm-2 control-label"> Tags # </label>
       				<div class="col-sm-5">
-      					<input type="text" class="form-control" id="twitterbot_tags" name = "twitterbot_tags" placeholder = '#smackcoders, #sachin, #sun'>
+      					<input type="text" class="form-control" id="twitterbot_tags" name = "twitterbot_tags" placeholder = 'smackcoders, sachin, sun'>
       				</div>
       				<div class = 'col-sm-1'> 
       					<label class = "checkbox-inline"> <input type = 'checkbox' id = 'twitterbot_tag_rotate' name = 'twitterbot_tag_rotate' onclick = "shownos(this.name, this.checked)" > Rotate </label>

@@ -8,7 +8,7 @@ $this->notificationclass = isset($skinnyData['notificationclass']) ? $skinnyData
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<h4 class="panel-title">
-				<a data-toggle="collapse" data-parent="#accordion" href="#facebook"> facebook </a>
+				<a data-toggle="collapse" data-parent="#accordion" href="#facebook"> Facebook </a>
 			</h4>
 		</div>
 		<div id="facebook" class="panel-collapse collapse in">
@@ -30,6 +30,7 @@ $this->notificationclass = isset($skinnyData['notificationclass']) ? $skinnyData
    						<div class="col-sm-offset-2 col-sm-1">
       							<button type="button" onclick = "savesocialkeys('facebook', this.form)" id = 'facebooksettingssync' name = 'facebooksettingssync' class="btn btn-primary" data-loading-text="<span class = 'fa fa-spinner fa-spin'></span> Saving..."> Save </button>
 						</div>
+						<div class = "col-sm-offset-2 col-sm-5 text-right"> <i><a href = "https://developers.facebook.com/apps" target = '_blank'> click here to create facebook app </a></i> </div>
   					</div>
 				</form>
 			</div>
@@ -72,6 +73,7 @@ $this->notificationclass = isset($skinnyData['notificationclass']) ? $skinnyData
    						<div class="col-sm-offset-2 col-sm-1">
       							<button id = 'twittersettingssync' name = 'twittersettingssync' type="button" onclick = "savesocialkeys('twitter', this.form)" class="btn btn-primary" data-loading-text="<span class = 'fa fa-spinner fa-spin'></span> Saving..." > Save </button>
 						</div>
+						<div class = "col-sm-offset-2 col-sm-5 text-right"> <i><a href = "https://dev.twitter.com/apps/new" target = '_blank'> click here to create twitter app </a></i> </div>
   					</div>
 				</form>
 			</div>

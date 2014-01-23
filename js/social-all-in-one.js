@@ -18,6 +18,40 @@ function fetchtemplate(templatename)
         });
 }
 
+function performdeleteaction(mod, id, buttonthis)
+{
+        var res = confirm('Are you sure you want to delete this ?');
+        if(!res) return false;
+
+	jQuery('#delete_'+id).button('loading');
+        jQuery.ajax({
+                type: 'POST',
+                url: ajaxurl,
+                data: {
+                    'action'   : 'saiob_deletequeueorlog',
+                    'mod'      : mod,
+		    'id'       : id,
+                },
+                success:function(data) {
+			jQuery('#delete_'+id).button('reset');
+			if(data.msgclass == 'success')
+			{
+				var tr = jQuery(buttonthis).closest('tr');
+                                        tr.css("background-color","#FF3700");
+
+                                tr.fadeOut(400, function(){
+                                	tr.remove();
+                                });
+				return false;
+			}
+			shownotification(data.msg, data.msgclass)
+                },
+                error: function(errorThrown){
+                        console.log(errorThrown);
+                }
+        });
+}
+
 function storesmartbotinfo(provider, form)
 {
 	var value = new Array()

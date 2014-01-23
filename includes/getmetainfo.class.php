@@ -73,10 +73,9 @@ class saiob_include_getmetainfo
 			$tagnos = $smartbotvalues[3];
 
 			$maxchars = !empty($smartbotvalues[0]) && $smartbotvalues != 0 ? $smartbotvalues[0] : $default_maxchars;
-			if(strlen($html['text']) >= $maxchars)
-				$html['text'] = substr($html['text'], 0 ,$maxchars).'...';
 
-			# check if text is empty. If so return immediately. No need to insert into table.
+			$html['text'] = trim($html['text']);
+			# check if text is empty. If so return immediately, no need to insert into table.
 			if(empty($html['text']))
 			{
                         	if($call == 'ajax')     {
@@ -120,6 +119,42 @@ class saiob_include_getmetainfo
 
 			# adding html at the end of the tweet
 			$html['url'] = $url;
+			
+			# no need to pass array. generate tweet here and pass the generated tweet
+			# check hashtag count
+			$hashlength = strlen($html['hashtags']);
+			$urllength  = strlen($html['url']);
+			if($maxchars >= ($hashlength + $urllength))	
+			{
+				$remaining  = $maxchars - ($hashlength + $urllength);
+				if(strlen($html['text']) >= $remaining - 2)
+					$html['text'] = substr($html['text'], 0 ,$remaining - 2).' ';
+
+				$html = $html['text'].$html['hashtags'].' '.$html['url'];
+			}
+			else
+			{
+				if($maxchars >= $hashlength)
+				{
+					$remaining  = $maxchars - $hashlength;
+	                                if(strlen($html['text']) >= $remaining - 2)
+					{
+        	                                $html['text'] = substr($html['text'], 0 ,$remaining - 2).' ';
+					}
+					$html = $html['text'].$html['hashtags'];
+				}
+				else
+				{
+					if(strlen($html['text']) >= $maxchars)	
+					{
+	                                        $html = substr($html['text'], 0 ,$maxchars);
+					}
+					else
+					{
+						$html = $html['text'];
+					}
+				}
+			}
 		}
 
 		# adding entry to queue table

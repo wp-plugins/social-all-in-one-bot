@@ -124,8 +124,9 @@ class SkinnyController extends SkinnyBaseController
 	{
 		global $wpdb;
 		# creating table for queue
-		$table_name = WP_SOCIAL_ALL_IN_ONE_BOT_QUEUE_TABLE;
-		$sql = "CREATE TABLE `$table_name` (
+		$socialqueue_table = WP_SOCIAL_ALL_IN_ONE_BOT_QUEUE_TABLE;
+		$sociallog_table = WP_SOCIAL_ALL_IN_ONE_BOT_LOG_TABLE;
+		$socialqueue_sql = "CREATE TABLE `$socialqueue_table` (
 			`id` int(10) NOT NULL AUTO_INCREMENT,
 			`provider` varchar(100) DEFAULT NULL,
 			`socialmessage` blob,
@@ -138,8 +139,19 @@ class SkinnyController extends SkinnyBaseController
 			PRIMARY KEY (`id`)
 			) ENGINE=InnoDB DEFAULT CHARSET=latin1";
 
+		$sociallog_sql = "CREATE TABLE `$sociallog_table` (
+			`logid` int(10) NOT NULL AUTO_INCREMENT,
+			`provider` varchar(100) NOT NULL,
+			`socialmessage` blob,
+			`socialresponse` blob,
+			`result` varchar(10) NOT NULL,
+			`createdtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+			PRIMARY KEY (`logid`)
+			) ENGINE=InnoDB DEFAULT CHARSET=latin1";
+
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-		dbDelta($sql);
+		dbDelta($socialqueue_sql);
+		dbDelta($sociallog_sql);
 		# creating table ends here
 
 		# cron to run vtiger
@@ -153,9 +165,12 @@ class SkinnyController extends SkinnyBaseController
 	{
 		global $wpdb;
 		# droping table starts here
-		$table_name = WP_SOCIAL_ALL_IN_ONE_BOT_QUEUE_TABLE;
-		$sql = "DROP TABLE IF EXISTS $table_name;";
-		$res = $wpdb->query($sql);
+		$socialqueue_table = WP_SOCIAL_ALL_IN_ONE_BOT_QUEUE_TABLE;
+		$sociallog_table = WP_SOCIAL_ALL_IN_ONE_BOT_LOG_TABLE;
+		$socialqueue_sql = "DROP TABLE IF EXISTS $socialqueue_table;";
+		$sociallog_sql = "DRIP TABLE IF EXISTS $sociallog_table";
+		$wpdb->query($socialqueue_sql);
+		$wpdb->query($sociallog_sql);
 		# droping table ends here
 		delete_option('__saiob_facebookkeys');
 		delete_option('__saiob_twitterkeys');
@@ -173,12 +188,13 @@ class SkinnyController extends SkinnyBaseController
 		$date = date('Y-d-m');
 		$time = date('H:i');
 
-		$query = "select * from $queuetablename where isrun = 0 and ((period = 'Daily') or (period = 'Weekly' and dateorweek = '$day') or (period = 'Date' and dateorweek = '$date')) and scheduledtimetorun <= '$time'";
+		$query = "select * from $queuetablename where isrun = 0 and ((period = 'Daily') or (period = 'Weekly' and dateorweek = '$day') or (period = 'Date' and dateorweek = '$date')) and scheduledtimetorun <= '$time' and date(updatedtime) != curdate()";
 		$getqueue = $wpdb->get_results($query);
 
 		if($getqueue)
 		{
 			$socialhelper = new saiob_include_socialhelper();
+			$saiobhelper = new saiob_include_saiobhelper();
 			foreach($getqueue as $singlequeue)
 			{
 				$id = $singlequeue->id;
@@ -186,15 +202,26 @@ class SkinnyController extends SkinnyBaseController
 				$socialmessage = maybe_unserialize($singlequeue->socialmessage);
 				if($provider == 'twitter')
 				{
-					$tweet = $socialmessage['text'];
+					$tweet = $socialmessage;
 					$response = $socialhelper->tweet($tweet);
 				}
 				else if($provider == 'facebook')
 				{
-					$status   = $socialmessage['text'];
+					$status = $socialmessage;
 					$response = $socialhelper->fbstatus($status);	
 				}
-				$wpdb->query("update $queuetablename set isrun = 1, socialresponse = '$response' where id = $id");
+
+				$saiobhelper->addsociallog($response, $provider, $singlequeue->socialmessage, $id);	
+				if($response['result'] == 'Succeed' && $singlequeue->period != 'Daily')	
+				{
+					# delete the queue when response is success and period is not daily. If period is daily we need to use again
+					$wpdb->query("delete from $queuetablename where id = $id");
+				}
+				else
+				{
+					$message = mysql_real_escape_string($response['message']);
+					$wpdb->query("update $queuetablename set socialresponse = '$message' where id = $id");	
+				}
 			}
 		}
 	}

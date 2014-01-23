@@ -17,6 +17,7 @@ define('WP_SOCIAL_ALL_IN_ONE_BOT_DIR', WP_PLUGIN_URL . '/' . WP_SOCIAL_ALL_IN_ON
 define('WP_SOCIAL_ALL_IN_ONE_BOT_DIRECTORY', plugin_dir_path( __FILE__ ));
 define('WP_PLUGIN_BASE', WP_SOCIAL_ALL_IN_ONE_BOT_DIRECTORY);
 define('WP_SOCIAL_ALL_IN_ONE_BOT_QUEUE_TABLE', $wpdb->prefix . "social_all_in_one_bot_queue");
+define('WP_SOCIAL_ALL_IN_ONE_BOT_LOG_TABLE', $wpdb->prefix . "social_all_in_one_bot_log");
 
 require_once('config/settings.php');
 require_once('lib/skinnymvc/controller/SkinnyController.php');
@@ -61,6 +62,7 @@ add_action('wp_ajax_saiob_gettemplate', array('saiob_include_saiobhelper','saiob
 add_action('wp_ajax_saiob_checkbulkcomposertemplate', array('SkinnyController', 'saiob_checkbulkcomposertemplate'));
 add_action('wp_ajax_saiob_storesocialkeys', array('saiob_include_saiobhelper', 'saiob_storesocialkeys'));
 add_action('wp_ajax_saiob_storesmartbotinfo', array('saiob_include_saiobhelper', 'saiob_storesmartbotinfo'));
+add_action('wp_ajax_saiob_deletequeueorlog', array('saiob_include_saiobhelper', 'saiob_deletequeueorlog'));
 
 # cron schedule
 add_filter('cron_schedules', array('SkinnyController', 'cron_schedules'));

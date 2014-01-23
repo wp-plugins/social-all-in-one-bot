@@ -12,6 +12,52 @@ class saiob_include_saiobhelper
 			session_start();
 	}
 
+	public function saiob_deletequeueorlog()
+	{
+		global $wpdb;
+		$mod = $_REQUEST['mod'];
+		$id = $_REQUEST['id'];
+		$queue_table = WP_SOCIAL_ALL_IN_ONE_BOT_QUEUE_TABLE;
+		$log_table = WP_SOCIAL_ALL_IN_ONE_BOT_LOG_TABLE;
+		$sql = '';
+		if($mod == 'queue')
+			$sql = "delete from $queue_table where id = '$id'";
+		else if($mod == 'log')
+			$sql = "delete from $log_table where logid = '$id'";
+
+		$response = $wpdb->query($sql);
+		if($response == 1)	
+		{
+			$result['msg'] = 'Deleted Successfully';
+                        $result['msgclass'] = 'success';
+		}
+		else
+		{
+			$result['msg'] = 'Error occured while deleting';
+			$result['msgclass'] = 'danger';
+		}
+		print_r(wp_send_json($result));die;
+	}
+
+	/**
+	 * add social log 
+	 * @param array $response ** contains message and class **
+	 * @param string $provider
+	 * @param string $socialmessage
+	 * @param int $queueid
+	 **/
+	public function addsociallog($response, $provider, $socialmessage, $queueid)
+	{
+		global $wpdb;
+		$socialresponse = mysql_real_escape_string($response['message']);
+		$messagestatus = mysql_real_escape_string($response['result']);
+		$socialmessage = mysql_real_escape_string($socialmessage);
+		$logtable = WP_SOCIAL_ALL_IN_ONE_BOT_LOG_TABLE;
+		$addlog_query = "insert into $logtable (provider, socialmessage, socialresponse, result) values ('$provider', '$socialmessage', '$socialresponse', '$messagestatus')";
+		$wpdb->query($addlog_query);
+		return true;
+	}
+
 	/**
          *  store social app keys
          *  @param string $provider (facebook, linkedin, twitter ...)

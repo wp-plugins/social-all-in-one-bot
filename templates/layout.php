@@ -10,13 +10,15 @@ if(empty($facebook) && empty($twitter) && $mod != 'settings')
 	die; 
 }
 # social key check ends here
-$composer_menu = ''; $bulk_composer_menu = '';$smartbot_menu = ''; $queue_menu = 'queue'; $settings_menu = 'settings';
+$sociallog_menu = '';$smartbot_menu = ''; $queue_menu = ''; $settings_menu = '';
 if($mod == 'smartbot')
 	$smartbot_menu = 'active';
 else if($mod == 'settings')
 	$settings_menu = 'active';
 else if($mod == 'queue')
 	$queue_menu = 'active';
+else if($mod == 'sociallog')
+	$sociallog_menu = 'active';
 else
 	$smartbot_menu = 'active';
 
@@ -30,9 +32,10 @@ else
 <div style = "height:10px;padding-top:10px;"> </div>
 <ul class="nav nav-pills">
 	<ul class="nav nav-tabs">
-		<li class = "<?php echo $smartbot_menu; ?>"> <a href="admin.php?page=social-all-in-one-bot/saiob.php&__module=smartbot" class = "saio_nav_smartbot"> Smart BOT</a> </li>
-		<li class = "<?php echo $queue_menu; ?>"> <a href="admin.php?page=social-all-in-one-bot/saiob.php&__module=queue" class = "saio_nav_queue"> Queue </a> </li>
-		<li class = "<?php echo $settings_menu; ?>"> <a href="admin.php?page=social-all-in-one-bot/saiob.php&__module=settings" class = "saio_nav_settings"> Settings</a> </li>
+		<li class = "<?php echo $smartbot_menu; ?>"> <a href="admin.php?page=social-all-in-one-bot/saiob.php&__module=smartbot"> Smart BOT</a> </li>
+		<li class = "<?php echo $queue_menu; ?>"> <a href="admin.php?page=social-all-in-one-bot/saiob.php&__module=queue"> Queue </a> </li>
+		<li class = "<?php echo $sociallog_menu; ?>"> <a href="admin.php?page=social-all-in-one-bot/saiob.php&__module=sociallog"> Logs </a> </li>
+		<li class = "<?php echo $settings_menu; ?>"> <a href="admin.php?page=social-all-in-one-bot/saiob.php&__module=settings"> Settings</a> </li>
 	</ul>
 </ul>
 <!-- menu ends -->
