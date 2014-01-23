@@ -168,7 +168,7 @@ class SkinnyController extends SkinnyBaseController
 		$socialqueue_table = WP_SOCIAL_ALL_IN_ONE_BOT_QUEUE_TABLE;
 		$sociallog_table = WP_SOCIAL_ALL_IN_ONE_BOT_LOG_TABLE;
 		$socialqueue_sql = "DROP TABLE IF EXISTS $socialqueue_table;";
-		$sociallog_sql = "DRIP TABLE IF EXISTS $sociallog_table";
+		$sociallog_sql = "DROP TABLE IF EXISTS $sociallog_table";
 		$wpdb->query($socialqueue_sql);
 		$wpdb->query($sociallog_sql);
 		# droping table ends here
