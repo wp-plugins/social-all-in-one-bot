@@ -9,19 +9,32 @@ class saiob_include_socialhelper
 	public function fbstatus($status)
 	{
 		$facebook_key = get_option('__saiob_facebookkeys');
-		$facebook = new SAIOB_Facebook(array(
-					'appId'  => $facebook_key[0],
-					'secret' => $facebook_key[1],
-					));
+		$facebook = new SAIOB_Facebook(array('appId'  => $facebook_key[0], 'secret' => $facebook_key[1]));
 
+		if(!isset($status['title']))
+			$status['title'] = '';
+
+		if(!isset($status['description']))
+			$status['description'] = '';
+
+		if(!isset($status['image']))
+			$status['image'] = '';
+
+		if(isset($status['image']) && !empty($status['image']))
+		{	# if we have image url, we can pass here. fb will take care eventhough we dont have description and title
+			$status_array = array('name' => $status['title'], 'link' => $status['link'], 'description' => $status['description'], 'picture' => $status['image']);
+		}
+		else if(isset($status['description']) && !empty($status['description']) && isset($status['description']) && !empty($status['description']))
+		{	# if we have title and description then we can generate bs
+			$status_array = array('name' => $status['title'], 'link' => $status['link'], 'description' => $status['description']);
+		}
+		else
+		{	# we cant generate bs using title alone. so posting message only
+			$status_array = array('message' => $status['title']);
+		}
+
+		# unset link if host is localhost. if not, it will return error.
 		$parse_url = parse_url($status['link']);
-		/** 'message' => '[Status message]',
-		    'name' => '[Post title]',
- 		    'link' => '[Post image & title link]',
- 		    'description' => '[Post description]',
- 		    'picture'=> '[Post Thumbnail Location]' */
-		$status_array = array('name' => $status['title'], 'link' => $status['link'], 'description' => $status['description'], 'picture' => $status['image']);
-		# unset link if host is localhost. 
 		if($parse_url['host'] == 'localhost')
 			unset($status_array['link']);
 
@@ -29,12 +42,13 @@ class saiob_include_socialhelper
 		try 
 		{
 			$response = $facebook->api('/me/feed', 'POST', $status_array);
-			$msg = "Status updated on facebook. Id - {$response['id']}";
+			$msg['message'] = "Status updated on facebook. Id - {$response['id']}";
+			$msg['result'] = 'Succeed';
 		}
 		catch(SAIOB_FacebookApiException $e) 
 		{
-			$msg = $e->result['error']['message'];
-			$user = null;
+			$msg['message'] = $e->result['error']['message'];
+			$msg['result'] = 'Failed';
 		}
 		return $msg;
 	}
@@ -69,12 +83,16 @@ class saiob_include_socialhelper
 
 		$obj = new TwitterOAuth_SAIO($config);
 		$response = $obj->post('statuses/update', array('status' => $tweet,'include_entities' => true));
-
 		if(isset($response['errors'][0]))
-			$msg = "Message: ".$response['errors'][0]['message']." code: ".$response->errors[0]['code'];
+		{
+			$msg['message'] = "Message: ".$response['errors'][0]['message']." code: ".$response['errors'][0]['code'];
+			$msg['result'] = 'Failed';
+		}
 		else
-			$msg = "Tweeted successfully";
-	
+		{
+			$msg['message'] = "Tweeted successfully";
+			$msg['result'] = 'Succeed';
+		}
 		return $msg;
 	}
 }

@@ -192,10 +192,15 @@ Or view our how to guide video guide in our [Youtube Channel](http://youtube.com
 == Changelog ==
 
 = 1.0.0 Beta =	Initial release version. Tested and found works well without any issues.
+* Added a new module for logs
+* Updated tweet and post status function.
+* Updated the query to restrict repetitive updates of tweets or post status.
+* Generated tweet when adding to queue rather than generating tweet when tweeting.
 
 == Upgrade Notice ==
 
 =v 1.0.0 Beta =	Initial Beta release of plugin. 
+* Upgrade now for log and most improved features
 
 
 
