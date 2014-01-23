@@ -199,8 +199,7 @@ Or view our how to guide video guide in our [Youtube Channel](http://youtube.com
 
 == Upgrade Notice ==
 
-=v 1.0.0 Beta =	Initial Beta release of plugin. 
-* Upgrade now for log and most improved features
+=v 1.0.0 Beta =	Initial Beta Upgrade now for log and most improved features
 
 
 
