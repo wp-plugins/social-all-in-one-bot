@@ -22,7 +22,7 @@ class SkinnyUser {
    * Gets the existing User or creates a new one
    */
    public static function getUser() {
-      if (!SkinnySettings::$CONFIG['session persistency']) {
+      if (!SkinnySettings_saiob::$CONFIG['session persistency']) {
         throw new SkinnyException("Session persistency not enabled");
       }
       $sess = null;
@@ -41,7 +41,7 @@ class SkinnyUser {
          }
       } else {
          $sess = new SkinnyUser();
-         $sess->timeout = SkinnySettings::$CONFIG['session timeout'];
+         $sess->timeout = SkinnySettings_saiob::$CONFIG['session timeout'];
          $sess->last_accessed = time();
          $sess->save();
       }
@@ -130,7 +130,7 @@ class SkinnyUser {
       if ($handle = opendir(WP_SOCIAL_ALL_IN_ONE_BOT_DIRECTORY."tmp")) {
          while (false !== ($file = readdir($handle))) {
            $diff = time() - filemtime(WP_SOCIAL_ALL_IN_ONE_BOT_DIRECTORY."tmp/".$file);
-           if ($diff>SkinnySettings::$CONFIG["session timeout"]){
+           if ($diff>SkinnySettings_saiob::$CONFIG["session timeout"]){
               @unlink(WP_SOCIAL_ALL_IN_ONE_BOT_DIRECTORY."tmp/$file");
            }
          }

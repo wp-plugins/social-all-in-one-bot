@@ -9,7 +9,7 @@ DEFINE('WP_DBHOST_SOCIAL', $wpdb->dbhost);
 DEFINE('WP_DBUSER_SOCIAL', $wpdb->dbuser);
 DEFINE('WP_DBPASSWORD_SOCIAL', $wpdb->dbpassword);
 
-class SkinnySettings 
+class SkinnySettings_saiob 
 { 
 	public static $CONFIG = array(
 		"project name"    => WP_SOCIAL_ALL_IN_ONE_BOT_NAME,

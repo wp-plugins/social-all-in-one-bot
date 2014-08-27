@@ -22,11 +22,11 @@ class SkinnyBaseDbController extends PDO {
 
      if (!isset(self::$connections[$dbKey][$mode]) || empty(self::$connections[$dbKey][$mode])) {
 
-       if (  array_key_exists("dbs", SkinnySettings::$CONFIG) && is_array(SkinnySettings::$CONFIG["dbs"]) && array_key_exists($dbKey, SkinnySettings::$CONFIG["dbs"])  ) {
-         $db_config = SkinnySettings::$CONFIG["dbs"][$dbKey];
+       if (  array_key_exists("dbs", SkinnySettings_saiob::$CONFIG) && is_array(SkinnySettings_saiob::$CONFIG["dbs"]) && array_key_exists($dbKey, SkinnySettings_saiob::$CONFIG["dbs"])  ) {
+         $db_config = SkinnySettings_saiob::$CONFIG["dbs"][$dbKey];
          $dbName = null;
        } else {
-         $db_config = SkinnySettings::$CONFIG;
+         $db_config = SkinnySettings_saiob::$CONFIG;
          $dbName = $dbKey;
        }
        if (empty($dbName)) {

@@ -17,20 +17,9 @@ class SmartbotActions extends SkinnyActions
          **/
         public function saiob_gettemplate($templatename)
         {
-                $skinnycontroller = new SkinnyController();
-                $dropdownlist = $skinnycontroller->types;
+		$dropdownlist = saiob_include_saiobhelper::$types;
 
 		$bulktemplate = get_option('__wp_saiob_bulkcomposer_template');
-		$gettemplate  = "<select name = 'bulkcomposertemplate' id = 'bulkcomposertemplate'>";
-                $gettemplate .= "<option value = ''> Create New Template </option>";
-                if($bulktemplate)
-                {
-                        foreach($bulktemplate as $singletemplate)
-                        {
-                                $gettemplate .= "<option value = '{$singletemplate['templatename']}'> {$singletemplate['templatename']} </option>";
-                        }
-                }
-                $gettemplate .= "</select>";
 
                 if(empty($templatename))        
 		{
@@ -104,7 +93,7 @@ class SmartbotActions extends SkinnyActions
                 $settingstype .= "</select>";
 
                 $dropdown = '<select name = "type" class = "form-control" id = "type">';
-                $dropdown .= '<option name = ""> Select </option>';
+                $dropdown .= '<option name = ""> Select Source </option>';
                 foreach($dropdownlist as $singledropdownlist)   {
                         $dropdown_selected = '';
                         if($singledropdownlist == $templatevalue['type'])
@@ -117,15 +106,13 @@ class SmartbotActions extends SkinnyActions
                 $data['dropdown'] = $dropdown;
 
                 $container = "
-        <form class='form-horizontal' method = 'POST' id = 'bulkcomposertemplate' name = 'bulkcomposertemplate' role='form' action = 'admin.php?page=social-all-in-one-bot/saiob.php&__module=bulkcomposer'>
         <input type = 'hidden' name = 'mode' id = 'mode' value = '$mode'>
         <div class = 'header_settings form-group' style = 'width:100%; margin-top: 20px; margin-left: 20px;'>
-		<div class = 'form-group'> 
-			<label class = 'col-sm-2 control-label'> Select Template </label>
+			<label class = 'col-sm-2 control-label'> Template </label>
 			<div class = 'col-sm-4'> $gettemplate </div>
 		</div>
                 <div class = 'form-group'>
-                        <label class = 'control-label col-sm-2'> Select Source </label>
+                        <label class = 'control-label col-sm-2'> Source </label>
                         <div class = 'col-sm-10'>
                                 <div class = 'col-sm-2'> {$data['dropdown']} </div>
                                 <div class = 'col-sm-2'> {$settingstype} </div>
@@ -166,7 +153,6 @@ class SmartbotActions extends SkinnyActions
 			</div>
 			<span id = 'metainformationgif' style = 'display:none'> <img src = '".WP_SOCIAL_ALL_IN_ONE_BOT_DIR."images/loading.gif' alt = 'loading'> </span>
 			</div> </div>
-			</form>
 
 			<div class = 'footer_settings'>
 
@@ -244,19 +230,25 @@ class SmartbotActions extends SkinnyActions
 		# storing template information ends here
 
 		$saiobhelper = new saiob_include_saiobhelper();
-		$request_templatename = isset($request['POST']['templatename']) ? $request['POST']['templatename'] : '';
-		$data['bulkcomposer'] = $saiobhelper->saiob_gettemplate($request_templatename);
+		$req_templatename = isset($request['POST']['templatename']) ? $request['POST']['templatename'] : '';
+		$data['bulkcomposer'] = $saiobhelper->saiob_gettemplate($req_templatename);
 		$bulktemplate = get_option('__wp_saiob_bulkcomposer_template');
                 $gettemplate  = "<select name = 'bulkcomposer_template' id = 'bulkcomposer_template'>";
 		$gettemplate .= "<option value = ''> Select Template </option>";
-                if($bulktemplate)
+                if(is_array($bulktemplate))
                 {
                         foreach($bulktemplate as $singletemplate)
                         {
-                                $gettemplate .= "<option value = '{$singletemplate['templatename']}'> {$singletemplate['templatename']} </option>";
+				$selected = '';
+				if($singletemplate['templatename'] == $req_templatename )
+                                  
+					$selected = 'selected';
+
+                                $gettemplate .= "<option {$selected} value = '{$singletemplate['templatename']}'> {$singletemplate['templatename']} </option>";
                         }
                 }
                 $gettemplate .= "</select>";
+
                 $data['bulkcomposer_template'] = $gettemplate;
 
 		$botarray = array('googlebot', 'facebookbot', 'twitterbot');

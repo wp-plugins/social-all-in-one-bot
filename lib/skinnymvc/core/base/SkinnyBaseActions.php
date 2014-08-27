@@ -80,7 +80,7 @@ class SkinnyBaseActions {
         $param .= $request;
       }
 
-      if (SkinnySettings::$CONFIG['debug']) {
+      if (SkinnySettings_saiob::$CONFIG['debug']) {
          header( "Location: /dev.php".$param );
       } else {
          header( "Location: ".$param );
@@ -96,9 +96,9 @@ class SkinnyBaseActions {
    * @return array
    */
    public function call($module='default', $action='index', $request=array('GET'=>array(), 'POST'=>array())) {
-      $moduleClass = SkinnyController::camelize($module) . 'Actions';
+      $moduleClass = SkinnyController_saiob::camelize($module) . 'Actions';
 
-      $actionMethod = 'execute'.SkinnyController::camelize($action);
+      $actionMethod = 'execute'.SkinnyController_saiob::camelize($action);
 
       $moduleObj = new $moduleClass();
 
@@ -111,7 +111,7 @@ class SkinnyBaseActions {
 
       if (is_callable(array($moduleObj, $actionMethod))) {
         $data = call_user_func_array(array($moduleObj, $actionMethod), array($request));
-        if (SkinnySettings::$CONFIG['debug']) {
+        if (SkinnySettings_saiob::$CONFIG['debug']) {
            global $__DEBUG;
            array_push($__DEBUG['data'], $data);
         }
@@ -326,7 +326,7 @@ class SkinnyBaseActions {
     */
    public function setLayout($layout)
    {
-     SkinnyBaseController::setLayout($layout);
+     SkinnyBaseController_saiob::setLayout($layout);
    }
 
 }

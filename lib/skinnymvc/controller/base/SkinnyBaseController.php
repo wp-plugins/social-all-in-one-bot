@@ -4,7 +4,7 @@
  * description: The main application controller. Every request goes through here.
  */
 
-class SkinnyBaseController {
+class SkinnyBaseController_saiob {
 
     protected static $layout = 'layout'; /* name of the layout file to use - no extension */
     protected $app = null;
@@ -89,7 +89,7 @@ class SkinnyBaseController {
                 } else {
                     //Error: Action does not exist
                     header("HTTP/1.1 404 Not Found");
-                    echo file_get_contents(WP_PLUGIN_BASE."templates/404.php");
+                    echo file_get_contents(WP_PLUGIN_BASE_SAIOB."templates/404.php");
                     exit;
                 }
             }
@@ -118,7 +118,7 @@ class SkinnyBaseController {
                 } else {
                     //Error: Action does not exist
                     header("HTTP/1.1 404 Not Found");
-                    echo file_get_contents(WP_PLUGIN_BASE."templates/404.php");
+                    echo file_get_contents(WP_PLUGIN_BASE_SAIOB."templates/404.php");
                     exit;
                 }
             
@@ -127,30 +127,30 @@ class SkinnyBaseController {
 
 
         //Get the core classes
-        $this->require_once_many(WP_PLUGIN_BASE."lib/skinnymvc/core/base/*.php");
-        $this->require_once_many(WP_PLUGIN_BASE."lib/skinnymvc/core/*.php");
+        $this->require_once_many(WP_PLUGIN_BASE_SAIOB."lib/skinnymvc/core/base/*.php");
+        $this->require_once_many(WP_PLUGIN_BASE_SAIOB."lib/skinnymvc/core/*.php");
 
         // Get the db controller classes
-        $this->require_once_many(WP_PLUGIN_BASE."lib/skinnymvc/dbcontroller/base/*.php");
-        $this->require_once_many(WP_PLUGIN_BASE."lib/skinnymvc/dbcontroller/*.php");
+        $this->require_once_many(WP_PLUGIN_BASE_SAIOB."lib/skinnymvc/dbcontroller/base/*.php");
+        $this->require_once_many(WP_PLUGIN_BASE_SAIOB."lib/skinnymvc/dbcontroller/*.php");
 
         // Get the controller classes
-        $this->require_once_many(WP_PLUGIN_BASE."lib/skinnymvc/controller/base/*.php");
-        $this->require_once_many(WP_PLUGIN_BASE."lib/skinnymvc/controller/*.php");
+        $this->require_once_many(WP_PLUGIN_BASE_SAIOB."lib/skinnymvc/controller/base/*.php");
+        $this->require_once_many(WP_PLUGIN_BASE_SAIOB."lib/skinnymvc/controller/*.php");
 
         //Get all Model classes
-        if (SkinnySettings::$CONFIG['preload model']) {
-            $this->require_once_many(WP_PLUGIN_BASE."lib/skinnymvc/model/*.php");
-            $this->require_once_many(WP_PLUGIN_BASE."lib/skinnymvc/model/base/*.php");
+        if (SkinnySettings_saiob::$CONFIG['preload model']) {
+            $this->require_once_many(WP_PLUGIN_BASE_SAIOB."lib/skinnymvc/model/*.php");
+            $this->require_once_many(WP_PLUGIN_BASE_SAIOB."lib/skinnymvc/model/base/*.php");
         }
 
         //Initialize session
-        if (SkinnySettings::$CONFIG['session persistency']) {
+        if (SkinnySettings_saiob::$CONFIG['session persistency']) {
             $this->skinnyUser = SkinnyUser::getUser();
         }
 
         //Get all plugins
-        $this->require_once_many(WP_PLUGIN_BASE."plugins/skinnyPlugin*.php");
+        $this->require_once_many(WP_PLUGIN_BASE_SAIOB."plugins/skinnyPlugin/*.php");
 
 
         //
@@ -170,14 +170,14 @@ class SkinnyBaseController {
     protected function executeModuleAction($module, $action, $param)
     {
 
-        if (!file_exists(WP_PLUGIN_BASE."modules/$module/actions/actions.php")) {
+        if (!file_exists(WP_PLUGIN_BASE_SAIOB."modules/$module/actions/actions.php")) {
             //Error: Action does not exist
             header("HTTP/1.1 404 Not Found");
-            echo file_get_contents(WP_PLUGIN_BASE."templates/404.php");
+            echo file_get_contents(WP_PLUGIN_BASE_SAIOB."templates/404.php");
             exit;
         }
 
-        require_once(WP_PLUGIN_BASE."modules/$module/actions/actions.php");
+        require_once(WP_PLUGIN_BASE_SAIOB."modules/$module/actions/actions.php");
 
         $moduleClass = self::camelize($module) . 'Actions';
 
@@ -194,7 +194,7 @@ class SkinnyBaseController {
         if (empty($moduleObj)) {
             //Error: Module does not exist
             header("HTTP/1.1 404 Not Found");
-            echo file_get_contents(WP_PLUGIN_BASE."templates/404.php");
+            echo file_get_contents(WP_PLUGIN_BASE_SAIOB."templates/404.php");
             exit;
         }
 
@@ -205,38 +205,38 @@ class SkinnyBaseController {
             if (  is_callable(array($moduleObj, $actionMethod))  ) {
                 $data = call_user_func_array(array($moduleObj, $actionMethod), array($param));
             } else {
-                if (!file_exists(WP_PLUGIN_BASE."modules/$module/templates/$action.php")) {
+                if (!file_exists(WP_PLUGIN_BASE_SAIOB."modules/$module/templates/$action.php")) {
                     //Error: Action does not exist
                     header("HTTP/1.1 404 Not Found");
-                    echo file_get_contents(WP_PLUGIN_BASE."templates/404.php");
+                    echo file_get_contents(WP_PLUGIN_BASE_SAIOB."templates/404.php");
                     exit;
                 }
             }
-            if (SkinnySettings::$CONFIG['debug']) {
+            if (SkinnySettings_saiob::$CONFIG['debug']) {
                 global $__DEBUG;
                 array_push($__DEBUG['data'], $data);
             }
         } else if (is_callable(array($moduleObj, $actionMethod))) {
             $data = call_user_func_array(array($moduleObj, $actionMethod), array($param));
-            if (SkinnySettings::$CONFIG['debug']) {
+            if (SkinnySettings_saiob::$CONFIG['debug']) {
                 global $__DEBUG;
                 array_push($__DEBUG['data'], $data);
             }
         } else {
             //Error: Action $action does not exist
             header("HTTP/1.1 404 Not Found");
-            echo file_get_contents(WP_PLUGIN_BASE."templates/404.php");
+            echo file_get_contents(WP_PLUGIN_BASE_SAIOB."templates/404.php");
             exit;
         }
 
         //Process the templates
-        if (!file_exists(WP_PLUGIN_BASE."modules/$module/templates/$action.php")) {
+        if (!file_exists(WP_PLUGIN_BASE_SAIOB."modules/$module/templates/$action.php")) {
             //Error
             throw new SkinnyException("Template for module $module, action $action does not exist.");
             exit;
         }
 
-        $actionTemplateSource = file_get_contents(WP_PLUGIN_BASE."modules/$module/templates/$action.php");
+        $actionTemplateSource = file_get_contents(WP_PLUGIN_BASE_SAIOB."modules/$module/templates/$action.php");
 
         ob_start();
         $this->processTemplate($data, $skinnyUser, $actionTemplateSource);
@@ -262,11 +262,11 @@ class SkinnyBaseController {
         if ($moduleObj->authenticatedOnly()) {
             if (!$skinnyUser->isAuthenticated()) {
                 //Not authenticated!
-                if (isset(SkinnySettings::$CONFIG['unauthenticated default module'])) {
-                    if (isset(SkinnySettings::$CONFIG['unauthenticated default action'])) {
-                        $moduleObj->redirect(SkinnySettings::$CONFIG['unauthenticated default module'], SkinnySettings::$CONFIG['unauthenticated default action'], $param);
+                if (isset(SkinnySettings_saiob::$CONFIG['unauthenticated default module'])) {
+                    if (isset(SkinnySettings_saiob::$CONFIG['unauthenticated default action'])) {
+                        $moduleObj->redirect(SkinnySettings_saiob::$CONFIG['unauthenticated default module'], SkinnySettings_saiob::$CONFIG['unauthenticated default action'], $param);
                     } else {
-                        $moduleObj->redirect(SkinnySettings::$CONFIG['unauthenticated default module'], "index", $param);
+                        $moduleObj->redirect(SkinnySettings_saiob::$CONFIG['unauthenticated default module'], "index", $param);
                     }
                 } else {
                     $moduleObj->redirect("default", "index", $param);
@@ -295,7 +295,7 @@ class SkinnyBaseController {
 
 
    private function processLayout(&$skinny_content, $layoutData, $skinnyUser, $module, $action, $layout) {
-      include_once WP_PLUGIN_BASE.'templates/'. $layout .'.php';
+      include_once WP_PLUGIN_BASE_SAIOB.'templates/'. $layout .'.php';
    }
 
 
@@ -308,12 +308,12 @@ class SkinnyBaseController {
 
     protected function moduleExists($moduleName)
     {
-        return file_exists(WP_PLUGIN_BASE.'modules/'. $moduleName .'/actions/actions.php');
+        return file_exists(WP_PLUGIN_BASE_SAIOB.'modules/'. $moduleName .'/actions/actions.php');
     }
 
     protected function actionExists($moduleName, $actionName)
     {
-        return file_exists(WP_PLUGIN_BASE.'modules/'. $moduleName .'/templates/'. $actionName .'.php');
+        return file_exists(WP_PLUGIN_BASE_SAIOB.'modules/'. $moduleName .'/templates/'. $actionName .'.php');
     }
 
     

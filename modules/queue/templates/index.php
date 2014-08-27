@@ -1,8 +1,10 @@
 <!-- show queue -->
+<!-- Fix for div shown up at the footer of the wordpress-->
+<style> #ui-datepicker-div { display:none } </style>
 <?php
 if($skinnyData['queuecount'] == 0)
 {
-	$this->notification = '<b> <span> <span class = "fa fa-exclamation-triangle"> </span> No Queue Added </span> </b>';
+	$this->notification = '<b> <span> <span class = "fa fa-exclamation-triangle"> </span> No queue added. </span> </b>';
 	$this->notificationclass = 'alert alert-info';
 	$skinnyData['page'] = 0;
 }
@@ -13,11 +15,13 @@ else if($skinnyData['page'] > $skinnyData['lastpage'])
 }
 
 $error = '';
-$pagination = '';
-$pagination .= "<div style = 'margin-left:30%'> <ul class='pagination pagination-lg'>";
+# adding filter to page
+$pagination = $skinnyData['filter'];
+$pagination .= "<div class = 'form-group'>";
+$pagination .= "<div class = 'col-sm-4'> <ul class='pagination pagination-lg'>";
 # previous button
 if ($skinnyData['page'] > 1) 
-	$pagination.= "<li> <a href='{$skinnyData['targetpage']}&paged=1'> <span class = 'fa fa-angle-double-left'> </span> </a> </li> <li> <a href='{$skinnyData['targetpage']}&paged={$skinnyData['prev']}'> <span class = 'fa fa-angle-left'> </span> </a> </li>";
+	$pagination.= "<li> <a href='{$skinnyData['targetpage']}&paged=1'> <span class = 'fa fa-angle-double-center'> </span> </a> </li> <li> <a href='{$skinnyData['targetpage']}&paged={$skinnyData['prev']}'> <span class = 'fa fa-angle-center'> </span> </a> </li>";
 else
 	$pagination.= "<li class = 'disabled'> <a> <span class = 'fa fa-angle-double-left'> </span> </a> </li> <li class = 'disabled'> <a> <span class = 'fa fa-angle-left'> </span> </a> </li>";	
 
@@ -30,7 +34,7 @@ if ($skinnyData['page'] < $skinnyData['lastpage'])
 else
 	$pagination .= "<li class='disabled'> <a> <span class = 'fa fa-angle-right'> </span> </a> </li> <li class = 'disabled'> <a> <span class = 'fa fa-angle-double-right'> </span> </a> </li>";
 
-$pagination .= "</ul> </div>";		
+$pagination .= "</ul> </div> </div> </div>";		
 $pagination .= "<script> jQuery('#saiob_queue_page').keypress(function (e) {
 var key = e.which;
 if(key == 13) 
@@ -38,7 +42,7 @@ if(key == 13)
 	var paged = jQuery('#saiob_queue_page').val();
 	var reg=/^-?[0-9]+$/;
 	if(reg.test(paged))	{
-		window.location.href = 'admin.php?page=social-all-in-one-bot/saiob.php&__module=queue&paged='+paged;
+		window.location.href = 'admin.php?page=social-all-in-one-bot/index.php&__module=queue&paged='+paged;
 		return false;
 	}
 	var msg = 'Kindly enter Number'; 
@@ -48,17 +52,21 @@ if(key == 13)
 
 ?> 
 <div class = "form-group"> <?php echo $error; ?> </div>
+<?php echo $pagination; ?>
 <table class = "table table-bordered" id = 'queue'>
 	<tr>
+		<th><input type="checkbox" class="num1" onClick="selectAll(this)"></th>
 		<th> # </th>
 		<th> Provider </th>
 		<th> Message </th>
 		<th> Period </th>
+		<th> Time </th>
 		<th> Action </th>	
 	</tr>
 <?php	
 foreach($skinnyData['queuelist'] as $singleQueue)
 { 
+	//echo '<pre>';print_r($singleQueue);die('smack');
 	$unser_message = maybe_unserialize($singleQueue->socialmessage);
 	if($singleQueue->provider == 'twitter')
 		$message = $unser_message;
@@ -69,12 +77,28 @@ foreach($skinnyData['queuelist'] as $singleQueue)
 	$id = $singleQueue->id;
 ?> 
 	<tr>
+		<td> <input type="checkbox" id= 'num_<?php echo $id; ?>'></td>
 		<td> <?php echo $id; ?></td>
 		<td> <?php echo $singleQueue->provider; ?> </td>
 		<td> <?php echo $message; ?> </td>
 		<td> <?php echo $singleQueue->period; ?> </td>
-		<td> <span class = 'col-sm-1' style = 'height:25px;'> <button type = 'button' name = 'deleteform' id = 'delete_<?php echo $id; ?>' class = "btn btn-danger btn-sm" title = "Delete" onclick = "return performdeleteaction('queue','<?php echo $id; ?>', this)" data-loading-text="<span class = 'fa fa-spinner fa-spin'></span>">  <span class="fa fa-trash-o"> </span> </button> </span> </td>
+		<td> <?php if($singleQueue->period == 'Daily') { echo $singleQueue->scheduledtimetorun; } else { echo $singleQueue->dateorweek.' '.$singleQueue->scheduledtimetorun; } ?> </td>
+		<td> <span class = 'col-sm-1' style = 'height:25px;'> <button type = 'button' name = 'deleteform' id = 'delete_<?php echo $id; ?>' class = "btn btn-danger btn-sm" title = "Delete" onclick = "return performdeleteaction('queue','<?php echo $id; ?>', this)" data-loading-text="<span class = 'fa fa-spinner fa-spin'></span>">  <span class="fa fa-trash-o"> </span> </button> </span> 
+		<span class = 'col-sm-13' style = 'height:25px;'> <button type = 'button' name = 'cloneform' style='width:32px;height:32px;margin-left:20px;' id = 'clone_<?php echo $id; ?>' class = "btn btn-danger btn-sm" title = "Clone" onclick = "return performcloningaction('queue','<?php echo $id; ?>', this)" data-loading-text="<span class = 'fa fa-spinner fa-spin'></span>">  <span class="fa fa-copy fa-2x"> </span> </button> </span></td>
+		<!--<td> <?php echo $singleQueue->lastrun; ?>  </td>-->
 	</tr>
 <?php } ?>
 </table> 
-<?php echo $pagination; ?>
+<script type = 'text/javascript'>
+jQuery(document).ready(function() {
+    jQuery('#fromdate').datepicker({
+        dateFormat : 'yy-mm-dd'
+    });
+});
+
+jQuery(document).ready(function() {
+    jQuery('#todate').datepicker({
+        dateFormat : 'yy-mm-dd'
+    });
+});
+</script>

@@ -968,7 +968,7 @@ abstract class SAIOB_BaseFacebook
    *
    * @return string The response text
    */
-  protected function makeRequest($url, $params, $ch=null) {
+  public function makeRequest($url, $params, $ch=null) {
     if (!$ch) {
       $ch = curl_init();
     }

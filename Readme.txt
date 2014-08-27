@@ -4,9 +4,9 @@ Author URI: http://profiles.wordpress.org/smackcoders/
 Contributors: smackcoders, mayavee, fenzik, rajkumarmohan, fredricksujin,
 Tags: facebook, google, google+, twitter, social, social media, admin, page, content, post, comments, posts, image, links, images, plugin, shortcode, sidebar, widget, pinterest, stumbleupon, scoopit, linkedin, marketing, media, eCommerce, reviews, rating
 Requires at least: 3.5.0
-Tested up to: 3.8.0
-Stable tag: 1.0.0 Beta
-Version: 1.0.0 Beta
+Tested up to: 3.9.2
+Stable tag: 1.0.0
+Version: 1.1.0
 License: GPLv2 or later
 Donate link: http://www.smackcoders.com/donate.html
 
@@ -173,8 +173,11 @@ Or view our how to guide video guide in our [Youtube Channel](http://youtube.com
 
 1. Smart Social Marketing All In One Bot Settings Page
 2. Easy Content Marketing with Advanced Bulk Composer
-3. Advanced Marketing Content Template and Effective Time Schedule Options for Facebook and Twitter
-4. List of Scheduled Social Status Queue
+3. List of Scheduled Social Status Queue
+4. List of Social logs
+5. New create instant post page
+6. Advanced Marketing Content Template and Effective Time Schedule Options for Facebook and Twitter
+ 
 
 == Frequently Asked Questions ==
 
@@ -191,7 +194,13 @@ Or view our how to guide video guide in our [Youtube Channel](http://youtube.com
 
 == Changelog ==
 
-= 1.0.0 Beta =	Initial release version. Tested and found works well without any issues.
+= 1.1.0 =
+* Added a Template feature.
+* Updated tweet and post status function
+* Added Instant post create functionality.
+
+= 1.0.0 Beta =  
+* Initial release version. Tested and found works well without any issues.
 * Added a new module for logs
 * Updated tweet and post status function.
 * Updated the query to restrict repetitive updates of tweets or post status.
@@ -199,7 +208,11 @@ Or view our how to guide video guide in our [Youtube Channel](http://youtube.com
 
 == Upgrade Notice ==
 
-=v 1.0.0 Beta =	Initial Beta Upgrade now for log and most improved features
+== 1.1.0 ==
+* Must to upgrade stable release version.
+
+= 1.0.0 Beta =	
+* Initial Beta Upgrade now for log and most improved features.
 
 
 

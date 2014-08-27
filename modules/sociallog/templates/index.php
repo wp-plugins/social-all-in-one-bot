@@ -1,8 +1,10 @@
+<!-- show log -->
+<!-- Fix for div shown up at the footer of the wordpress-->
+<style> #ui-datepicker-div { display:none } </style>
 <?php
-# show social log
 if($skinnyData['logcount'] == 0)
 {
-        $this->notification = '<b> <span> <span class = "fa fa-exclamation-triangle"> </span> No Logs Generated yet </span> </b>';
+        $this->notification = '<b> <span> <span class = "fa fa-exclamation-triangle"> </span> No logs generated yet. </span> </b>';
         $this->notificationclass = 'alert alert-info';
         $skinnyData['page'] = 0;
 }
@@ -13,8 +15,10 @@ else if($skinnyData['page'] > $skinnyData['lastpage'])
 }
 
 $error = '';
-$pagination = '';
-$pagination .= "<div style = 'margin-left:30%'> <ul class='pagination pagination-lg'>";
+# adding filter to page
+$pagination = $skinnyData['filter'];
+$pagination .= "<div class = 'form-group'>";
+$pagination .= "<div class = 'col-sm-4'> <ul class='pagination pagination-lg'>";
 # previous button
 if ($skinnyData['page'] > 1)
         $pagination.= "<li> <a href='{$skinnyData['targetpage']}&paged=1'> <span class = 'fa fa-angle-double-left'> </span> </a> </li> <li> <a href='{$skinnyData['targetpage']}&paged={$skinnyData['prev']}'> <span class = 'fa fa-angle-left'> </span> </a> </li>";
@@ -30,7 +34,7 @@ if ($skinnyData['page'] < $skinnyData['lastpage'])
 else
         $pagination .= "<li class='disabled'> <a> <span class = 'fa fa-angle-right'> </span> </a> </li> <li class = 'disabled'> <a> <span class = 'fa fa-angle-double-right'> </span> </a> </li>";
 
-$pagination .= "</ul> </div>";
+$pagination .= "</ul> </div> </div> </div>";
 $pagination .= "<script> jQuery('#saiob_queue_page').keypress(function (e) {
 var key = e.which;
 if(key == 13)
@@ -38,7 +42,7 @@ if(key == 13)
         var paged = jQuery('#saiob_queue_page').val();
         var reg=/^-?[0-9]+$/;
         if(reg.test(paged))     {
-                window.location.href = 'admin.php?page=social-all-in-one-bot/saiob.php&__module=sociallog&paged='+paged;
+                window.location.href = 'admin.php?page=social-all-in-one-bot/index.php&__module=sociallog&paged='+paged;
                 return false;
         }
         var msg = 'Kindly enter Number';
@@ -48,8 +52,10 @@ if(key == 13)
 
 ?>
 <div class = "form-group"> <?php echo $error; ?> </div>
+<?php echo $pagination; ?>
 <table class = "table table-bordered" id = 'log'>
         <tr>
+		<tr><th><input type="checkbox" class="num1" onClick="selectAll(this)"></th>
                 <th> # </th>
                 <th> Provider </th>
                 <th> Message </th>
@@ -66,10 +72,11 @@ foreach($skinnyData['socialloglist'] as $singleLog)
         if($singleLog->provider == 'twitter')
                 $message = $unser_message;
         else
-                $message = isset($unser_message['title']) ? $unser_message['title'] : '';
+                $message = isset($unser_message['title']) ? $unser_message['title'] : $unser_message;
 
 ?>
         <tr>
+		<td> <input type="checkbox" id= 'num1_<?php echo $id; ?>'></td>
                 <td> <?php echo $id; ?></td>
                 <td> <?php echo $singleLog->provider; ?> </td>
                 <td> <?php echo $message; ?> </td>
@@ -80,4 +87,16 @@ foreach($skinnyData['socialloglist'] as $singleLog)
         </tr>
 <?php } ?>
 </table>
-<?php echo $pagination; ?>
+<script type = 'text/javascript'>
+jQuery(document).ready(function() {
+    jQuery('#fromdate').datepicker({
+        dateFormat : 'yy-mm-dd'
+    });
+});
+
+jQuery(document).ready(function() {
+    jQuery('#todate').datepicker({
+        dateFormat : 'yy-mm-dd'
+    });
+});
+</script>

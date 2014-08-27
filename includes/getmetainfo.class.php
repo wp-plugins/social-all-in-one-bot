@@ -122,6 +122,7 @@ class saiob_include_getmetainfo
 			
 			# no need to pass array. generate tweet here and pass the generated tweet
 			# check hashtag count
+                       
 			$hashlength = strlen($html['hashtags']);
 			$urllength  = strlen($html['url']);
 			if($maxchars >= ($hashlength + $urllength))	

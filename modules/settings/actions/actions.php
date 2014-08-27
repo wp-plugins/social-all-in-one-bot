@@ -21,7 +21,9 @@ class SettingsActions extends SkinnyActions {
 		$data = array();
 		$facebook_appid = isset($_REQUEST['facebook_appid']) ? $_REQUEST['facebook_appid'] : '';
 		$facebook_secretkey = isset($_REQUEST['facebook_secretkey']) ? $_REQUEST['facebook_secretkey'] : '';
+		$facebook_status = isset($_REQUEST['enablefacebook']) ? $_REQUEST['enablefacebook'] : '';
 		$facebook_code = isset($_REQUEST['code']) ? $_REQUEST['code'] : '';
+		$facebook_url = isset($_REQUEST['redirect_uri']) ? $_REQUEST['redirect_uri'] : '';
 		if(!empty($facebook_appid) && !empty($facebook_secretkey))
 		{
 			$value[0] = $facebook_appid;
@@ -44,13 +46,16 @@ class SettingsActions extends SkinnyActions {
 				$data['notificationclass'] = 'alert alert-danger';
 			}
 			$value[2] = $facebook_accesstoken;
+			$value['status'] = $facebook_status;
+                        $value['code'] = $facebook_code;
+                        $value['redirect_uri'] = $facebook_url;
 			update_option('__saiob_facebookkeys', $value);
 
 			$user = $facebook->getUser();
 			if(!$user)      
 			{
 				# if user is not logged in, redirect the user to facebook inorder to get the accesstoken. get loginurl from getLoginUrl function
-				$loginurl = $facebook->getLoginUrl(array('scope' => 'publish_stream,status_update,offline_access')); ?>
+				$loginurl = $facebook->getLoginUrl(array('scope' => 'publish_stream,status_update,offline_access,photo_upload')); ?>
 					<script> window.location.href = "<?php echo $loginurl; ?>" </script> <?php die;
 			}
 		}

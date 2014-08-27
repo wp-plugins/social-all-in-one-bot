@@ -148,7 +148,7 @@ abstract class SkinnyBaseModel {
             }
 
 
-            if (SkinnySettings::$CONFIG['debug']) {
+            if (SkinnySettings_saiob::$CONFIG['debug']) {
                 global $__DEBUG;
                 array_push($__DEBUG['sql'], $sql);
             }
