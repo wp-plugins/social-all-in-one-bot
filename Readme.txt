@@ -1,4 +1,4 @@
-=== Social All in One Bot ===
+=== All in One Auto Social Marketing ===
 Author: smackcoders
 Author URI: http://profiles.wordpress.org/smackcoders/
 Contributors: smackcoders
