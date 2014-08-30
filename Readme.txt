@@ -1,7 +1,7 @@
 === Social All in One Bot ===
 Author: smackcoders
 Author URI: http://profiles.wordpress.org/smackcoders/
-Contributors: smackcoders, mayavee, fenzik, rajkumarmohan, fredricksujin,
+Contributors: smackcoders
 Tags: facebook, google, google+, twitter, social, social media, admin, page, content, post, comments, posts, image, links, images, plugin, shortcode, sidebar, widget, pinterest, stumbleupon, scoopit, linkedin, marketing, media, eCommerce, reviews, rating
 Requires at least: 3.7.1
 Tested up to: 3.9.2
@@ -19,7 +19,7 @@ Are you prepared to move to next level in Marketing, SEO, Search Ranking Social 
 
 **Do you know?**
 
-From Facts, Stats, surveys, info graphics and expert reports everyone in should learn how to manage and approach social network updates in a most effective way. Just by automating your social network updates is essential to get the most out of it to generate traffic, leads, sales and brand awareness etc.
+From Facts, Stats, surveys, info graphics and expert reports everyone in should learn how to manage and approach social network updates in a most effective way. Just by automating your social network updates is essential to get the most out of it to generate traffic, leads, sales and brand awareness etc. Social all in one plugin is targeted to make this easy for social marketing tasks. 
 
 Highlights & stats on each social media from various online sources as follows. This is just a summary and notable highlights. Learn more here from full report in http://blog.smackcoders.com.
 
@@ -34,6 +34,8 @@ Highlights & stats on each social media from various online sources as follows. 
 * 39% more interaction for Photo posts get in facebook
 * 23% more interaction for Shorter posts (70 Chars)
 * 2X more engagement for posts with photo album or picture in facebook
+
+Social all in one plugin supports facebook and twitter automated posts now.
 
 **Best Time**
 
@@ -90,7 +92,7 @@ Highlights & stats on each social media from various online sources as follows. 
 **Highlights**
 
 * 28.3% said it helped to identify business opportunities
-* 35.8% said it helped to increase branding/marketing presence
+* 35.8% said it helped to increase branding/social marketing presence
 * 29% said it is important to grow business/network
 * 1.2M products/services showcased, 
 * 53.6% used pages to display product/services 
@@ -102,7 +104,7 @@ Yes, yes, yes. All serious bloggers, marketers, web masters, SEO professionals, 
 
 Social all in one Bot is a free Wordpress plugin developed to meet all smart marketing requirements. You can compose statuses from WP post types, schedule and control each social network with different post templates, variations, timings, frequency, limit, #tags, call to action etc. smartly via simple user friendly interface. Option to study and schedule statuses based on best performance day, time and type etc. 
 
-Is all these stats and survey reports need to match my marketing strategy? And is this really going to work for me? 
+Is all these stats and survey reports need to match my social marketing strategy? And is this really going to work for me? 
 
 No need. This is an overall view on high performance social impacts. It may differ in result and values in real time. That is why we like to an AB testing features to sample and test your status to get actual ground report of your total network behavior. Base d on above stats you can learn how to set up your AB testing samples with minimum effort and resource.
 
@@ -140,7 +142,7 @@ No need. This is an overall view on high performance social impacts. It may diff
 **In Linked in**
 
 * 32.8% said it is extremely important to grow business/network
-* 35.8% said it helped to increase branding/marketing presence
+* 35.8% said it helped to increase branding/social marketing presence
 
 And finally almost $12.5B invested in online content alone. This is why content marketing is such a mass weapon for modern marketing, SEO and brand awareness strategy.
 
