@@ -1,7 +1,9 @@
 <!-- settings page of social-all-in-one-bot -->
-<?php $facebook = get_option('__saiob_facebookkeys'); $twitter = get_option('__saiob_twitterkeys'); 
+<?php $facebook = get_option('__saiob_facebookkeys'); $twitter = get_option('__saiob_twitterkeys'); $linkedin = get_option('__saiob_linkedinkeys');$twittercards = get_option('__saiob_twittercardskeys');
 $facebook_enabled = (isset($facebook['status']) && $facebook['status'] == 'on') ? 'checked' : '';
 $twitter_enabled  = (isset($twitter['status']) && $twitter['status'] == 'on') ? 'checked' : '';
+$linkedin_enabled = (isset($linkedin['status']) && $linkedin['status'] == 'on') ? 'checked' : '';
+$twittercards_enabled = (isset($twittercards['5']) && $twittercards['5'] == 'on') ? 'checked' : '';
 # for notification
 $this->notification = isset($skinnyData['notification']) ? $skinnyData['notification'] : '';
 $this->notificationclass = isset($skinnyData['notificationclass']) ? $skinnyData['notificationclass'] : '';
@@ -111,6 +113,59 @@ $this->notificationclass = isset($skinnyData['notificationclass']) ? $skinnyData
 			</div>
 		</div>
 	</div>
+	<div class="panel panel-default">
+	<div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target = "#twittercards">
+			<div class="panel-title"> <b> Twitter Cards </b> <span id = 'twittercards_h_span' class = 'fa fa-toggle-down pull-right'> </span> </div>
+		</div>
+		<div id="twittercards" class="panel-collapse collapse">
+			<div class="panel-body">
+				<form class="form-horizontal" role="form" method = 'POST' id = 'twittercards_settings' name = 'twittercards_settings'>
+					<div class="form-group">
+    						<label class="col-sm-2 control-label"> Consumer Key </label>
+	    					<div class="col-sm-8">
+      							<input type="text" class="form-control" id="twittercard_consumerkey" name = 'twitter_consumerkey' value = '<?php echo isset($twittercards[0]) ? $twittercards[0] : ''; ?>'>
+    						</div>
+  					</div>
+  					<div class="form-group">
+    						<label class="col-sm-2 control-label"> Consumer Secret </label>
+    						<div class="col-sm-8">
+      							<input type="text" class = "form-control" id = "twittercard_consumersecret" name = 'twittercard_consumersecret' value = '<?php echo isset($twittercards[1]) ? $twittercards[1] : ''; ?>'>
+    						</div>
+  					</div>
+					<div class="form-group">
+                                                <label class="col-sm-2 control-label"> Access Key </label>
+                                                <div class="col-sm-8">
+                                                        <input type="text" class="form-control" id="twittercard_accesskey" name = 'twittercard_accesskey' value = '<?php echo isset($twittercards[2]) ? $twittercards[2] : ''; ?>'>
+                                                </div>
+                                        </div>
+                                        <div class="form-group">
+                                                <label class="col-sm-2 control-label"> Access Token Secret </label>
+                                                <div class="col-sm-8">
+                                                        <input type="text" class = "form-control" id = "twittercard_tokensecret" name = 'twittercard_tokensecret' value = '<?php echo isset($twittercards[3]) ? $twittercards[3] : '' ?>'>
+                                                </div>
+                                        </div>
+					<div class="form-group">
+    						<label class="col-sm-2 control-label"> Twitter User Name </label>
+	    					<div class="col-sm-8">
+      							<input type="text" class="form-control" id="twittercard_username" name = 'twittercard_username' value = '<?php echo isset($twittercards[4]) ? $twittercards[4] : ''; ?>'>
+    						</div>
+  					</div>
+					<div class = "form-group">
+                                                <div class="col-sm-offset-2 col-sm-2">
+                                                        <label> <input type = 'checkbox' <?php echo $twittercards_enabled; ?> name = 'enabletwittercard' id = 'enabletwittercard' style = 'margin:0px;'> Enable Twitter </label>
+                                                </div>
+                                        </div>
+  					<div class="form-group">
+   						<div class="col-sm-offset-2 col-sm-1">
+      							<button id = 'twittercardssettingssync' name = 'twittercardssettingssync' type="button" onclick = "savesocialkeys('twittercards', this.form)" class="btn btn-primary" data-loading-text="<span class = 'fa fa-spinner fa-spin'></span> Saving..." > Save </button>
+						</div>
+						<div class = "col-sm-2"> 
+							<button id = 'cleartwittercardssettings' name = 'cleartwittercardssettings' type="button" onclick = "saiob_clearsocialsettings('twittercards')" class="btn btn-danger" data-loading-text="<span class = 'fa fa-spinner fa-spin'></span> Clearing..." > Clear twittercard Settings </button>
+						</div>
+				</form>
+			</div>
+		</div>
+	</div>
 </div>
 <br>
 <div class = 'form-group clearfix'>
@@ -139,6 +194,26 @@ jQuery(document).ready(function()
 	jQuery('#twitter').on('show.bs.collapse', function ()
         {
 		jQuery("#twitter_h_span").addClass('fa-toggle-up').removeClass('fa-toggle-down');
+        });
+
+	jQuery('#linkedin').on('hidden.bs.collapse', function ()
+    	{
+		jQuery("#linkedin_h_span").addClass('fa-toggle-down').removeClass('fa-toggle-up');
+	});
+
+	jQuery('#linkedin').on('show.bs.collapse', function ()
+        {
+		jQuery("#linkedin_h_span").addClass('fa-toggle-up').removeClass('fa-toggle-down');
+        });
+
+	jQuery('#twittercards').on('hidden.bs.collapse', function ()
+    	{
+		jQuery("#twittercards_h_span").addClass('fa-toggle-down').removeClass('fa-toggle-up');
+	});
+
+	jQuery('#twittercards').on('show.bs.collapse', function ()
+        {
+		jQuery("#twittercards_h_span").addClass('fa-toggle-up').removeClass('fa-toggle-down');
         });
 
 });

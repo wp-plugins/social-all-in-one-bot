@@ -65,6 +65,7 @@ class saiob_include_socialhelper
 		return $msg;
 	}
 
+
 	/**
 	 *  check whether twitter api key is correct
 	 *  @param array $config ** twitter keys **
@@ -106,12 +107,11 @@ class saiob_include_socialhelper
 
                 if(!isset($tweet['link_url']))
                         $tweet['link_url'] = '';
-            
+
                $obj = new TwitterOAuth_SAIO($config);
                if((isset($tweet['link_post']) && $tweet['link_post'] == 'true') || (isset($tweet['image_post']) && $tweet['image_post'] == 'true' ) ) { 
-               $response = $obj->request('POST', 'https://api.twitter.com/1.1/statuses/update_with_media.json', array( 'media[]' => "@{$tweet['img_path']}", 'status' => $tweet['description']), true, true);    
+               $response = $obj->request('POST', 'https://api.twitter.com/1.1/statuses/update_with_media.json', array( 'media[]' => "@{$tweet['img_path']}", 'status' => $tweet['description']), true, true);
                      }
-		//print_r($obj->response);
                else {
 		$response = $obj->request('POST', $obj->url('1.1/statuses/update'), array('status' =>$tweet['description']));
                  }
@@ -128,4 +128,41 @@ class saiob_include_socialhelper
 		}  
 		return $msg; 
 	}
+
+	public function tweetcard($tweetcard)
+        {
+                $twitter = get_option('__saiob_twittercardskeys');
+                $config =  array(
+                                'consumer_key' => $twitter[0],
+                                'consumer_secret' => $twitter[1],
+                                'token' => $twitter[2],
+                                'secret' => $twitter[3],
+                                'output_format' => 'array'
+                               );
+               	if(!isset($tweetcard['title']))
+                        $tweetcard['title'] = '';
+
+                if(!isset($tweetcard['description']))
+                        $tweetcard['description'] = '';
+
+                if(!isset($tweetcard['link_url']))
+                        $tweetcard['link_url'] = '';
+
+		$obj = new TwitterOAuth_SAIO($config);
+		if((isset($tweet['link_post']) && $tweet['link_post'] == 'true')) {
+			$response = $obj->request('POST', 'https://api.twitter.com/1.1/statuses/update_with_media.json', array( 'media[]' => "@{$tweetcard['link_post']}",'status' => $tweetcard['description']), true, true);
+		}
+		if(isset($response['errors'][0]))
+                {
+                        $msg['message'] = "Message: ".$response['errors'][0]['message']." code: ".$response['errors'][0]['code'];
+                        $msg['result'] = 'Failed';
+                }
+                else
+                {
+                        $msg['message'] = "Tweeted successfully";
+                        $msg['result'] = 'Succeed';
+                }
+                return $msg;
+		
+        }
 }

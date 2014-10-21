@@ -2,7 +2,7 @@
 /******************************
   Plugin Name: Social All in One Bot
   Description: A plugin that helps to share data to various social media.
-  Version: 1.1.0
+  Version: 1.2.0
   Author: smackcoders.com
   Plugin URI: http://www.smackcoders.com/social-all-in-one-bot.html
   Author URI: http://www.smackcoders.com/social-all-in-one-bot.html
@@ -26,6 +26,8 @@ require_once('includes/saiobhelper.class.php');
 require_once('lib/api/facebook/facebook.php');
 require_once('lib/api/TwitterOAuth/TwitterOAuth.php');
 require_once('lib/api/TwitterOAuth/OAuth_SAIO.php');
+require_once('lib/api/twittercards/create_meta_box.php');
+require_once('lib/api/twittercards/schema_for_twitter_card.php');
 require_once('includes/socialhelper.class.php');
 
 # Activation & Deactivation 
@@ -88,4 +90,5 @@ add_action('wp_ajax_saiob_createinstantpost', array('saiob_include_saiobhelper',
 # cron schedule
 add_filter('cron_schedules', array('saiob_include_saiobhelper', 'cron_schedules'));
 add_action('wordpress_social_all_in_one_bot_queue', array('saiob_include_saiobhelper', 'runcron'));
+
 

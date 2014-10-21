@@ -16,6 +16,7 @@ $this->notificationclass = isset($skinnyData['notificationclass']) ? $skinnyData
                         <label  class="col-sm-3"> Select The Provider </label> 
                         <label> <input onclick = 'saiob_showprovider(this.checked, "facebook")' type = 'checkbox' name = 'facebook_provider' id = 'facebook_provider'> Facebook </label>
                         <label> <input onclick = 'saiob_showprovider(this.checked, "twitter")' type = 'checkbox' name = 'twitter_provider' id = 'twitter_provider'> Twitter </label>
+			<label> <input onclick = 'saiob_showprovider(this.checked, "twittercards")' type = 'checkbox' name = 'twittercard_provider' id = 'twittercard_provider'> Twitter Cards </label>
                         </div>
                             <div class = 'row' style = 'margin-top:25px;'>
                                                         <label  class="col-sm-3"> Enter The Post Title </label>
@@ -39,7 +40,7 @@ data-original-title="Share a text message"/>
 data-original-title="Share a link message"/>
                              </div>
                             <div class= 'row' style = 'margin-top:25px;'>
-                                                        <label class="col-sm-3 ">Enter The Image  Url </label>
+                                                        <label class="col-sm-3 ">Enter The Link Post Url </label>
                                                         <input type = "text" class="col-sm-5" id="saiob_url" name = 'saiob_url' data-toggle="tooltip"
 data-original-title="Enter the link post image url(http://example.com/image.png)" />
                             </div>

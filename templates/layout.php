@@ -1,8 +1,8 @@
 <?php
 # check whether social keys are stored. If no redirect them to settings page
-$facebook = get_option('__saiob_facebookkeys'); $twitter = get_option('__saiob_twitterkeys');
+$facebook = get_option('__saiob_facebookkeys'); $twitter = get_option('__saiob_twitterkeys'); $linkedin = get_option('__saiob_linkedinkeys'); $twittercards = get_option('__saiob_twittercardskeys');
 $mod = isset($_REQUEST['__module']) ? $_REQUEST['__module'] : '';
-if(empty($facebook) && empty($twitter) && $mod != 'settings')
+if(empty($facebook) && empty($twitter) && empty($linkedin) && empty($twittercards) && $mod != 'settings')
 { ?>
 	<script type = 'text/javascript'>
 		window.location.href = "admin.php?page=social-all-in-one-bot/index.php&__module=settings";

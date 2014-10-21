@@ -42,7 +42,7 @@ class TemplatesActions extends SkinnyActions
 	public function executeCreate($request)
 	{
 		$data = array();
-		$botarray = array('googlebot', 'facebookbot', 'twitterbot');
+		$botarray = array('googlebot', 'facebookbot', 'twitterbot', 'linkedinbot');
                 foreach($botarray as $singlebot)
                 {
                         $frequency_array =  array('1', '2', '3');
@@ -128,6 +128,8 @@ class TemplatesActions extends SkinnyActions
                     $twitter_provider=isset($twit['twitter_provider']) ? $twit['twitter_provider'] : '';
                     $facebook_provider= '' ;
                    $facebook_provider=isset($twit['facebook_provider']) ? $twit['facebook_provider'] : '';
+		    $linkedin_provider= '' ;
+                   $linkedin_provider=isset($twit['linkedin_provider']) ? $twit['linkedin_provider'] : '';
                    
                      if(isset($twitter_provider) && $twitter_provider == 'on' )
                        {
@@ -138,9 +140,13 @@ class TemplatesActions extends SkinnyActions
                         {
                         $choosen_bot = 'facebookbot';
                          }
+		    if(isset($linkedin_provider ) && $linkedin_provider == 'on')
+                        {
+                        $choosen_bot = 'linkedinbot';
+                         }
                } 
                    
-                $botarray = array('googlebot', 'facebookbot', 'twitterbot');
+                $botarray = array('googlebot', 'facebookbot', 'twitterbot', 'linkedinbot');
                 foreach($botarray as $singlebot)
                 {
                     if(isset($singlebot) && $singlebot == $choosen_bot)
@@ -237,10 +243,11 @@ class TemplatesActions extends SkinnyActions
                	$post = $request['POST'];
 		$templatename = $post['templatename'];
                
-		$provider_array = array('twitter', 'facebook');
+		$provider_array = array('twitter', 'facebook', 'linkedin');
 
 		$twitter      = isset($post['twitter_provider']) ? $post['twitter_provider'] : '';
 		$facebook     = isset($post['facebook_provider']) ? $post['facebook_provider'] : '';
+		$linkedin     = isset($post['linkedin_provider']) ? $post['linkedin_provider'] : '';
 
 		$data['templatename'] = $templatename;
 		# unsetting templatename
@@ -290,10 +297,11 @@ class TemplatesActions extends SkinnyActions
                 $uid=$post['id'];
                 
 		
-		$provider_array = array('twitter', 'facebook');
+		$provider_array = array('twitter', 'facebook', 'linkedin');
 
 		$twitter      = isset($post['twitter_provider']) ? $post['twitter_provider'] : '';
 		$facebook     = isset($post['facebook_provider']) ? $post['facebook_provider'] : '';
+		$linkedin     = isset($post['linkedin_provider']) ? $post['linkedin_provider'] : '';
                 foreach($provider_array as $single_provider)
 		{
 			if(empty($$single_provider))
@@ -354,6 +362,7 @@ class TemplatesActions extends SkinnyActions
                     $twit=maybe_unserialize($ser_val['value']);
                     $twitter_provider=isset($twit['twitter_provider']) ? $twit['twitter_provider'] : '';
                     $facebook_provider=isset($twit['facebook_provider']) ? $twit['facebook_provider'] : '' ;
+		    $linkedin_provider=isset($twit['linkedin_provider']) ? $twit['linkedin_provider'] : '' ;
                      if(isset($twitter_provider) && $twitter_provider == 'on')
                        {
                         $choosen_bot = 'twitterbot';
@@ -362,8 +371,12 @@ class TemplatesActions extends SkinnyActions
                         {
                         $choosen_bot = 'facebookbot';
                          }
+		    if(isset($linkedin_provider) && $linkedin_provider == 'on')
+                        {
+                        $choosen_bot = 'linkedinbot';
+                         }
                 } 
-                $botarray = array('googlebot', 'facebookbot', 'twitterbot');
+                $botarray = array('googlebot', 'facebookbot', 'twitterbot', 'linkedinbot');
                 foreach($botarray as $singlebot)
                 {
                     if($singlebot == $choosen_bot )
@@ -461,6 +474,7 @@ class TemplatesActions extends SkinnyActions
                 $provider_array = array('twitter', 'facebook');
                 $twitter      = isset($post['twitter_provider']) ? $post['twitter_provider'] : '';
 		$facebook     = isset($post['facebook_provider']) ? $post['facebook_provider'] : '';
+		$linkedin     = isset($post['linkedin_provider']) ? $post['linkedin_provider'] : '';
                 $data['templatename'] = $templatename;
 		# unsetting templatename
 		unset($post['templatename']);

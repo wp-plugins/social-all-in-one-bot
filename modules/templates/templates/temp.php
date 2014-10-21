@@ -10,10 +10,12 @@ $this->notificationclass = isset($skinnyData['notificationclass']) ? $skinnyData
            $twit=array();
            $twitter_provider='';
            $facebook_provider='';
+	   $linkedin_provider='';
            $a='';
            $b='';
            $twit_display='';
            $face_display='';
+	   $link_display='';
            $singlebot='';
            $eid='';
 
@@ -28,11 +30,13 @@ $this->notificationclass = isset($skinnyData['notificationclass']) ? $skinnyData
                     $twit=maybe_unserialize($ser_val['value']); 
                     $twitter_provider=isset($twit['twitter_provider']) ? $twit['twitter_provider'] : '';
                     $facebook_provider=isset($twit['facebook_provider']) ? $twit['twitter_provider'] : '';
+		    $linkedin_provider=isset($twit['linkedin_provider']) ? $twit['linkedin_provider'] : '';
                      if(isset($twitter_provider) && $twitter_provider == 'on')
                       {
                         $a = 'checked';
                         $twit_display = 'display:none';
                         $face_display = 'display:none';
+			$link_display = 'display:none';
                         $singlebot = 'twitterbot';
                         
                       }
@@ -41,9 +45,17 @@ $this->notificationclass = isset($skinnyData['notificationclass']) ? $skinnyData
                         $b = 'checked';
                         $twit_display = 'display:none';
                         $face_display = 'display:none';
+			$link_display = 'display:none';
                         $singlebot = 'facebookbot';
                         }
-                 
+                     if(isset($linkedin_provider) && $linkedin_provider == 'on')
+                        {
+                        $b = 'checked';
+                        $twit_display = 'display:none';
+                        $face_display = 'display:none';
+			$link_display = 'display:none';
+                        $singlebot = 'linkedinbot';
+                        }
                     
         
                  
@@ -51,6 +63,7 @@ $this->notificationclass = isset($skinnyData['notificationclass']) ? $skinnyData
 	<div class = 'form-group' style = 'padding-left:20px;display:block'>
         	<label> <input onclick = 'saiob_showprovider(this.checked, "facebook")' type = 'checkbox' name = 'facebook_provider' id = 'facebook_provider' <?php echo $b ; ?>> Facebook </label>
                 <label> <input  onclick = 'saiob_showprovider(this.checked, "twitter")' type = 'checkbox'  name = 'twitter_provider' id = 'twitter_provider'  <?php echo $a ; ?> > Twitter </label>
+		<label> <input  onclick = 'saiob_showprovider(this.checked, "linkedin")' type = 'checkbox'  name = 'linkedin_provider' id = 'linkedin_provider'  <?php echo $a ; ?> > LinkedIn </label>
         </div>
 </div>
 <hr>
@@ -198,6 +211,67 @@ $this->notificationclass = isset($skinnyData['notificationclass']) ? $skinnyData
                         </div>
                 </div>
         </div>
+	<div class="panel panel-default" id = 'saiob_linkedin_accordion' style = '<?php echo $link_display ;?>'>
+                <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#linkedin">
+                        <div class="panel-title"> <b> LinkedIn </b> <span id = 'linkedin_h_span' class = 'fa fa-toggle-down pull-right'> </span> </div>
+                </div>
+                <div id="linkedin" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                                <div class = 'header_settings form-group' style = 'width:100%; padding-top:5px;'>
+                                        <div class = 'left_header_settings' style = 'width:100%'>
+                                                <div class="form-group">
+                                            <?$eid=isset($eid) ? $eid : '' ;?>
+                                            <input type="hidden" name="id" <? echo $eid ; ?>>
+                                                        <label for="linkedinbot_maxchars" class="col-sm-2 control-label"> Maximum Characters </label>
+                                                        <div class="col-sm-1">
+                                                                <input type="text" class="form-control" id="linkedinbot_maxchars" maxlength = '5' name = 'linkedinbot_maxchars' placeholder = '700' value="<?=isset($twit[$singlebot.'_maxchars']) ? $twit[$singlebot.'_maxchars'] : '';?>">
+                                                        </div>
+                                                </div>
+                                                <div class="form-group">
+                                                        <label for="linkedinbot_calltoactions" class="col-sm-2 control-label"> Call to actions </label>
+                                                        <div class="col-sm-5">
+                                                                <input type="text" class="form-control" id="linkedinbot_calltoactions" name = "linkedinbot_calltoactions" placeholder = 'like us' value="<?=isset($twit[$singlebot.'_calltoactions']) ? $twit[$singlebot.'_calltoactions'] : '';?>">
+                                                        </div>
+                                                        <div class = 'col-sm-1'>
+                                                                <label class = "checkbox-inline"> <input type = 'checkbox' id = 'linkedinbot_action_rotate' name = 'linkedinbot_action_rotate' > Rotate </label>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                        <div class="form-group">
+                                                <label class="col-sm-2 control-label"> Frequency </label>
+                                                <div class="col-sm-1" style = "width:75px;">
+                                                        <?php echo $skinnyData[$singlebot.'_frequency']; ?>
+                                                </div>
+                                                <div class = "col-sm-1" id = 'linkedinbot_period_div'>
+                                                        <?php echo $skinnyData[$singlebot.'_period']; ?>
+                                                </div>
+                                                <div class = "col-sm-1" id = 'linkedinbot_Weekly_div' >
+                                                        <?php echo $skinnyData[$singlebot.'_weekly']; ?>
+                                                </div>
+						<div class = "col-sm-3" id = 'linkedinbot_Date_div' >
+                                                        <div class = "col-sm-2">
+                                                                <input type = 'text' name = 'linkedinbot_fromdate' id = 'linkedinbot_fromdate' class = 'form-control' style = 'width:100px;' value="<?=isset($twit[$singlebot.'_fromdate']) ? $twit[$singlebot.'_fromdate'] : '';?>">
+                                                        </div>
+                                                        <div class = 'col-sm-1' style = 'margin-left:70px;'> to </div>
+                                                        <div class = 'col-sm-2'  >
+                                                                <input type = 'text' name = 'linkedinbot_todate' id = 'linkedinbot_todate' class = 'form-control' style = 'width:100px;' value="<?=isset($twit[$singlebot.'_todate']) ? $twit[$singlebot.'_todate'] : '';?>">
+                                                        </div>
+                                                </div>
+                                                <div class = "col-sm-3" id = 'linkedinbot_time_div'>
+                                                        <div class = "col-sm-2"> <?php echo $skinnyData[$singlebot.'_hours_from']; ?> </div>
+                                                        <div class = 'col-sm-1' style = 'margin-left:30px;'> to </div>
+                                                        <div class = 'col-sm-2'> <?php echo $skinnyData[$singlebot.'_hours_to']; ?> </div>
+                                                </div>
+                                        </div>
+                                        <div class="form-group" style="display:none">
+                                                <div class="col-sm-offset-2 col-sm-5">
+                                                        <button type="button" onclick = "storesmartbotinfo('linkedin', this.form)" id = 'linkedinsmartbot' name = 'linkedinsmartbot' class="btn btn-primary" data-loading-text="<span class = 'fa fa-spinner fa-spin'></span> Scheduling..."> Schedule </button>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+        </div>
 </div>
 <hr>
 <div class = 'form-group'>
@@ -227,6 +301,18 @@ jQuery(document).ready(function() {
 
 jQuery(document).ready(function() {
     jQuery('#twitterbot_fromdate').datepicker({
+        dateFormat : 'yy-mm-dd'
+    });
+});
+
+jQuery(document).ready(function() {
+    jQuery('#linkedinbot_todate').datepicker({
+        dateFormat : 'yy-mm-dd'
+    });
+});
+
+jQuery(document).ready(function() {
+    jQuery('#linkedinbot_fromdate').datepicker({
         dateFormat : 'yy-mm-dd'
     });
 });

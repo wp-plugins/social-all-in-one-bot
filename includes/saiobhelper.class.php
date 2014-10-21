@@ -102,13 +102,23 @@ print_r("Successfully Deleted");die;
 				update_option('__saiob_facebookkeys', $facebook);
 				$msg = 'Cleared Facebook API Keys';
 				break;
+			case "linkedin":
+                                $linkedin = saiob_include_saiobhelper::clearsocialkeys($type);
+                                update_option('__saiob_linkedinkeys', $linkedin);
+                                $msg = 'Cleared LinkedIn API Keys';
+                                break;
 			case "twitter":
 				$twitter = saiob_include_saiobhelper::clearsocialkeys($type);
 				update_option('__saiob_twitterkeys', $twitter);
 				$msg = 'Cleared Twitter API Keys';
 				break;
+			case "twittercards":
+                                $twittercards = saiob_include_saiobhelper::clearsocialkeys($type);
+                                update_option('__saiob_twittercardskeys', $twittercards);
+                                $msg = 'Cleared Twitter Cards Settings';
+                                break;
 			case "all":
-				$social_service = array('facebook', 'twitter');
+				$social_service = array('facebook', 'twitter', 'linkedin', 'twittercards');
 				foreach($social_service as $single_service)
 				{
 					$service_response = array();
@@ -134,7 +144,12 @@ print_r("Successfully Deleted");die;
 		$data['msg'] = "$provider is not enabled in settings. Please enable it";
 		$data['msgclass'] = "danger";
 		$provider_keys = get_option('__saiob_'.$provider.'keys');
-		if(!empty($provider_keys) && isset($provider_keys['status']) && $provider_keys['status'] == 'on')
+		if($provider == 'twittercards' && !empty($provider_keys) && isset($provider_keys['5']) && $provider_keys['5'] == 'on')
+		{
+			$data['msg'] = "$provider is enabled";
+                        $data['msgclass'] = 'success';
+		}
+		else if(!empty($provider_keys) && isset($provider_keys['status']) && $provider_keys['status'] == 'on')
 		{
 			$data['msg'] = "$provider is enabled";
 			$data['msgclass'] = 'success';
@@ -241,7 +256,12 @@ print_r("Successfully Deleted");die;
                         update_option('__saiob_facebookkeys', $value);
                         print_r('Facebook keys updated successfully');
                 }
-                else if($provider == 'twitter')
+		else if($provider == 'linkedin')
+                {
+                        update_option('__saiob_linkedinkeys', $value);
+                        print_r('LinkedIn keys updated successfully');
+                }
+                else if($provider == 'twitter' || $provider == 'twittercards')
                 {
 			# check whether twitter api keys are correct. If so update the keys else dont
 			$socialhelper = new saiob_include_socialhelper();
@@ -254,12 +274,28 @@ print_r("Successfully Deleted");die;
                                );	
 
 			$response = $socialhelper->validatetwitter($config);
-			if(!isset($response['errors']))
+			if(!isset($response['errors']) && $provider == 'twitter')
 			{
 				$value['status'] = $value[4]; unset($value[4]);
                         	update_option('__saiob_twitterkeys', $value);
 				$result['msg'] = 'Twitter keys updated successfully';
                                 $result['msgclass'] = 'success';
+			}
+			else if(!isset($response['errors']) && $provider == 'twittercards')
+                        {
+				update_option('__saiob_twittercardskeys', $value);
+                        	$twtname = get_option('__saiob_twittercardskeys');
+                        	$username = $twtname[4];
+                        	$url="http://api.twitter.com/1/users/show.json?screen_name=".$username;
+                        	$json = file_get_contents($url,0,null,null);
+                        	if($http_response_header[0] == "HTTP/1.1 404 Not Found") {
+                                	$result['msg'] = 'Twitter keys are not updated. Error: '.$errormsg;
+                                	$result['msgclass'] = 'danger';
+                        	}
+                        	else {
+                                	$result['msg'] = 'Twitter Name updated successfully';
+                                	$result['msgclass'] = 'success';
+                        	}
 			}
 			else
 			{
@@ -297,16 +333,19 @@ print_r("Successfully Deleted");die;
                               $saiob=maybe_unserialize($bulktemplateval['value']);
                               $twitter_provider=isset($saiob['twitter_provider']) ? $saiob['twitter_provider'] : '';
                               $facebook_provider=isset($saiob['facebook_provider']) ? $saiob['facebook_provider'] : '';
+			      $linkedin_provider=isset($saiob['linkedin_provider']) ? $saiob['linkedin_provider'] : '';
                               if(isset($twitter_provider) && $twitter_provider == 'on')
-                                {
-                                  
+                              {
                                   $provider = 'twitter' ;
-                                }
+                              }
                               if(isset($facebook_provider) && $facebook_provider == 'on')
-                                {
-                                 
+                              {
                                   $provider ='facebook'  ;
-                                }
+                              }
+			      if(isset($linkedin_provider) && $linkedin_provider == 'on')
+                              {
+                                  $provider ='linkedin'  ;
+                              }
                             if(isset($provider) && $provider == 'twitter')
 			      {
                                       $values=array();
@@ -324,10 +363,9 @@ print_r("Successfully Deleted");die;
 				      $values[11] = isset($saiob['twitterbot_weekly']) ? $saiob['twitterbot_weekly'] : '';
 				      $values[12] = isset($saiob['twitterbot_fromdate']) ?  $saiob['twitterbot_fromdate'] : '';
 				      $values[13] = isset($saiob['twitterbot_todate']) ? $saiob['twitterbot_todate'] : '';
-                                     // echo '<pre>'; print_r($values[2]); die('coming');
 			      
 			      }
-			       if(isset($provider) && $provider == 'facebook')
+			      if(isset($provider) && $provider == 'facebook')
 			      {
 				      $values[0] = isset($saiob['facebookbot_maxchars']) ? $saiob['facebookbot_maxchars'] : '';
 				      $values[4] = isset($saiob['facebookbot_calltoactions']) ?  $saiob['facebookbot_calltoactions'] : '';
@@ -341,6 +379,20 @@ print_r("Successfully Deleted");die;
 				      $values[12] = isset($saiob['facebookbot_fromdate']) ?  $saiob['facebookbot_weekly'] : '';
 				      $values[13] = isset($saiob['facebookbot_todate']) ?  $saiob['facebookbot_todate'] : '';
 			      }
+			      if(isset($provider) && $provider == 'linkedin')
+                              {
+                                      $values[0] = isset($saiob['linkedinbot_maxchars']) ? $saiob['linkedinbot_maxchars'] : '';
+                                      $values[4] = isset($saiob['linkedinbot_calltoactions']) ?  $saiob['linkedinbot_calltoactions'] : '';
+                                      $values[5] = isset($saiob['linkedinbot_action_rotate']) ?  $saiob['linkedinbot_action_rotate'] :'';
+                                      $values[6] = isset($saiob['linkedinbot_frequency']) ? $saiob['linkedinbot_frequency'] : '';
+                                      $values[7] = isset($saiob['linkedinbot_period']) ? $saiob['linkedinbot_period'] : '';
+                                      $values[8] = isset($saiob['linkedinbot_hours_from']) ?  $saiob['linkedinbot_hours_from'] : '';
+                                      $values[9] = isset($saiob['linkedinbot_hours_to']) ?  $saiob['linkedinbot_hours_to'] : '';
+                                      $values[10] = $templatename;
+                                      $values[11] = isset($saiob['linkedinbot_weekly']) ? $saiob['linkedinbot_weekly'] : '';
+                                      $values[12] = isset($saiob['linkedinbot_fromdate']) ?  $saiob['linkedinbot_weekly'] : '';
+                                      $values[13] = isset($saiob['linkedinbot_todate']) ?  $saiob['linkedinbot_todate'] : '';
+                              }
 
                               # generate query to get all the post / pages
                                 $type = $metavalue[12];
@@ -401,21 +453,24 @@ print_r("Successfully Deleted");die;
                 {
                         if($bulktemplateval['templatename'] == $templatename)
                         {
-                              $saiob=maybe_unserialize($bulktemplateval['value']);
-                              $twitter_provider=isset($saiob['twitter_provider']) ? $saiob['twitter_provider'] : '';
-                              $facebook_provider=isset($saiob['facebook_provider']) ? $saiob['facebook_provider'] : '';
-                              if(isset($twitter_provider) && $twitter_provider == 'on')
+                              	$saiob=maybe_unserialize($bulktemplateval['value']);
+                              	$twitter_provider=isset($saiob['twitter_provider']) ? $saiob['twitter_provider'] : '';
+                              	$facebook_provider=isset($saiob['facebook_provider']) ? $saiob['facebook_provider'] : '';
+				$linkedin_provider=isset($saiob['linkedin_provider']) ? $saiob['linkedin_provider'] : '';
+                              	if(isset($twitter_provider) && $twitter_provider == 'on')
                                 {
-                                  
-                                  $provider = 'twitter' ;
+                                  	$provider = 'twitter' ;
                                 }
-                              if(isset($facebook_provider) && $facebook_provider == 'on')
+                              	if(isset($facebook_provider) && $facebook_provider == 'on')
                                 {
-                                 
-                                  $provider ='facebook'  ;
+					$provider ='facebook'  ;
                                 }
-                            if(isset($provider) && $provider == 'twitter')
-			      {
+				if(isset($linkedin_provider) && $linkedin_provider == 'on')
+                                {
+                                        $provider ='linkedin'  ;
+                                }
+                            	if(isset($provider) && $provider == 'twitter')
+			      	{
                                       $values=array();
 				      $values[0] = isset($saiob['twitterbot_maxchars']) ?  $saiob['twitterbot_maxchars'] : '' ;
 				      $values[1] = isset($saiob['twitterbot_tags']) ? $saiob['twitterbot_tags'] : '';
@@ -431,10 +486,9 @@ print_r("Successfully Deleted");die;
 				      $values[11] = isset($saiob['twitterbot_weekly']) ? $saiob['twitterbot_weekly'] : '';
 				      $values[12] = isset($saiob['twitterbot_fromdate']) ?  $saiob['twitterbot_fromdate'] : '';
 				      $values[13] = isset($saiob['twitterbot_todate']) ? $saiob['twitterbot_todate'] : '';
-                                     // echo '<pre>'; print_r($values[2]); die('coming');
 			      
 			      }
-			       if(isset($provider) && $provider == 'facebook')
+			      if(isset($provider) && $provider == 'facebook')
 			      {
 				      $values[0] = isset($saiob['facebookbot_maxchars']) ? $saiob['facebookbot_maxchars'] : '';
 				      $values[4] = isset($saiob['facebookbot_calltoactions']) ?  $saiob['facebookbot_calltoactions'] : '';
@@ -448,6 +502,20 @@ print_r("Successfully Deleted");die;
 				      $values[12] = isset($saiob['facebookbot_fromdate']) ?  $saiob['facebookbot_weekly'] : '';
 				      $values[13] = isset($saiob['facebookbot_todate']) ?  $saiob['facebookbot_todate'] : '';
 			      }
+			      if(isset($provider) && $provider == 'linkedin')
+                              {
+                                      $values[0] = isset($saiob['linkedinbot_maxchars']) ? $saiob['linkedinbot_maxchars'] : '';
+                                      $values[4] = isset($saiob['linkedinbot_calltoactions']) ?  $saiob['linkedinbot_calltoactions'] : '';
+                                      $values[5] = isset($saiob['linkedinbot_action_rotate']) ?  $saiob['linkedinbot_action_rotate'] :'';
+                                      $values[6] = isset($saiob['linkedinbot_frequency']) ? $saiob['linkedinbot_frequency'] : '';
+                                      $values[7] = isset($saiob['linkedinbot_period']) ? $saiob['linkedinbot_period'] : '';
+                                      $values[8] = isset($saiob['linkedinbot_hours_from']) ?  $saiob['linkedinbot_hours_from'] : '';
+                                      $values[9] = isset($saiob['linkedinbot_hours_to']) ?  $saiob['linkedinbot_hours_to'] : '';
+                                      $values[10] = $templatename;
+                                      $values[11] = isset($saiob['linkedinbot_weekly']) ? $saiob['linkedinbot_weekly'] : '';
+                                      $values[12] = isset($saiob['linkedinbot_fromdate']) ?  $saiob['linkedinbot_weekly'] : '';
+                                      $values[13] = isset($saiob['linkedinbot_todate']) ?  $saiob['linkedinbot_todate'] : '';
+                              }
 
                               # generate query to get all the post / pages
                                 $type = $metavalue[12];
@@ -474,22 +542,22 @@ print_r("Successfully Deleted");die;
 
 				update_option('__wp_saiob_post_id' , '');
 				update_option('__wp_saiob_variation' , '');
-                                $getpost = $wpdb->get_results("select * from wp_posts $where order by ID");//echo '<pre>';print_r($getpost);die('kavi');
+                                $getpost = $wpdb->get_results("select * from wp_posts $where order by ID");
 				foreach ( $getpost as $postresult )
 				{
 					$postcontent = $postresult->post_content;
                                         $postitle = $postresult->post_title;
-                                        $postid = $postresult->ID;//echo '<pre>';print_r($postid);die('kavi');
-					preg_match_all('/<h[1-6][^>]*>(.*?)<\/h[1-6]>/si', $postcontent, $header);//echo '<pre>';print_r($header);die('sw');
-				$htag = count($header[1]);//echo '<pre>';print_r($htag);//die('dc');
-				preg_match_all('/<img[^>]+>/i', $postcontent, $image);//echo '<pre>';print_r($image);die('dc');
-                               	$img = count($image[0]);//echo '<pre>';print_r($img);die('dc');
+                                        $postid = $postresult->ID;
+					preg_match_all('/<h[1-6][^>]*>(.*?)<\/h[1-6]>/si', $postcontent, $header);
+				$htag = count($header[1]);
+				preg_match_all('/<img[^>]+>/i', $postcontent, $image);
+                               	$img = count($image[0]);
 				$pct = preg_replace("/<img[^>]+\>/i", "", $postcontent);
                              	$val = preg_replace('#(<h([1-6])[^>]*>)\s?(.*)?\s?(<\/h\2>)#', '', $pct);
 				if ( $htag >0 && $htag <2 )
 				{
 					$id = $postid;
-					$title = $header[1][0];//echo '<pre>';print_r($title);die('df');
+					$title = $header[1][0];
 					$stringCut = substr($val, 0, 270);
                                         $content = substr($stringCut, 0, strrpos($stringCut, ' ')).'...';
 					if ($img > 0 )
@@ -506,13 +574,13 @@ print_r("Successfully Deleted");die;
 				if ( $htag >=2 && $htag <3 )
 				{
 					$id = $postid;
-                                       	$title = $header[1][0];//echo '<pre>';print_r($title);die('df');
+                                       	$title = $header[1][0];
                                         $stringCut = substr($val, 0, 270);
                                       	$content = substr($stringCut, 0, strrpos($stringCut, ' ')).'...';
                                       	if ($img > 0 )
                                  		$content .= $image[0][0];
 					$id1 = $postid;
-                                     	$title1 = $header[1][1];//echo '<pre>';print_r($title);die('df');
+                                     	$title1 = $header[1][1];
                                       	$stringCut1 = substr($val, 300, 650);
                                   	$content1 = substr($stringCut1, 300, strrpos($stringCut1, ' ')).'...';
                                      	if ($img > 0 && $img <=1 )
@@ -533,13 +601,13 @@ print_r("Successfully Deleted");die;
 				if ( $htag >=3 && $htag <4 )
                              	{
 					$id = $postid;
-                                  	$title = $header[1][0];//echo '<pre>';print_r($title);die('df');
+                                  	$title = $header[1][0];
                                      	$stringCut = substr($val, 0, 270);
                                     	$content = substr($stringCut, 0, strrpos($stringCut, ' ')).'...';
                                     	if ($img > 0 )
                                      		$content .= $image[0][0];
                                     	$id1 = $postid;
-                                       	$title1 = $header[1][1];//echo '<pre>';print_r($title);die('df');
+                                       	$title1 = $header[1][1];
                                         $stringCut1 = substr($val, 300, 650);
                                        	$content1 = substr($stringCut1, 300, strrpos($stringCut1, ' ')).'...';
                                     	if ($img > 0 && $img <=1 )
@@ -547,7 +615,7 @@ print_r("Successfully Deleted");die;
                                      	else
                                         	$content1 .= $image[0][0];
                                        	$id2 = $postid;
-                                       	$title2 = $header[1][2];//echo '<pre>';print_r($title);die('df');
+                                       	$title2 = $header[1][2];
                                     	$stringCut2 = substr($val, 700, 950);
                                       	$content2 = substr($stringCut2, 700, strrpos($stringCut2, ' ')).'...';
                                       	if ($img > 0 && $img <=2 )
@@ -569,13 +637,13 @@ print_r("Successfully Deleted");die;
 				if ( $htag >=4 )
                            	{
 					$id = $postid;
-                                    	$title = $header[1][0];//echo '<pre>';print_r($title);die('df');
+                                    	$title = $header[1][0];
                                    	$stringCut = substr($val, 0, 270);
                                 	$content = substr($stringCut, 0, strrpos($stringCut, ' ')).'...';
                                  	if ($img > 0 )
                                    		$content .= $image[0][0];
                                       	$id1 = $postid;
-                                  	$title1 = $header[1][1];//echo '<pre>';print_r($title);die('df');
+                                  	$title1 = $header[1][1];
                                  	$stringCut1 = substr($val, 300, 650);
                                 	$content1 = substr($stringCut1, 300, strrpos($stringCut1, ' ')).'...';
                                    	if ($img > 0 && $img <=1 )
@@ -583,7 +651,7 @@ print_r("Successfully Deleted");die;
                                		else
                                       		$content1 .= $image[0][0];
                                  	$id2 = $postid;
-                                    	$title2 = $header[1][2];//echo '<pre>';print_r($title);die('df');
+                                    	$title2 = $header[1][2];
                                    	$stringCut2 = substr($val, 700, 950);
                                		$content2 = substr($stringCut2, 700, strrpos($stringCut2, ' ')).'...';
                                      	if ($img > 0 && $img <=2 )
@@ -734,36 +802,39 @@ print_r("Successfully Deleted");die;
                 {
                         if($bulktemplateval['templatename'] == $templatename)
                         {
-                              $saiob=maybe_unserialize($bulktemplateval['value']);
-                              $twitter_provider=isset($saiob['twitter_provider']) ? $saiob['twitter_provider'] : '';
-                              $facebook_provider=isset($saiob['facebook_provider']) ? $saiob['facebook_provider'] : '';
-                              if(isset($twitter_provider) && $twitter_provider == 'on')
-                                {
-                                  
+                              	$saiob=maybe_unserialize($bulktemplateval['value']);
+                              	$twitter_provider=isset($saiob['twitter_provider']) ? $saiob['twitter_provider'] : '';
+                              	$facebook_provider=isset($saiob['facebook_provider']) ? $saiob['facebook_provider'] : '';
+			      	$linkedin_provider=isset($saiob['linkedin_provider']) ? $saiob['linkedin_provider'] : '';
+                              	if(isset($twitter_provider) && $twitter_provider == 'on')
+                                { 
                                   $provider = 'twitter' ;
                                 }
-                              if(isset($facebook_provider) && $facebook_provider == 'on')
+                              	if(isset($facebook_provider) && $facebook_provider == 'on')
                                 {
-                                 
                                   $provider ='facebook'  ;
                                 }
+				if(isset($linkedin_provider) && $linkedin_provider == 'on')
+                                {
+                                  $provider ='linkedin'  ;
+                                }
                                 # only published post/page are allowed
-				$firstid = $_REQUEST['id'];//echo '<pre>';print_r($firstid);die('sx');
+				$firstid = $_REQUEST['id'];
 				$postresult = $wpdb->get_results("select * from wp_posts where ID = $firstid");
 				$postcontent = $postresult[0]->post_content;
                             	$postitle = $postresult[0]->post_title;
                               	$postid = $postresult[0]->ID;
 
-				preg_match_all('/<h[1-6][^>]*>(.*?)<\/h[1-6]>/si', $postcontent, $header);//echo '<pre>';print_r($header);die('sw');
-				$htag = count($header[1]);//echo '<pre>';print_r($htag);//die('dc');
-				preg_match_all('/<img[^>]+>/i', $postcontent, $image);//echo '<pre>';print_r($image);die('dc');
-                               	$img = count($image[0]);//echo '<pre>';print_r($img);die('dc');
+				preg_match_all('/<h[1-6][^>]*>(.*?)<\/h[1-6]>/si', $postcontent, $header);
+				$htag = count($header[1]);
+				preg_match_all('/<img[^>]+>/i', $postcontent, $image);
+                               	$img = count($image[0]);
 				$pct = preg_replace("/<img[^>]+\>/i", "", $postcontent);
                              	$val = preg_replace('#(<h([1-6])[^>]*>)\s?(.*)?\s?(<\/h\2>)#', '', $pct);
 				if ( $htag >0 && $htag <2 )
 				{
 					$id = $postid;
-					$title = $header[1][0];//echo '<pre>';print_r($title);die('df');
+					$title = $header[1][0];
 					$stringCut = substr($val, 0, 270);
                                         $content = substr($stringCut, 0, strrpos($stringCut, ' ')).'...';
 					if ($img > 0 )
@@ -780,13 +851,13 @@ print_r("Successfully Deleted");die;
 				if ( $htag >=2 && $htag <3 )
 				{
 					$id = $postid;
-                                       	$title = $header[1][0];//echo '<pre>';print_r($title);die('df');
+                                       	$title = $header[1][0];
                                         $stringCut = substr($val, 0, 270);
                                       	$content = substr($stringCut, 0, strrpos($stringCut, ' ')).'...';
                                       	if ($img > 0 )
                                  		$content .= $image[0][0];
 					$id1 = $postid;
-                                     	$title1 = $header[1][1];//echo '<pre>';print_r($title);die('df');
+                                     	$title1 = $header[1][1];
                                       	$stringCut1 = substr($val, 300, 650);
                                   	$content1 = substr($stringCut1, 300, strrpos($stringCut1, ' ')).'...';
                                      	if ($img > 0 && $img <=1 )
@@ -807,13 +878,13 @@ print_r("Successfully Deleted");die;
 				if ( $htag >=3 && $htag <4 )
                              	{
 					$id = $postid;
-                                  	$title = $header[1][0];//echo '<pre>';print_r($title);die('df');
+                                  	$title = $header[1][0];
                                      	$stringCut = substr($val, 0, 270);
                                     	$content = substr($stringCut, 0, strrpos($stringCut, ' ')).'...';
                                     	if ($img > 0 )
                                      		$content .= $image[0][0];
                                     	$id1 = $postid;
-                                       	$title1 = $header[1][1];//echo '<pre>';print_r($title);die('df');
+                                       	$title1 = $header[1][1];
                                         $stringCut1 = substr($val, 300, 650);
                                        	$content1 = substr($stringCut1, 300, strrpos($stringCut1, ' ')).'...';
                                     	if ($img > 0 && $img <=1 )
@@ -821,7 +892,7 @@ print_r("Successfully Deleted");die;
                                      	else
                                         	$content1 .= $image[0][0];
                                        	$id2 = $postid;
-                                       	$title2 = $header[1][2];//echo '<pre>';print_r($title);die('df');
+                                       	$title2 = $header[1][2];
                                     	$stringCut2 = substr($val, 700, 950);
                                       	$content2 = substr($stringCut2, 700, strrpos($stringCut2, ' ')).'...';
                                       	if ($img > 0 && $img <=2 )
@@ -843,13 +914,13 @@ print_r("Successfully Deleted");die;
 				if ( $htag >=4 )
                            	{
 					$id = $postid;
-                                    	$title = $header[1][0];//echo '<pre>';print_r($title);die('df');
+                                    	$title = $header[1][0];
                                    	$stringCut = substr($val, 0, 270);
                                 	$content = substr($stringCut, 0, strrpos($stringCut, ' ')).'...';
                                  	if ($img > 0 )
                                    		$content .= $image[0][0];
                                       	$id1 = $postid;
-                                  	$title1 = $header[1][1];//echo '<pre>';print_r($title);die('df');
+                                  	$title1 = $header[1][1];
                                  	$stringCut1 = substr($val, 300, 650);
                                 	$content1 = substr($stringCut1, 300, strrpos($stringCut1, ' ')).'...';
                                    	if ($img > 0 && $img <=1 )
@@ -857,7 +928,7 @@ print_r("Successfully Deleted");die;
                                		else
                                       		$content1 .= $image[0][0];
                                  	$id2 = $postid;
-                                    	$title2 = $header[1][2];//echo '<pre>';print_r($title);die('df');
+                                    	$title2 = $header[1][2];
                                    	$stringCut2 = substr($val, 700, 950);
                                		$content2 = substr($stringCut2, 700, strrpos($stringCut2, ' ')).'...';
                                      	if ($img > 0 && $img <=2 )
@@ -893,10 +964,9 @@ print_r("Successfully Deleted");die;
 	
 				$variation = get_option('__wp_saiob_variation');
                              	$set = count($variation);
-                           	//for ( $i = 0; $i < $set; $i++) {
                            	foreach ( $variation as $key => $outputresult ) {
                            	$arrayvalue[$key] = $outputresult;
-                            	$finid = $variation[0]['ID'];//echo '<pre>';print_r($finid);die('hel');
+                            	$finid = $variation[0]['ID'];
                           	$fintitle = $arrayvalue[0]['post_title'];
                            	$fincontent1 = $arrayvalue[0]['post_content'];
                           	$fincontent = preg_replace("/<img[^>]+\>/i", "", $fincontent1);
@@ -904,7 +974,7 @@ print_r("Successfully Deleted");die;
                                	$imgcount = count($matches[1]);
                               	$finimage = $matches[1][0]; }
 				$res = $fintitle.'_'.$fincontent.'_'.$finimage.'_'.$finid;
-                                print_r(json_encode($res));  //}
+                                print_r(json_encode($res));  
 			}die;
 		}	
 	}
@@ -922,13 +992,18 @@ print_r("Successfully Deleted");die;
                               	$saiob=maybe_unserialize($bulktemplateval['value']);
                               	$twitter_provider=isset($saiob['twitter_provider']) ? $saiob['twitter_provider'] : '';
                               	$facebook_provider=isset($saiob['facebook_provider']) ? $saiob['facebook_provider'] : '';
+				$linkedin_provider=isset($saiob['linkedin_provider']) ? $saiob['linkedin_provider'] : '';
                               	if(isset($twitter_provider) && $twitter_provider == 'on')
                          	{
-                                  	$provider = 'twitter' ;
+                                  	$provider = 'twitter';
                                 }
                               	if(isset($facebook_provider) && $facebook_provider == 'on')
                                 {
-                                  	$provider ='facebook'  ;
+                                  	$provider = 'facebook';
+                                }
+				if(isset($linkedin_provider) && $linkedin_provider == 'on')
+                                {
+                                        $provider = 'linkedin';
                                 }
 				global $wpdb;
 
@@ -966,7 +1041,7 @@ print_r("Successfully Deleted");die;
 					$out = $matches [1] [0];
 				else
 					$out = 'null';
-				$res = $out.'_'.$postid.'_'.$result.'_'.$result1;print_r($res); //} }  
+				$res = $out.'_'.$postid.'_'.$result.'_'.$result1;print_r($res); 
 			}
 		}
 		die;	
@@ -985,20 +1060,22 @@ print_r("Successfully Deleted");die;
                               	$saiob=maybe_unserialize($bulktemplateval['value']);
                               	$twitter_provider=isset($saiob['twitter_provider']) ? $saiob['twitter_provider'] : '';
                               	$facebook_provider=isset($saiob['facebook_provider']) ? $saiob['facebook_provider'] : '';
+				$linkedin_provider=isset($saiob['linkedin_provider']) ? $saiob['linkedin_provider'] : '';
                               	if(isset($twitter_provider) && $twitter_provider == 'on')
                              	{
-
                                   	$provider = 'twitter' ;
                                 }
                               	if(isset($facebook_provider) && $facebook_provider == 'on')
                                 {
-
                                  	 $provider ='facebook'  ;
+                                }
+				if(isset($linkedin_provider) && $linkedin_provider == 'on')
+                                {
+                                         $provider ='linkedin'  ;
                                 }
                 		global $wpdb;
                                 $idval = '';
                 		$idval = $_REQUEST['id'];
-                		//get_option('__wp_saiob_post_id');
 
                         	$res = ' ';
                         	$query1 = "select * from wp_posts where ID = $idval";
@@ -1369,7 +1446,9 @@ print_r("Successfully Deleted");die;
                 $wpdb->query($sociallog_sql);
                 # droping table ends here
                 delete_option('__saiob_facebookkeys');
+		delete_option('__saiob_linkedinkeys');
                 delete_option('__saiob_twitterkeys');
+		delete_option('__saiob_twittercardskeys');
                 delete_option('__wp_saiob_bulkcomposer_template');
 		delete_option('__wp_saiob_post_id');
                 # clearing cron
@@ -1448,13 +1527,17 @@ print_r("Successfully Deleted");die;
         public function saiob_createinstantpost() {
           $status['title']       = $_POST['postdata']['posttitle'];
           $status['description'] = $_POST['postdata']['postcontent'];
+	  $status['username']	 = $_POST['postdata']['saiob_twitname'];
+	  $status['cardtype']    = $_POST['postdata']['saiob_cardtype'];
           $status['image']       = $_POST['postdata']['imageurl'];
           $status['link_post']   = $_POST['postdata']['saiob_link'];
           $status['text_post']   = $_POST['postdata']['saiob_text'];
           $status['image_post']  = $_POST['postdata']['saiob_url'];
           $status['link_url']    = $_POST['postdata']['link_post'];
           $facebook              = $_POST['postdata']['facebook_provider']; 
-          $twitter               = $_POST['postdata']['twitter_provider']; 
+          $twitter               = $_POST['postdata']['twitter_provider'];
+	  $linkedin              = $_POST['postdata']['linkedin_provider'];
+	  $twittercard           = $_POST['postdata']['twittercard_provider']; 
           $data = array();         
           if(isset($status['image_post'])) {
           $saiobhelper = new saiob_include_saiobhelper();
@@ -1476,13 +1559,27 @@ print_r("Successfully Deleted");die;
           $data['twitter'] = $twt['result'];
             
           }
-                if((trim($res['result'])=="Succeed") && (trim($twt['result'])=="Succeed")){
-                  $data['msg']="The post is successfully posted in facebook and twitter";
+	  if(isset($twittercard) && $twittercard == 'true') {
+          $twtcd = $socialhelper->tweetcard($status);
+                  $provider="twittercards";
+                  $saiobhelper->addsociallog($twtcd, $provider, $status['description'],$id);
+          $data['twitter'] = $twtcd['result'];
+
+          }
+	  if(isset($linkedin) && $linkedin == 'true') {
+          	$lin     = $socialhelper->linupdate($status);
+          	$provider="linkedin";
+          	$saiobhelper->addsociallog($lin, $provider, $status['description'],$id);
+          	$data['linkedin'] = $lin['result'];
+
+          }
+                if((trim($res['result'])=="Succeed") && (trim($twt['result'])=="Succeed") && (trim($lin['result'])=="Succeed")){
+                  $data['msg']="The post is successfully posted in facebook, twitter and linkedin";
                   $data['war']="success";
 
                   }
-                 elseif((trim($res['result'])=="Failed") && (trim($twt['result'])=="Succeed")){
-                  $data['msg']="The post is sucessfully posted in twitter and failed in facebook";
+                 elseif((trim($res['result'])=="Failed") && (trim($twt['result'])=="Succeed") && (trim($lin['result'])=="Failed")){
+                  $data['msg']="The post is sucessfully posted in twitter and failed in facebook and linkedin";
                   $data['war']="warning";
                      }
               elseif(trim($res['result'])=="Succeed"){
@@ -1497,8 +1594,17 @@ print_r("Successfully Deleted");die;
                  $data['msg']="The post is successfully posted in Twitter";
                  $data['war']="success";
                 }
+		elseif(trim($lin['result'])=="Succeed"){
+                 	$data['msg']="The post is successfully posted in LinkedIn";
+                 	$data['war']="success";
+                }
+		else if(trim($twtcd['result'])=="Succeed") {
+                 $data['msg']="The post is successfully posted in Twitter";
+                 $data['war']="success";
+                }
               echo json_encode($data);die;
         }
+
        public function saiob_imageupload($url) {
         $saiobhelper = new saiob_include_saiobhelper();
         $uploadDir = $saiobhelper->getUploadDirectory('plugin_uploads');

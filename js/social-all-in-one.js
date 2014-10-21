@@ -42,7 +42,6 @@ function deleteItem(){
                 notChecked.push(this.id);
             }
         });
-//        alert("checked: " + checked);
         
     }
 jQuery.ajax({
@@ -137,10 +136,11 @@ function saiob_createtemplate(form)
          
 	var facebook_check = jQuery('#facebook_provider').is(":checked");
 	var twitter_check  = jQuery('#twitter_provider').is(":checked");
+	var linkedin_check  = jQuery('#linkedin_provider').is(":checked");
 	var templatename   = jQuery.trim(form.templatename.value);
 	var mode = 'create';
 	// if no provider selected. Show error
-	if(facebook_check == false && twitter_check == false)
+	if(facebook_check == false && twitter_check == false && linkedin_check == false)
 	{
 		var msg = 'Please select any provider to save template';
 		saiob_shownotification(msg, 'danger');
@@ -348,6 +348,18 @@ function saiob_clearfieldvalues(type)
 		jQuery('#facebook_secretkey').val('');
 		jQuery('#enablefacebook').prop('checked', false);
 	}
+	else if(type == 'twittercards')
+        {
+                jQuery('#twittercards_username').val('');
+                jQuery('#enabletwittercards').prop('checked', false);
+        }
+	else if(type == 'linkedin')
+        {
+                jQuery('#linkedin_apikey').val('');
+                jQuery('#linkedin_secretkey').val('');
+		jQuery('#linkedin_url').val('');
+                jQuery('#enablelinkedin').prop('checked', false);
+        }
 	else if(type == 'all')
 	{
 		jQuery('#twitter_consumerkey').val('');
@@ -396,7 +408,6 @@ function storesmartbotinfo(provider, form)
 {       
     	var value = new Array()
 	var buttonid = provider+'smartbot';	
-	//var templatename = jQuery.trim(document.getElementById('bulkcomposer_template').value);
 	var templatename = jQuery.trim(document.getElementById('templatename').value);
 	if(templatename == '')
 	{
@@ -437,6 +448,20 @@ function storesmartbotinfo(provider, form)
 		value[11] = form.facebookbot_weekly.value;
 		value[12] = form.facebookbot_fromdate.value;
 		value[13] = form.facebookbot_todate.value;
+	}
+	else if(provider == 'linkedin')
+	{
+		value[0] = form.linkedinbot_maxchars.value;
+                value[4] = form.linkedinbot_calltoactions.value;
+                value[5] = form.linkedinbot_action_rotate.value;
+                value[6] = form.linkedinbot_frequency.value;
+                value[7] = form.linkedinbot_period.value;
+                value[8] = form.linkedinbot_hours_from.value;
+                value[9] = form.linkedinbot_hours_to.value;
+                value[10] = templatename;
+		value[11] = form.linkedinbot_weekly.value;
+		value[12] = form.linkedinbot_fromdate.value;
+		value[13] = form.linkedinbot_todate.value;
 	}
 
 	jQuery.ajax({
@@ -587,7 +612,7 @@ function previewinfo(form)
 		value[10] =form.metadesc.value; 
 	        value[11] =form.images.value;
                 value[12] =form.type.value;
-		var id = document.getElementById('first').value;//alert(id);
+		var id = document.getElementById('first').value;
 
 	jQuery.ajax({
                 type: 'POST',
@@ -600,15 +625,11 @@ function previewinfo(form)
 		     
                 },
 	 success:function(data) {
-                         console.log(data);
-                         alert(data);
 			var x = data.split('_');
 			document.getElementById('divimg').innerHTML = "<img src = "+x[2]+" height='150px' width='150px'>";
 			document.getElementById('divpost').innerHTML = "<center>Post Id: "+x[3]+"</center>";
 			document.getElementById('divtit').innerHTML = x[0];
 			document.getElementById('divbod').innerHTML = x[1];
-		        //var curent_variation = document.getElementById('curent_variation').value;alert(curent_variation);
-                        //var total_variation = document.getElementById('total_variation').value;alert(total_variation);
                 },
                 error: function(errorThrown){
                         console.log(errorThrown);
@@ -679,31 +700,11 @@ function previous_info(form)
                 return false;
         }
         var count = document.getElementById('count').value;
-	var firstid = document.getElementById('first').value;alert(firstid);
-	var lastid = document.getElementById('last').value;alert(lastid);
+	var firstid = document.getElementById('first').value;
+	var lastid = document.getElementById('last').value;
         var value = document.getElementById('array_val').value;
         var decode = jQuery.parseJSON(value);
 	var id = document.getElementById('prev').value;
-       // alert(decode);
-//	var id = document.getElementById('next').value;
-/*	if ( parseInt(id) == parseInt(firstid) )
-        {
-                id1 = decode.indexOf(prev);
-                alert('if'+ id1 );
-                id1 = id1 - 1;
-                id = decode[id1]; 
-                
-        } 
-
-	else
-        {
-        id1 = decode.indexOf(id);alert('else' + id1);
-        id0 = id - 1;
-        nex = decode[id0];
-        document.getElementById('next').value = nex;
-        id1 = id1 - 2;
-        id  = decode[id1];alert('res' + id);
-        } */
 
                  data='';
         jQuery.ajax({
@@ -731,7 +732,6 @@ function previous_info(form)
                         document.getElementById('divbod').innerHTML = x[3];
                         if ( parseInt(id) == parseInt(firstid) ) {
                                 jQuery('.previousimage').attr('disabled', 'disabled');
-				//alert("Reached Last");
                         }
 			else  {
                  	id1 = decode.indexOf(id);
@@ -776,7 +776,7 @@ function savesocialkeys(provider, form)
 	jQuery('#'+buttonid).button('loading');
 
 	if(provider == 'facebook')
-	{
+	{	
 		value[0] = form.facebook_appid.value;
 		value[1] = form.facebook_secretkey.value;
 		jQuery( "#facebook_settings" ).submit();
@@ -789,6 +789,23 @@ function savesocialkeys(provider, form)
 		value[2] = form.twitter_accesskey.value;
 		value[3] = form.twitter_tokensecret.value;
 		value[4] = form.enabletwitter.value;
+	}
+	else if(provider == 'linkedin')
+	{
+                value[0] = form.linkedin_apikey.value;
+                value[1] = form.linkedin_secretkey.value;
+		value[2] = form.linkedin_url.value;
+		jQuery( "#linkedin_settings" ).submit();
+                return false;
+        }
+	else if(provider == 'twittercards')
+	{
+		value[0] = form.twittercard_consumerkey.value;
+                value[1] = form.twittercard_consumersecret.value;
+                value[2] = form.twittercard_accesskey.value;
+                value[3] = form.twittercard_tokensecret.value;
+		value[4] = form.twittercard_username.value;
+                value[5] = form.enabletwittercard.value;
 	}
 
 	jQuery.ajax({
@@ -922,10 +939,11 @@ function saiob_clonetemplate(form)
         
 	var facebook_check = jQuery('#facebook_provider').is(":checked");
 	var twitter_check  = jQuery('#twitter_provider').is(":checked");
+	var linkedin_check  = jQuery('#linkedin_provider').is(":checked");
 	var templatename   = jQuery.trim(form.templatename.value);
 	var mode = 'create';
 	// if no provider selected. Show error
-	if(facebook_check == false && twitter_check == false)
+	if(facebook_check == false && twitter_check == false && linkedin_check == false)
 	{
 		var msg = 'Please select any provider to save template';
 		saiob_shownotification(msg, 'danger');
@@ -977,7 +995,6 @@ function saiob_showdiv(divid)
 function saiob_changetemplate(templatename)
 {
 	var value = new Array();
-        alert(templatename);
 	var templatename;
 		value[0] = jQuery.trim(document.getElementById('settingstype').value);
 		value[1] = form.fromdate.value;
@@ -1021,7 +1038,6 @@ function saiob_changetemplate(templatename)
                 },
                 success:function(data)
                 {	
-			alert(data);
 			//jQuery("#bulkcomposer").html(data);
 			//jQuery('#changetemplategif').hide();
 			
@@ -1130,8 +1146,9 @@ var saiob_url         = document.getElementById('saiob_image_post').checked;
 var link_post         = document.getElementById('saiob_url').value;
 var facebook_provider = document.getElementById('facebook_provider').checked;
 var twitter_provider = document.getElementById('twitter_provider').checked;
+var twittercard_provider = document.getElementById('twittercard_provider').checked;
 var postdata          = new Array();
-postdata = {'posttitle': saiob_posttitle, 'postcontent': saiob_postcontent, 'imageurl': saiob_imageurl , 'saiob_text': saiob_text , 'saiob_link' : saiob_link , 'saiob_url' : saiob_url , 'link_post' : link_post , 'facebook_provider' : facebook_provider , 'twitter_provider' : twitter_provider } 
+postdata = {'posttitle': saiob_posttitle, 'postcontent': saiob_postcontent, 'imageurl': saiob_imageurl , 'saiob_text': saiob_text , 'saiob_link' : saiob_link , 'saiob_url' : saiob_url , 'link_post' : link_post , 'facebook_provider' : facebook_provider , 'twitter_provider' : twitter_provider, 'twittercard_provider' : twittercard_provider } 
  jQuery.ajax({
                 type: 'POST',
                 url: ajaxurl,

@@ -514,7 +514,25 @@ class TwitterOAuth_SAIO {
       'multipart' => $multipart,
       'headers'   => $headers
     );
-    $options = array_merge($this->default_options(), $options);
+    $options = array_merge($this->default_options(), $options);//echo'<pre>';print_r($options);//die('bh');
+
+    if ($useauth) {
+      return $this->user_request($options);
+    } else {
+      return $this->unauthenticated_request($options);
+    }
+  }
+
+  public function twittercard_request($method, $url, $params=array(), $useauth=true, $multipart=false, $headers=array()) {
+    $options = array(
+      'method'    => $method,
+      'url'       => $url,
+      'params'    => $params,
+      'with_user' => true,
+      'multipart' => $multipart,
+      'headers'   => $headers
+    );
+    $options = array_merge($this->default_options(), $options);echo'<pre>';print_r($options);//die('qw');
 
     if ($useauth) {
       return $this->user_request($options);

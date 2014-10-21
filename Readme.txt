@@ -5,14 +5,17 @@ Contributors: smackcoders
 Tags: facebook, google, google+, twitter, social, social media, admin, page, content, post, comments, posts, image, links, images, plugin, shortcode, sidebar, widget, pinterest, stumbleupon, scoopit, linkedin, marketing, media, eCommerce, reviews, rating
 Requires at least: 3.8
 Tested up to: 4.0
-Stable tag: 1.1.0
-Version: 1.1.0
+Stable tag: 1.2.0
+Version: 1.2.0
 License: GPLv2 or later
 Donate link: http://www.smackcoders.com/donate.html
 
 Smart bot to Manage and Control your social media updates based on proven records and stats in an automated way.
 
 == Description ==
+
+Now in version 1.2.0 users can create twitter cards and their type (5 types) automatically to tweeted by plugin. 
+
 Social all in one plugin is a Smart bot to Manage and Control your social media updates based on proven records and stats in an automated way. From evaluating various stats and info available, it is proven that posting your social network updates at right time gets you more result. This plugin will automate your social media updates in preconfigured scheduling without losing much of the resources. There will be an AB testing integration available in nearby future to improve your social campaigns based on performance and results.
 
 Are you prepared to move to next level in Marketing, SEO, Search Ranking Social Media Presence, Brand awareness and Social traffic for 2014? Just read below summary. 
@@ -196,6 +199,14 @@ Or view our how to guide video guide in our [Youtube Channel](http://youtube.com
 
 == Changelog ==
 
+= 1.2.0 =
+* Added twitter cards support
+* Added Summary Card type support
+* Added Summary Card with Large Image type support
+* Added Photo Card type support
+* Added Product Card type support
+* Added Gallery Card type support
+
 = 1.1.0 =
 * Added a Template feature.
 * Updated tweet and post status function
@@ -209,6 +220,9 @@ Or view our how to guide video guide in our [Youtube Channel](http://youtube.com
 * Generated tweet when adding to queue rather than generating tweet when tweeting.
 
 == Upgrade Notice ==
+
+== 1.1.0 ==
+* Upgrade now for twitter cards support.
 
 == 1.1.0 ==
 * Must to upgrade stable release version.
