@@ -91,7 +91,7 @@ class QueueActions extends SkinnyActions
                 $provider_filter = isset($post['provider_filter']) ? $post['provider_filter'] : '';
 
 		$provider = array('twitter' => 'Twitter', 'facebook' => 'Facebook');
-		$provider_dd = "<select name = 'provider_filter' id = 'provider_filter'>";
+		$provider_dd = "<select name = 'provider_filter' id = 'provider_filter' class='enableoption' style='margin-top:3px;margin-left:-30px;'>";
 		$provider_dd .= "<option value = ''> Select Provider </option>";
 		foreach($provider as $keyprovider => $sprovider)
 		{
@@ -117,8 +117,8 @@ class QueueActions extends SkinnyActions
 		$filter .= "<div class = 'col-sm-2'> <input type = 'text' name = 'todate' id = 'todate' class = 'form-control' placeholder = 'To Date' value = '$todate'> </div>";
 		$filter .= "<div class = 'col-sm-2 text-center'> $provider_dd </div>";
 		$filter .= "<div class = 'col-sm-0'style = 'width:12%';margin-right:10px;> </div>";
-		$filter .= "<div class = 'col-sm-1'> <button type = 'button' style='width:32px;height:32px' name = 'deleteform' id = 'delete' onclick ='deleteItem()'  <span class='fa fa-trash-o'> </span></button> </div>";
-		$filter .= "<div > <button type = 'button' onclick = 'checkfilter(this.form)' name = 'filter' class='btn btn-primary'> Filter </button> </div>";
+		$filter .= "<div class = 'col-sm-1'> <button type = 'button' style='width:32px;height:29px;margin-left:-39px;margin-top:3px;' name = 'deleteform' id = 'delete' onclick ='deleteItem()'  <span class='fa fa-trash-o'> </span></button> </div>";
+		$filter .= "<div > <button type = 'button' onclick = 'checkfilter(this.form)' name = 'filter' class='btn btn-primary' style='margin-left:-58px;margin-top:3px'> Filter </button> </div>";
 		$filter .= "<input type = 'hidden' name = 'status_filter' id = 'status_filter'> </form> </div>";
 		# div not closed here
 		return $filter;	

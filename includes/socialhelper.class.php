@@ -149,8 +149,9 @@ class saiob_include_socialhelper
                         $tweetcard['link_url'] = '';
 
 		$obj = new TwitterOAuth_SAIO($config);
-		if((isset($tweet['link_post']) && $tweet['link_post'] == 'true')) {
-			$response = $obj->request('POST', 'https://api.twitter.com/1.1/statuses/update_with_media.json', array( 'media[]' => "@{$tweetcard['link_post']}",'status' => $tweetcard['description']), true, true);
+		if((isset($tweet['link_post']) && $tweet['link_url'] == 'true') || $tweet['description'] == 'true') {
+			//$response = $obj->request('POST', 'https://api.twitter.com/1.1/statuses/update_with_media.json', array( 'media[]' => "@{$tweetcard['link_post']}",'status' => $tweetcard['description']), true, true);
+			$response = $obj->request('POST', $obj->url('1.1/statuses/update'), array('status' =>$tweet['description']));
 		}
 		if(isset($response['errors'][0]))
                 {

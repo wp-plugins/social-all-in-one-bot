@@ -2,7 +2,7 @@
 /******************************
   Plugin Name: Social All in One Bot
   Description: A plugin that helps to share data to various social media.
-  Version: 1.2.0
+  Version: 1.2.1
   Author: smackcoders.com
   Plugin URI: http://www.smackcoders.com/social-all-in-one-bot.html
   Author URI: http://www.smackcoders.com/social-all-in-one-bot.html

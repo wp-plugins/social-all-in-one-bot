@@ -18,7 +18,7 @@ $error = '';
 # adding filter to page
 $pagination = $skinnyData['filter'];
 $pagination .= "<div class = 'form-group'>";
-$pagination .= "<div class = 'col-sm-4'> <ul class='pagination pagination-lg'>";
+$pagination .= "<div class = 'col-sm-4' style='float:right;margin-right:-57px;margin-top:-48px;'> <ul class='pagination pagination-lg'>";
 # previous button
 if ($skinnyData['page'] > 1) 
 	$pagination.= "<li> <a href='{$skinnyData['targetpage']}&paged=1'> <span class = 'fa fa-angle-double-center'> </span> </a> </li> <li> <a href='{$skinnyData['targetpage']}&paged={$skinnyData['prev']}'> <span class = 'fa fa-angle-center'> </span> </a> </li>";
@@ -53,15 +53,15 @@ if(key == 13)
 ?> 
 <div class = "form-group"> <?php echo $error; ?> </div>
 <?php echo $pagination; ?>
-<table class = "table table-bordered" id = 'queue'>
-	<tr>
+<table class = "table" id = 'queue'>
+	<tr class="headertext">
 		<th><input type="checkbox" class="num1" onClick="selectAll(this)"></th>
-		<th> # </th>
-		<th> Provider </th>
-		<th> Message </th>
-		<th> Period </th>
-		<th> Time </th>
-		<th> Action </th>	
+		<th style="text-align:center"> # </th>
+		<th style="text-align:center"> Provider </th>
+		<th style="text-align:center"> Message </th>
+		<th style="text-align:center"> Period </th>
+		<th style="text-align:center"> Time </th>
+		<th style="text-align:center"> Action </th>	
 	</tr>
 <?php	
 foreach($skinnyData['queuelist'] as $singleQueue)
@@ -76,7 +76,7 @@ foreach($skinnyData['queuelist'] as $singleQueue)
 	$status = ($singleQueue->isrun == 0) ? 'In Queue' : 'Completed';
 	$id = $singleQueue->id;
 ?> 
-	<tr>
+	<tr class="enableoption">
 		<td> <input type="checkbox" id= 'num_<?php echo $id; ?>'></td>
 		<td> <?php echo $id; ?></td>
 		<td> <?php echo $singleQueue->provider; ?> </td>

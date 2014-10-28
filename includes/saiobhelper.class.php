@@ -1203,7 +1203,7 @@ print_r("Successfully Deleted");die;
 			$tempname = "<label class = 'control-label col-sm-3'> </label> <div class = 'col-sm-5'> <input type = '$templatenametype' name = 'templatename' id = 'templatename' value = '$templatename_composer'> </div>";
 		}
                 $bulktemplate = get_option('__wp_saiob_bulkcomposer_template');
-                $select_template="<select id='select_temp' name='select_temp'  >";
+                $select_template="<select id='select_temp' name='select_temp' class='enableoption' >";
                    if(empty($bulktemplate)){
                     $select_template .="<option  value='default'>choose</option>";
                     $select_template .="</select>";
@@ -1220,7 +1220,7 @@ print_r("Successfully Deleted");die;
              }    
 
                 $settingstype_array = array('Date', 'ID');
-                $settingstype = "<select name = 'settingstype' id = 'settingstype' onchange = 'changetype(this.value)'>";
+                $settingstype = "<select name = 'settingstype' id = 'settingstype' class = 'enableoption' onchange = 'changetype(this.value)'>";
                 foreach($settingstype_array as $singlesettingstype)     
 		{
                         $settings_selected = '';
@@ -1234,7 +1234,7 @@ print_r("Successfully Deleted");die;
                         $settingstype .= "<option $settings_selected value = '$singlesettingstype'> $singlesettingstype </option>";
                 }
                 $settingstype .= "</select>";
-                $dropdown = '<select name = "type" class = "form-control" id = "type">';
+                $dropdown = '<select name = "type" class = "form-control" id = "type" class = "enableoption">';
                 $dropdown .= '<option name = ""> Select </option>';
                 foreach($dropdownlist as $singledropdownlist)   {
                         $dropdown_selected = '';
@@ -1257,26 +1257,26 @@ print_r("Successfully Deleted");die;
                                 <div class = 'header_settings form-group' style = 'width:100%; margin-top: 20px; margin-left: 20px;'>
                <div class = 'form-group'>
                         <div class='col-sm-10' style='margin-bottom:35px'>
-                        <label class= 'col-sm-2'> Select Template </label>
+                        <label class= 'col-sm-2 optionstext'> Select Template </label>
                            <div class='col-sm-2'>{$select_template} </div>
                            
                             
                              </div>
                       <div class='col-sm-10'>
-                               <label class = 'text-center col-sm-2'> Source </label>
+                               <label class = 'text-center col-sm-2 optionstext'> Source </label>
                                 <div class = 'col-sm-2'> {$data['dropdown']} </div>
                                 <div class = 'col-sm-1'> {$settingstype} </div>
                        
                                 <div class = 'col-sm-7' id = 'date_div' style = '$datediv_display'>
-                                        <label class='control-label col-sm-1'> From </label>
-                                        <div class = 'col-sm-3'> <input type = 'text' name = 'fromdate' id = 'fromdate' style='width:100px;' placeholder = 'From Date' readonly value = '$fromdate'> </div>
-                                        <label class='control-label col-sm-1'> To </label>
-                                        <div class = 'col-sm-3' style='padding-left:0px;'> <input type = 'text' style='width:100px;'  name = 'todate' id = 'todate' placeholder = 'To Date' readonly value = '$todate' onchange = 'scheduleinfo1(this.form);'> </div>
+                                        <label class='control-label col-sm-1 optionstext'> From </label>
+                                        <div class = 'col-sm-3'> <input type = 'text' name = 'fromdate' id = 'fromdate' style='width:100px;margin-left:10px' placeholder = 'From Date' readonly value = '$fromdate'> </div>
+                                        <label class='control-label col-sm-1 optionstext' style='margin-left:20px;'> To </label>
+                                        <div class = 'col-sm-3' style='padding-left:0px;'> <input type = 'text' style='width:100px;margin-left:10px;'  name = 'todate' id = 'todate' placeholder = 'To Date' readonly value = '$todate' onchange = 'scheduleinfo1(this.form);'> </div>
                                 </div>
                                 <div class = 'col-sm-6' id = 'id_div' style = '$iddiv_display'>
-                                        <label class='control-label col-sm-1'> From </label>
-                                        <div class = 'col-sm-3'> <input type = 'text' name = 'fromid' id = 'fromid' placeholder = 'From Id' value = '$fromid'> </div>
-                                        <label class='control-label col-sm-1'> To </label>
+                                        <label class='control-label col-sm-1 optionstext'> From </label>
+                                        <div class = 'col-sm-3'> <input type = 'text' name = 'fromid' id = 'fromid' placeholder = 'From Id' style='margin-left:10px;width:95px' value = '$fromid'> </div>
+                                        <label class='control-label col-sm-1 optionstext' style='margin-left:25px'> To </label>
                                         <div class = 'col-sm-3'> <input type = 'text' name = 'toid' id = 'toid' placeholder = 'To Id' value = '$toid' onchange = 'scheduleinfo1(this.form);'></div>
                                 </div><br><br>
 				<div class = 'col-sm-10' id = 'nodisp' style = 'text-align:center;margin-right:25px;'>
@@ -1304,14 +1304,15 @@ print_r("Successfully Deleted");die;
                                         <label class='text-center col-sm-2'> Media </label>
                                         <label class='checkbox-inline col-sm-2'> <input style = 'vertical-align:bottom;float:none' type = 'checkbox' name = 'images' id = 'images' $images> Images </label>
                                 </div>";
-		$container .= "<div class = 'form-group'>
-				<label class='text-center col-sm-2'></label>
-                                        <label class='checkbox-inline col-sm-2'> <input style = 'vertical-align:bottom;float:none' type = 'checkbox' name = 'variation' id = 'variation' $variation> Apply Variations </label>
+
+		$container .= "<div class = 'form-group' style='margin-left:183px;'>
+				 <div id='circlecheck'>
+                                        <input style = 'vertical-align:bottom;float:none' type = 'checkbox' name = 'variation' class='circlecheckbox' id = 'variation' $variation><label id='enableoption' class='circle-label' for='variation'> Apply Variations </label>
 				</div>";
 
                 $container .=  "<div class = 'form-group' style = 'padding-top:10px; '>
                                                                               
-                                        <button type='button' style = 'margin-left:350px'  class='btn btn-primary' id = 'schedule' onclick = 'scheduleinfo(this.form)' data-loading-text='<span class = \"fa fa-spinner fa-spin\"></span> Scheduling Template...'>  Schedule </button>&emsp;
+                                        <button type='button' style = 'margin-left:200px'  class='btn btn-primary' id = 'schedule' onclick = 'scheduleinfo(this.form)' data-loading-text='<span class = \"fa fa-spinner fa-spin\"></span> Scheduling Template...'>  Schedule </button>&emsp;
 					<button type='button' style = 'margin-left:50px'  class='btn btn-primary' id = 'preview' data-toggle='modal' data-target='.bs-example-modal-sm' onclick = 'previewinfo(this.form)'> Preview </button>";
 
 		$container .=  "<div class='modal fade bs-example-modal-sm' tabindex='-1' role='dialog' aria-labelledby='myLargeModalLabel' aria-hidden='true'>

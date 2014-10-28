@@ -18,7 +18,7 @@ $error = '';
 # adding filter to page
 $pagination = $skinnyData['filter'];
 $pagination .= "<div class = 'form-group'>";
-$pagination .= "<div class = 'col-sm-4'> <ul class='pagination pagination-lg'>";
+$pagination .= "<div class = 'col-sm-4' style='float:right;margin-right:-57px;margin-top:-48px;'> <ul class='pagination pagination-lg'>";
 # previous button
 if ($skinnyData['page'] > 1)
         $pagination.= "<li> <a href='{$skinnyData['targetpage']}&paged=1'> <span class = 'fa fa-angle-double-left'> </span> </a> </li> <li> <a href='{$skinnyData['targetpage']}&paged={$skinnyData['prev']}'> <span class = 'fa fa-angle-left'> </span> </a> </li>";
@@ -53,16 +53,16 @@ if(key == 13)
 ?>
 <div class = "form-group"> <?php echo $error; ?> </div>
 <?php echo $pagination; ?>
-<table class = "table table-bordered" id = 'log'>
-        <tr>
-		<tr><th><input type="checkbox" class="num1" onClick="selectAll(this)"></th>
-                <th> # </th>
-                <th> Provider </th>
-                <th> Message </th>
-                <th> Response </th>
-                <th> Result </th>
-		<th> Created Time </th>
-		<th> Action </th>
+<table class = "table" id = 'log'>
+        <tr class="headertext">
+		<th><input type="checkbox" class="num1" onClick="selectAll(this)"></th>
+                <th style="text-align:center"> # </th>
+                <th style="text-align:center"> Provider </th>
+                <th style="text-align:center"> Message </th>
+                <th style="text-align:center"> Response </th>
+                <th style="text-align:center"> Result </th>
+		<th style="text-align:center"> Created Time </th>
+		<th style="text-align:center"> Action </th>
         </tr>
 <?php
 foreach($skinnyData['socialloglist'] as $singleLog)
@@ -75,12 +75,12 @@ foreach($skinnyData['socialloglist'] as $singleLog)
                 $message = isset($unser_message['title']) ? $unser_message['title'] : $unser_message;
 
 ?>
-        <tr>
+        <tr class="enableoption">
 		<td> <input type="checkbox" id= 'num1_<?php echo $id; ?>'></td>
                 <td> <?php echo $id; ?></td>
                 <td> <?php echo $singleLog->provider; ?> </td>
                 <td> <?php echo $message; ?> </td>
-                <td> <?php echo $singleLog->socialresponse; ?> </td>
+                <td style="padding-left: 30px;"> <?php echo $singleLog->socialresponse; ?> </td>
                 <td> <?php echo $singleLog->result; ?> </td>
 		<td> <?php echo $singleLog->createdtime; ?> </td>
 		<td> <span class = 'col-sm-1' style = 'height:25px;'> <button type = 'button' name = 'deleteform' id = 'delete_<?php echo $id; ?>' class = "btn btn-danger btn-sm" title = "Delete" onclick = "return performdeleteaction('log','<?php echo $id; ?>', this)" data-loading-text="<span class = 'fa fa-spinner fa-spin'></span>">  <span class="fa fa-trash-o"> </span> </button> </span> </td>

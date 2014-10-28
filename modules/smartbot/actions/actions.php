@@ -92,7 +92,7 @@ class SmartbotActions extends SkinnyActions
                 }
                 $settingstype .= "</select>";
 
-                $dropdown = '<select name = "type" class = "form-control" id = "type">';
+                $dropdown = '<select name = "type" class = "form-control enableoption" id = "type" >';
                 $dropdown .= '<option name = ""> Select Source </option>';
                 foreach($dropdownlist as $singledropdownlist)   {
                         $dropdown_selected = '';

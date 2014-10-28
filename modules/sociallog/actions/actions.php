@@ -96,7 +96,7 @@ class SociallogActions extends SkinnyActions
 		$status_filter = isset($post['status_filter']) ? $post['status_filter'] : '';
 
                 $provider = array('twitter' => 'Twitter', 'facebook' => 'Facebook');
-                $provider_dd = "<select name = 'provider_filter' id = 'provider_filter'>";
+                $provider_dd = "<select name = 'provider_filter' id = 'provider_filter' class='enableoption' style='margin-left:-34px;margin-top:3px'>";
                 $provider_dd .= "<option value = ''> Select Provider </option>";
                 foreach($provider as $keyprovider => $sprovider)
                 {
@@ -108,7 +108,7 @@ class SociallogActions extends SkinnyActions
                 }
                 $provider_dd .= "</select>";
                 $status = array('Succeed', 'Failed');
-                $status_dd = "<select name = 'status_filter' id = 'status_filter' >";
+                $status_dd = "<select name = 'status_filter' id = 'status_filter' class='enableoption' style='margin-left:-34px;margin-top:3px'>";
                 $status_dd .= "<option value = ''> Select Status </option>";
                 foreach($status as $singlestatus)
                 {
@@ -126,8 +126,8 @@ class SociallogActions extends SkinnyActions
                 $filter .= "<div class = 'col-sm-2'> <input type = 'text' name = 'todate' id = 'todate' class = 'form-control' placeholder = 'To Date' value = '$todate'> </div>";
                 $filter .= "<div class = 'col-sm-2 text-center'> $provider_dd </div>";
                 $filter .= "<div class = 'col-sm-2' style = 'width:12%'> $status_dd </div>";
-		$filter .= "<div class = 'col-sm-1'> <button type = 'button' style='width:30px;height:30px' name = 'deleteform' id = 'delete' onclick ='deleteItem1()'  <span class='fa fa-trash-o'> </span></button> </div>";
-                $filter .= "<div class = 'col-sm-0'> <button type = 'button' onclick = 'checkfilter(this.form)' name = 'filter' class='btn btn-primary'> Filter </button> </div>";
+		$filter .= "<div class = 'col-sm-1'> <button type = 'button' style='width:30px;height:29px;margin-left:-34px;margin-top:3px;' name = 'deleteform' id = 'delete' onclick ='deleteItem1()'  <span class='fa fa-trash-o'> </span></button> </div>";
+                $filter .= "<div class = 'col-sm-0'> <button type = 'button' onclick = 'checkfilter(this.form)' name = 'filter' class='btn btn-primary' style='margin-left:-50px;margin-top:3px'> Filter </button> </div>";
                 $filter .= "</form> </div>";
                 # div not closed here
                 return $filter;

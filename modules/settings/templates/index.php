@@ -34,21 +34,22 @@ $this->notificationclass = isset($skinnyData['notificationclass']) ? $skinnyData
 		<div id="facebook" class="panel-collapse collapse in">
 			<div class="panel-body">
 				<form class="form-horizontal" role="form" method = 'POST' id = 'facebook_settings' name = 'facebook_settings'>
+					<div class = "col-sm-offset-2 text-right" style="height:38px"> <i><a class = "label label-info" style = 'padding:5px;' href = "https://developers.facebook.com/apps" target = '_blank'> click here to create facebook app </a></i> </div>
 			 		<div class="form-group">
-    						<label class="col-sm-2 control-label"> App Id </label>
+    						<label class="col-sm-2 control-label optionstext"> App Id </label>
 	    					<div class="col-sm-8">
       							<input type="text" class="form-control" id="facebook_appid" name = 'facebook_appid' value = '<?php echo isset($facebook[0]) ? $facebook[0] : ''; ?>'>
     						</div>
   					</div>
   					<div class="form-group">
-    						<label class="col-sm-2 control-label"> App Secret </label>
+    						<label class="col-sm-2 control-label optionstext"> App Secret </label>
     						<div class="col-sm-8">
       							<input type="text" class = "form-control" id = "facebook_secretkey" name = 'facebook_secretkey' value = '<?php echo isset($facebook[1]) ? $facebook[1] : ''; ?>'>
     						</div>
   					</div>
-					<div class="form-group">
-						<div class="col-sm-offset-2 col-sm-3">
-							<label> <input type = 'checkbox' <?php echo isset($facebook_enabled) ? $facebook_enabled :''; ?> name = 'enablefacebook' id = 'enablefacebook' style = 'margin:0px;'> Enable Facebook </label>
+					<div class="form-group" style="margin-left:183px;">
+						<div id='circlecheck'>
+							 <input type = 'checkbox' <?php echo isset($facebook_enabled) ? $facebook_enabled :''; ?> name = 'enablefacebook' class="circlecheckbox" id = 'enablefacebook' style = 'margin:0px;'><label id="enableoption" class="circle-label" for="enablefacebook"> Enable Facebook </label>
 						</div>
 					</div>
   					<div class="form-group">
@@ -56,9 +57,9 @@ $this->notificationclass = isset($skinnyData['notificationclass']) ? $skinnyData
       							<button type="button" onclick = "savesocialkeys('facebook', this.form)" id = 'facebooksettingssync' name = 'facebooksettingssync' class="btn btn-primary" data-loading-text="<span class = 'fa fa-spinner fa-spin'></span> Saving..."> Save </button>
 						</div>
 						<div class = "col-sm-2">
-                                                        <button id = 'clearfacebooksettings' name = 'clearfacebooksettings' type="button" onclick = "saiob_clearsocialsettings('facebook')" class="btn btn-danger" data-loading-text="<span class = 'fa fa-spinner fa-spin'></span> Clearing..." > Clear Facebook Settings </button>
+                                                        <button id = 'clearfacebooksettings' name = 'clearfacebooksettings' type="button" onclick = "saiob_clearsocialsettings('facebook')" class="btn btn-primary" data-loading-text="<span class = 'fa fa-spinner fa-spin'></span> Clearing..." > Clear Facebook Settings </button>
                                                 </div>
-						<div class = "col-sm-offset-2 col-sm-3 text-right"> <i><a class = "label label-info" style = 'padding:5px;' href = "https://developers.facebook.com/apps" target = '_blank'> click here to create facebook app </a></i> </div>
+<!--						<div class = "col-sm-offset-2 col-sm-3 text-right"> <i><a class = "label label-info" style = 'padding:5px;' href = "https://developers.facebook.com/apps" target = '_blank'> click here to create facebook app </a></i> </div>-->
   					</div>
 				</form>
 			</div>
@@ -71,33 +72,35 @@ $this->notificationclass = isset($skinnyData['notificationclass']) ? $skinnyData
 		<div id="twitter" class="panel-collapse collapse">
 			<div class="panel-body">
 				<form class="form-horizontal" role="form" method = 'POST' id = 'twitter_settings' name = 'twitter_settings'>
+					<div class = "col-sm-3 text-right" style="width:100%;height:38px;"> <i> <a class = "label label-info" style = 'padding:5px;' href = "https://dev.twitter.com/apps/new" target = '_blank'> click here to create twitter app </a></i> </div>
 			 		<div class="form-group">
-    						<label class="col-sm-2 control-label"> Consumer Key </label>
+    						<label class="col-sm-2 control-label optionstext"> Consumer Key </label>
 	    					<div class="col-sm-8">
       							<input type="text" class="form-control" id="twitter_consumerkey" name = 'twitter_consumerkey' value = '<?php echo isset($twitter[0]) ? $twitter[0] : ''; ?>'>
     						</div>
   					</div>
   					<div class="form-group">
-    						<label class="col-sm-2 control-label"> Consumer Secret </label>
+    						<label class="col-sm-2 control-label optionstext"> Consumer Secret </label>
     						<div class="col-sm-8">
       							<input type="text" class = "form-control" id = "twitter_consumersecret" name = 'twitter_consumersecret' value = '<?php echo isset($twitter[1]) ? $twitter[1] : ''; ?>'>
     						</div>
   					</div>
 					<div class="form-group">
-                                                <label class="col-sm-2 control-label"> Access Key </label>
+                                                <label class="col-sm-2 control-label optionstext"> Access Key </label>
                                                 <div class="col-sm-8">
                                                         <input type="text" class="form-control" id="twitter_accesskey" name = 'twitter_accesskey' value = '<?php echo isset($twitter[2]) ? $twitter[2] : ''; ?>'>
                                                 </div>
                                         </div>
                                         <div class="form-group">
-                                                <label class="col-sm-2 control-label"> Access Token Secret </label>
+                                                <label class="col-sm-2 control-label optionstext"> Access Token Secret </label>
                                                 <div class="col-sm-8">
                                                         <input type="text" class = "form-control" id = "twitter_tokensecret" name = 'twitter_tokensecret' value = '<?php echo isset($twitter[3]) ? $twitter[3] : '' ?>'>
                                                 </div>
                                         </div>
-					<div class = "form-group">
-						<div class="col-sm-offset-2 col-sm-2">
-                                                        <label> <input type = 'checkbox' <?php echo $twitter_enabled; ?> name = 'enabletwitter' id = 'enabletwitter' style = 'margin:0px;'> Enable Twitter </label>
+
+					<div class = "form-group" style="margin-left:183px;">
+						<div id='circlecheck'>
+                                                        <input type = 'checkbox' <?php echo $twitter_enabled; ?> name = 'enabletwitter' class="circlecheckbox" id = 'enabletwitter' style = 'margin:0px;'><label id="enableoption" class="circle-label" for="enabletwitter"> Enable Twitter </label>
                                                 </div>
 					</div>
   					<div class="form-group">
@@ -105,9 +108,9 @@ $this->notificationclass = isset($skinnyData['notificationclass']) ? $skinnyData
       							<button id = 'twittersettingssync' name = 'twittersettingssync' type="button" onclick = "savesocialkeys('twitter', this.form)" class="btn btn-primary" data-loading-text="<span class = 'fa fa-spinner fa-spin'></span> Saving..." > Save </button>
 						</div>
 						<div class = "col-sm-2"> 
-							<button id = 'cleartwittersettings' name = 'cleartwittersettings' type="button" onclick = "saiob_clearsocialsettings('twitter')" class="btn btn-danger" data-loading-text="<span class = 'fa fa-spinner fa-spin'></span> Clearing..." > Clear Twitter Settings </button>
+							<button id = 'cleartwittersettings' name = 'cleartwittersettings' type="button" onclick = "saiob_clearsocialsettings('twitter')" class="btn btn-primary" data-loading-text="<span class = 'fa fa-spinner fa-spin'></span> Clearing..." > Clear Twitter Settings </button>
 						</div>
-						<div class = "col-sm-3 text-right"> <i> <a class = "label label-info" style = 'padding:5px;' href = "https://dev.twitter.com/apps/new" target = '_blank'> click here to create twitter app </a></i> </div>
+<!--						<div class = "col-sm-3 text-right"> <i> <a class = "label label-info" style = 'padding:5px;' href = "https://dev.twitter.com/apps/new" target = '_blank'> click here to create twitter app </a></i> </div> -->
   					</div>
 				</form>
 			</div>
@@ -121,38 +124,38 @@ $this->notificationclass = isset($skinnyData['notificationclass']) ? $skinnyData
 			<div class="panel-body">
 				<form class="form-horizontal" role="form" method = 'POST' id = 'twittercards_settings' name = 'twittercards_settings'>
 					<div class="form-group">
-    						<label class="col-sm-2 control-label"> Consumer Key </label>
+    						<label class="col-sm-2 control-label optionstext"> Consumer Key </label>
 	    					<div class="col-sm-8">
       							<input type="text" class="form-control" id="twittercard_consumerkey" name = 'twitter_consumerkey' value = '<?php echo isset($twittercards[0]) ? $twittercards[0] : ''; ?>'>
     						</div>
   					</div>
   					<div class="form-group">
-    						<label class="col-sm-2 control-label"> Consumer Secret </label>
+    						<label class="col-sm-2 control-label optionstext"> Consumer Secret </label>
     						<div class="col-sm-8">
       							<input type="text" class = "form-control" id = "twittercard_consumersecret" name = 'twittercard_consumersecret' value = '<?php echo isset($twittercards[1]) ? $twittercards[1] : ''; ?>'>
     						</div>
   					</div>
 					<div class="form-group">
-                                                <label class="col-sm-2 control-label"> Access Key </label>
+                                                <label class="col-sm-2 control-label optionstext"> Access Key </label>
                                                 <div class="col-sm-8">
                                                         <input type="text" class="form-control" id="twittercard_accesskey" name = 'twittercard_accesskey' value = '<?php echo isset($twittercards[2]) ? $twittercards[2] : ''; ?>'>
                                                 </div>
                                         </div>
                                         <div class="form-group">
-                                                <label class="col-sm-2 control-label"> Access Token Secret </label>
+                                                <label class="col-sm-2 control-label optionstext"> Access Token Secret </label>
                                                 <div class="col-sm-8">
                                                         <input type="text" class = "form-control" id = "twittercard_tokensecret" name = 'twittercard_tokensecret' value = '<?php echo isset($twittercards[3]) ? $twittercards[3] : '' ?>'>
                                                 </div>
                                         </div>
 					<div class="form-group">
-    						<label class="col-sm-2 control-label"> Twitter User Name </label>
+    						<label class="col-sm-2 control-label optionstext"> Twitter User Name </label>
 	    					<div class="col-sm-8">
       							<input type="text" class="form-control" id="twittercard_username" name = 'twittercard_username' value = '<?php echo isset($twittercards[4]) ? $twittercards[4] : ''; ?>'>
     						</div>
   					</div>
-					<div class = "form-group">
-                                                <div class="col-sm-offset-2 col-sm-2">
-                                                        <label> <input type = 'checkbox' <?php echo $twittercards_enabled; ?> name = 'enabletwittercard' id = 'enabletwittercard' style = 'margin:0px;'> Enable Twitter </label>
+					<div class = "form-group" style="margin-left:183px;">
+                                                <div id='circlecheck'>
+                                                        <input type = 'checkbox' <?php echo $twittercards_enabled; ?> name = 'enabletwittercard' class="circlecheckbox" id = 'enabletwittercard' style = 'margin:0px;'><label id="enableoption" class="circle-label" for="enabletwittercard"> Enable Twitter </label>
                                                 </div>
                                         </div>
   					<div class="form-group">
@@ -160,7 +163,7 @@ $this->notificationclass = isset($skinnyData['notificationclass']) ? $skinnyData
       							<button id = 'twittercardssettingssync' name = 'twittercardssettingssync' type="button" onclick = "savesocialkeys('twittercards', this.form)" class="btn btn-primary" data-loading-text="<span class = 'fa fa-spinner fa-spin'></span> Saving..." > Save </button>
 						</div>
 						<div class = "col-sm-2"> 
-							<button id = 'cleartwittercardssettings' name = 'cleartwittercardssettings' type="button" onclick = "saiob_clearsocialsettings('twittercards')" class="btn btn-danger" data-loading-text="<span class = 'fa fa-spinner fa-spin'></span> Clearing..." > Clear twittercard Settings </button>
+							<button id = 'cleartwittercardssettings' name = 'cleartwittercardssettings' type="button" onclick = "saiob_clearsocialsettings('twittercards')" class="btn btn-primary" data-loading-text="<span class = 'fa fa-spinner fa-spin'></span> Clearing..." > Clear twittercard Settings </button>
 						</div>
 				</form>
 			</div>
