@@ -5036,3 +5036,11 @@ width:98%;
         -ms-user-select: none;
         user-select: none;
 }
+.generalsettings {
+margin-left:15px;margin-top:10px;
+}
+#generalsetting {
+	margin-left:25px;
+	margin-bottom:15px;
+	margin-top: 5px;
+ }

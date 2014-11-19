@@ -5,8 +5,8 @@ Contributors: smackcoders
 Tags: facebook, google, google+, twitter, social, social media, admin, page, content, post, comments, posts, image, links, images, plugin, shortcode, sidebar, widget, pinterest, stumbleupon, scoopit, linkedin, marketing, media, eCommerce, reviews, rating
 Requires at least: 3.8
 Tested up to: 4.0
-Stable tag: 1.2.1
-Version: 1.2.1
+Stable tag: 1.2.11
+Version: 1.2.11
 License: GPLv2 or later
 Donate link: http://www.smackcoders.com/donate.html
 
@@ -14,7 +14,7 @@ Smart bot to Manage and Control your social media updates based on proven record
 
 == Description ==
 
-Now in version 1.2.1 with improved UI and users can create twitter cards and their type (5 types) automatically to tweeted by plugin. 
+Now version 1.2.11 is available for dynamic debug mode enable/disable options in settings along with improved UI and users can create twitter cards and their type (5 types) automatically to tweeted by plugin. 
 
 Social all in one plugin is a Smart bot to Manage and Control your social media updates based on proven records and stats in an automated way. From evaluating various stats and info available, it is proven that posting your social network updates at right time gets you more result. This plugin will automate your social media updates in preconfigured scheduling without losing much of the resources. There will be an AB testing integration available in nearby future to improve your social campaigns based on performance and results.
 
@@ -198,6 +198,11 @@ Social All in One Bot is very easy to install like any other Wordpress plugin. N
 Or view our how to guide video guide in our [Youtube Channel](http://youtube.com/user/smackcoders)
 
 == Changelog ==
+
+= 1.2.11 =
+* Added: Debug mode enable / disable option in settings module.
+* Added: Menu order to avoid blank screen.
+
 = 1.2.1 =
 UI improvements along with easy usability.
 
@@ -222,6 +227,9 @@ UI improvements along with easy usability.
 * Generated tweet when adding to queue rather than generating tweet when tweeting.
 
 == Upgrade Notice ==
+
+== 1.2.11 ==
+* Upgrade now for dynamic debug mode enable/disable feature.
 
 == 1.2.1 ==
 * Upgrade now for improved UI and twitter cards support.

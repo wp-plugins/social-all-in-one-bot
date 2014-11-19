@@ -95,7 +95,28 @@ jQuery.ajax({
                 }
         });
 }
+function debug_option()
+{
+	var debug_name = document.getElementById('debug_mode').checked;
+        var postdata = new Array();
+        var postdata = debug_name;
+                jQuery.ajax({
+                type: 'POST',
+                url: ajaxurl,
+                data: {
+                'action'   : 'debug_option',
+                'postdata' : postdata,
+                },
+                success:function(data) {
+                      //alert(data);
+                },
+                error: function(errorThrown){
+                console.log(errorThrown);
+                       }
+                });
 
+
+}
 
 function saiob_deletetemplate(id,buttonthis)
 {

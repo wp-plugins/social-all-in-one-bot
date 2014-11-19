@@ -28,6 +28,30 @@ $this->notificationclass = isset($skinnyData['notificationclass']) ? $skinnyData
                                       }
       });
           </script>
+	        <div class="panel panel-default">
+        	        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target = "#general_settings">
+                	        <div class="panel-title"> <b> General Settings </b> <span id = 'general_settings_h_span' class = 'fa fa-toggle-down pull-right'> </span> </div>
+	                </div>
+        	        <div id="general_settings" class="panel-collapse collapse">
+                	        <div class="panel-body">
+					<?php $get_debug_option = get_option('saiob_debug_mode_option');
+                                                $debug_mode = '';
+                                                if($get_debug_option == 'true') {
+                                                        $debug_mode = 'checked';
+                                                }
+                                        ?>
+					<div class="form-group">
+                                                <label class="col-sm-2 control-label optionstext"> Debug Mode </label>
+                                                <div class="col-sm-8">
+							<div id="circlecheck">
+								<input type = 'checkbox' name = 'debug_mode' id = 'debug_mode' <?php echo $debug_mode; ?> class="circlecheckbox" onclick = 'debug_option()'/><label id="enableoption" class="circle-label" for="debug_mode"> Enable / Disable </label>
+							</div>
+                                                </div>
+                                        </div>
+				</div>
+			</div>
+		</div>
+
 		<div class="panel-heading" data-toggle="collapse" data-target="#facebook" data-parent="#accordion">
 			<div class="panel-title"> <b> Facebook </b> <span class = 'fa fa-toggle-up pull-right'id = 'facebook_h_span'> </span> </div>
 		</div>
