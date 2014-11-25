@@ -8,7 +8,7 @@ Tested up to: 4.0
 Stable tag: 1.2.11
 Version: 1.2.11
 License: GPLv2 or later
-Donate link: http://www.smackcoders.com/donate.html
+Donate link: https://www.smackcoders.com/store/donate.html
 
 Smart bot to Manage and Control your social media updates based on proven records and stats in an automated way.
 
@@ -20,11 +20,13 @@ Social all in one plugin is a Smart bot to Manage and Control your social media 
 
 Are you prepared to move to next level in Marketing, SEO, Search Ranking Social Media Presence, Brand awareness and Social traffic for 2014? Just read below summary. 
 
+[Visit Pugin Wiki](http://wiki.smackcoders.com/Social_all_in_one_bot)
+
 **Do you know?**
 
 From Facts, Stats, surveys, info graphics and expert reports everyone in should learn how to manage and approach social network updates in a most effective way. Just by automating your social network updates is essential to get the most out of it to generate traffic, leads, sales and brand awareness etc. Social all in one plugin is targeted to make this easy for social marketing tasks. 
 
-Highlights & stats on each social media from various online sources as follows. This is just a summary and notable highlights. Learn more here from full report in http://blog.smackcoders.com.
+Highlights & stats on each social media from various online sources as follows. This is just a summary and notable highlights. Learn more here from full report in https://www.smackcoders.com/blog
 
 
 **Facebook Marketing Facts**
@@ -160,7 +162,7 @@ And finally almost $12.5B invested in online content alone. This is why content 
 * Detailed Statistics
 * Track best variations, call to action etc
 
-For detailed features list that is in development queue and plan subscribe at http://blog.smackcoders.com
+For detailed features list that is in development queue and plan subscribe at https://www.smackcoders.com/blog
 
 
 == Installation ==
