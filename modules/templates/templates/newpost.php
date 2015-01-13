@@ -46,7 +46,7 @@ data-original-title="Share a link message" style="float:left;margin-left:25px"/>
 data-original-title="Share a image message" style="float:left;margin-left:25px"/>
 						     <label class="col-sm-3 enableoption" style="margin-top:-3px;">Image Post</label>
 <!--                                                     <label class="col-sm-3 enableoption"> Enter The Image Url </label>-->
-                                                     <input type = "text" class="col-sm-5" id="saiob_imageurl" name = 'saiob_imageurl' data-toggle="tooltip" style="margin-left:-45px;margin-top:-6px;" data-original-title="Enter the image post image url(http://example.com/image.png)" placeholder="Enter The Image Url"/>
+                                                     <input type = "text" class="col-sm-5" id="saiob_imageurl" name = 'saiob_imageurl' data-toggle="tooltip" style="margin-left:-45px;margin-top:-6px;" data-original-title="Enter the image post image url(http://example.com/image.png)" placeholder="Enter The Image Url" />
                             </div>
 
                             <div class= 'row' style = 'margin-top:25px;'>

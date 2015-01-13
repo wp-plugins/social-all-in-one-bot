@@ -108,7 +108,6 @@ function debug_option()
                 'postdata' : postdata,
                 },
                 success:function(data) {
-                      //alert(data);
                 },
                 error: function(errorThrown){
                 console.log(errorThrown);
@@ -614,9 +613,16 @@ function previewinfo(form)
 {
 	var value = new Array();
         var templatename = jQuery.trim(document.getElementById('select_temp').value);
-        if(templatename == '')
+	var source = document.getElementById('type').value
+        if(templatename == 'default')
         {
                 msg = "Select Template";
+                shownotification(msg, 'warning');
+                return false;
+        }
+	if(source == 'Select')
+        {
+                msg = "Select Source as Post / Page";
                 shownotification(msg, 'warning');
                 return false;
         }
@@ -633,8 +639,19 @@ function previewinfo(form)
 		value[10] =form.metadesc.value; 
 	        value[11] =form.images.value;
                 value[12] =form.type.value;
-		var id = document.getElementById('first').value;
-
+	if(value[0] == 'Date' && (value[1] == '' || value[2] == ''))
+        {
+                msg = "Select From / To Date";
+                shownotification(msg, 'warning');
+                return false;
+        }
+	if(value[0] == 'ID' && (value[3] == '' || value[4] == ''))
+        {
+                msg = "Specify From / To ID";
+                shownotification(msg, 'warning');
+                return false;
+        }
+	var id = document.getElementById('first').value;
 	jQuery.ajax({
                 type: 'POST',
                 url: ajaxurl,
@@ -647,7 +664,12 @@ function previewinfo(form)
                 },
 	 success:function(data) {
 			var x = data.split('_');
-			document.getElementById('divimg').innerHTML = "<img src = "+x[2]+" height='150px' width='150px'>";
+			if( x[2] == 'null') {
+				document.getElementById('divimg').innerHTML = "<div>Image Not Found!</div>";
+			}
+			else {
+				document.getElementById('divimg').innerHTML = "<img src = "+x[2]+" height='150px' width='150px'>";
+			}
 			document.getElementById('divpost').innerHTML = "<center>Post Id: "+x[3]+"</center>";
 			document.getElementById('divtit').innerHTML = x[0];
 			document.getElementById('divbod').innerHTML = x[1];
@@ -680,17 +702,15 @@ function next_info(form)
                     'id'           : id,
 		    'templatename' : templatename,
                 },
-        success:function(data) {
+        	success:function(data) {
                         var x = '';
                         x = data.split('_');
                         if( x[0] == 'null') {
-                         x[0] = '';
-                        document.getElementById('divimg').innerHTML = "<img src = "+x[0]+" height='150px' width='150px'>";
-                         }
+                        	document.getElementById('divimg').innerHTML = "<div>Image Not Found!</div>";
+                        }
                         else {
-                        document.getElementById('divimg').innerHTML = "<img src = "+x[0]+" height='150px' width='150px'>";
-                        
-                         }  
+                        	document.getElementById('divimg').innerHTML = "<img src = "+x[0]+" height='150px' width='150px'>";
+                        }  
                         document.getElementById('divpost').innerHTML = "<center>Post Id: "+x[1]+"</center>";
                         document.getElementById('divtit').innerHTML = x[2];
                         document.getElementById('divbod').innerHTML = x[3];
@@ -742,11 +762,10 @@ function previous_info(form)
                         var x = '';
                         x = data.split('_');
                         if( x[0] == 'null') {
-                         x[0] = '';
-                        document.getElementById('divimg').innerHTML = "<img src = "+x[0]+" height='150px' width='150px'>";
-                         }
+                        	document.getElementById('divimg').innerHTML = "<div>Image Not Found!</div>";
+                        }
                         else{
-                        document.getElementById('divimg').innerHTML = "<img src = "+x[0]+" height='150px' width='150px'>";
+                        	document.getElementById('divimg').innerHTML = "<img src = "+x[0]+" height='150px' width='150px'>";
                         }
                         document.getElementById('divpost').innerHTML = "<center>Post Id: "+x[1]+"</center>";
                         document.getElementById('divtit').innerHTML = x[2];

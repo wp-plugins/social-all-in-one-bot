@@ -85,7 +85,7 @@ foreach($skinnyData['queuelist'] as $singleQueue)
 		<td> <?php if($singleQueue->period == 'Daily') { echo $singleQueue->scheduledtimetorun; } else { echo $singleQueue->dateorweek.' '.$singleQueue->scheduledtimetorun; } ?> </td>
 		<td> <span class = 'col-sm-1' style = 'height:25px;'> <button type = 'button' name = 'deleteform' id = 'delete_<?php echo $id; ?>' class = "btn btn-danger btn-sm" title = "Delete" onclick = "return performdeleteaction('queue','<?php echo $id; ?>', this)" data-loading-text="<span class = 'fa fa-spinner fa-spin'></span>">  <span class="fa fa-trash-o"> </span> </button> </span> 
 		<span class = 'col-sm-13' style = 'height:25px;'> <button type = 'button' name = 'cloneform' style='width:32px;height:32px;margin-left:20px;' id = 'clone_<?php echo $id; ?>' class = "btn btn-danger btn-sm" title = "Clone" onclick = "return performcloningaction('queue','<?php echo $id; ?>', this)" data-loading-text="<span class = 'fa fa-spinner fa-spin'></span>">  <span class="fa fa-copy fa-2x"> </span> </button> </span></td>
-		<!--<td> <?php echo $singleQueue->lastrun; ?>  </td>-->
+		<!--<td> // echo $singleQueue->lastrun;   </td>-->
 	</tr>
 <?php } ?>
 </table> 

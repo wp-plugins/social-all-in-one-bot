@@ -10,6 +10,7 @@ class saiob_include_socialhelper
 	{
 		$facebook_key = get_option('__saiob_facebookkeys');
 		$facebook = new SAIOB_Facebook(array('appId'  => $facebook_key[0], 'secret' => $facebook_key[1] ,'fileUpload' => true,'cookie' => true));
+		$user = $facebook->getUser();
                 $facebook->setFileUploadSupport(true);
 
 		if(!isset($status['title']))
@@ -50,10 +51,15 @@ class saiob_include_socialhelper
 		if($parse_url['host'] == 'localhost')
 			unset($status_array['link']);
 		$facebook->setAccessToken($facebook_key[2]);
+		if($user) {
 		try 
 		{
-		      if(isset($status['image_post']) && $status['image_post'] == 'true') { $response = $facebook->api('/me/photos', 'POST', $status_array); }
-                      else { $response = $facebook->api('/me/feed', 'POST', $status_array); }
+		      	if(isset($status['image_post']) && $status['image_post'] == 'true') { 
+				$response = $facebook->api('/me/photos', 'POST', $status_array); 
+			}
+                      	else { 
+				$response = $facebook->api('/me/feed', 'POST', $status_array); 
+			}
 			$msg['message'] = "Status updated on facebook. Id - {$response['id']}";
 			$msg['result'] = 'Succeed';
 		}
@@ -61,6 +67,7 @@ class saiob_include_socialhelper
 		{
 			$msg['message'] = $e->result['error']['message'];
 			$msg['result'] = 'Failed';
+		}
 		}
 		return $msg;
 	}

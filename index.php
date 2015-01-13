@@ -2,25 +2,27 @@
 /******************************
   Plugin Name: Social All in One Bot
   Description: A plugin that helps to share data to various social media.
-  Version: 1.2.11
+  Version: 1.2.12
   Author: smackcoders.com
   Plugin URI: http://www.smackcoders.com/social-all-in-one-bot.html
   Author URI: http://www.smackcoders.com/social-all-in-one-bot.html
 */
 global $wpdb;
-
+#error_reporting(E_ALL);
 $get_debug_mode = get_option('saiob_debug_mode_option');
+if ( empty( $GLOBALS['wp_rewrite'] ) )
+        $GLOBALS['wp_rewrite'] = new WP_Rewrite();
+
 
 if(isset($get_debug_mode['debug_mode']) && $get_debug_mode['debug_mode'] != 'true') {
 	error_reporting(0);
-	ini_set('display_errors', 'Off');
+        ini_set('display_errors', 'Off');
 }
-
 define('WP_SOCIAL_ALL_IN_ONE_BOT_URL', 'http://www.smackcoders.com/social-all-in-one-bot.html');
 define('WP_SOCIAL_ALL_IN_ONE_BOT_NAME', 'Social All in One Bot');
 define('WP_SOCIAL_ALL_IN_ONE_BOT_SLUG', 'social-all-in-one-bot');
 define('WP_SOCIAL_ALL_IN_ONE_BOT_SETTINGS', 'Social All in One Bot');
-define('WP_SOCIAL_ALL_IN_ONE_BOT_VERSION', '1.2.11');
+define('WP_SOCIAL_ALL_IN_ONE_BOT_VERSION', '1.2.12');
 define('WP_SOCIAL_ALL_IN_ONE_BOT_DIR', WP_PLUGIN_URL . '/' . WP_SOCIAL_ALL_IN_ONE_BOT_SLUG . '/');
 define('WP_SOCIAL_ALL_IN_ONE_BOT_DIRECTORY', plugin_dir_path( __FILE__ ));
 define('WP_PLUGIN_BASE_SAIOB', WP_SOCIAL_ALL_IN_ONE_BOT_DIRECTORY);
@@ -44,7 +46,7 @@ register_deactivation_hook(__FILE__, array('saiob_include_saiobhelper', 'deactiv
 
 function saiob_action_admin_menu()
 {       
-	add_menu_page(WP_SOCIAL_ALL_IN_ONE_BOT_SETTINGS, WP_SOCIAL_ALL_IN_ONE_BOT_NAME, 'manage_options', __FILE__,array('saiob_include_saiobhelper','front_page') , WP_SOCIAL_ALL_IN_ONE_BOT_DIR . "/images/icon.png");
+	add_menu_page(WP_SOCIAL_ALL_IN_ONE_BOT_SETTINGS, WP_SOCIAL_ALL_IN_ONE_BOT_NAME, 'manage_options', __FILE__,array('saiob_include_saiobhelper','front_page'),WP_SOCIAL_ALL_IN_ONE_BOT_DIR."images/icon.png");
 }
 add_action ( "admin_menu", "saiob_action_admin_menu" );
 add_filter( 'custom_menu_order', '__return_true' );

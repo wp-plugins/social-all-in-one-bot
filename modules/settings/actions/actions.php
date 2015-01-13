@@ -59,7 +59,7 @@ class SettingsActions extends SkinnyActions {
 					<script> window.location.href = "<?php echo $loginurl; ?>" </script> <?php die;
 			}
 		}
-		/*else if(!empty($facebook_code))
+		else if(!empty($facebook_code))
 		{
 			$value = get_option('__saiob_facebookkeys');
 			$facebook = new SAIOB_Facebook(array(
@@ -82,10 +82,10 @@ class SettingsActions extends SkinnyActions {
 
 			}
 			update_option('__saiob_facebookkeys', $value);
-		}*/
+		}
 
 
-		$linkedin_appid = isset($_REQUEST['linkedin_apikey']) ? $_REQUEST['linkedin_apikey'] : '';
+		/*$linkedin_appid = isset($_REQUEST['linkedin_apikey']) ? $_REQUEST['linkedin_apikey'] : '';
                 $linkedin_secretkey = isset($_REQUEST['linkedin_secretkey']) ? $_REQUEST['linkedin_secretkey'] : '';
 		$linkedin_url = isset($_REQUEST['linkedin_url']) ? $_REQUEST['linkedin_url'] : '';
                 $linkedin_status = isset($_REQUEST['enablelinkedin']) ? $_REQUEST['enablelinkedin'] : '';
@@ -135,7 +135,7 @@ class SettingsActions extends SkinnyActions {
 			//$value['code'] = $linkedin_accesstoken;
 			#echo '<pre>';print_r($value);die('ds');
 			#update_option('__saiob_linkedinkeys', $value);
-		}
+		}*/
 
 
 		return $data;

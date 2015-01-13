@@ -51,7 +51,6 @@ class saiob_include_saiobhelper
 				{
 				$sql = "delete from $queue_table where id = '{$key[1]}'";
 				$response = $wpdb->query($sql);
-			//		echo $key[1];
 				}
 		
 print_r("Successfully Deleted");die;
@@ -68,8 +67,6 @@ public static function saiob_deleteItem1()
 				{
 				$sql = "delete from $log_table where logid = '{$key[1]}'";
 				$response = $wpdb->query($sql);
-		//			echo $key[1];
-
 			}
 				
 print_r("Successfully Deleted");die;
@@ -233,9 +230,9 @@ print_r("Successfully Deleted");die;
 	public function addsociallog($response, $provider, $socialmessage, $queueid)
 	{
 		global $wpdb;
-		$socialresponse = mysql_real_escape_string($response['message']);
-		$messagestatus = mysql_real_escape_string($response['result']);
-		$socialmessage = mysql_real_escape_string($socialmessage);
+		$socialresponse = addslashes($response['message']);
+		$messagestatus = addslashes($response['result']);
+		$socialmessage = addslashes($socialmessage);
 		$logtable = WP_SOCIAL_ALL_IN_ONE_BOT_LOG_TABLE;
 		$addlog_query = "insert into $logtable (provider, socialmessage, socialresponse, result) values ('$provider', '$socialmessage', '$socialresponse', '$messagestatus')";
 		$wpdb->query($addlog_query);
@@ -247,7 +244,7 @@ print_r("Successfully Deleted");die;
          *  @param string $provider (facebook, linkedin, twitter ...)
          *  @param value $value
          **/
-        public function saiob_storesocialkeys()
+        public static function saiob_storesocialkeys()
         {
                 $provider = $_REQUEST['provider'];
                 $value = $_REQUEST['value'];
@@ -442,6 +439,8 @@ print_r("Successfully Deleted");die;
 
 	public static function saiob_storesmartbotinfo1()
         {       global $wpdb;
+                $content3 =  $ab1 = array();
+                $container = $valid = '';
                 $skinny = new SkinnyController_saiob();
                 $metainfo = new saiob_include_getmetainfo();
 
@@ -697,17 +696,20 @@ print_r("Successfully Deleted");die;
                                 
                 		foreach($ans as $value1) {
                 			$ab1[]=$value1->ID; }
+                                if(!empty($ab1)) {
                 		$array_val = json_encode($ab1);
                 		$v1=count($ab1);
-                		$container .= "<input type = 'hidden' id='first' value='$ab1[0]'>";
-                		$container .= "<input type = 'hidden' id='next' value='$ab1[1]'>";
-                		$container .= "<input type = 'hidden' id='prev' value='$ab1[1]'>";
-                		$container .= "<input type = 'hidden' id='count' value='$v1'>";
-                		$container .= "<input type = 'hidden' id='array_val' value='$array_val'>";
+                		$container .= "<input type = 'hidden' id='first' value='{$ab1[0]}'>";
+                		$container .= "<input type = 'hidden' id='next' value='{$ab1[1]}'>";
+                		$container .= "<input type = 'hidden' id='prev' value='{$ab1[1]}'>";
+                		$container .= "<input type = 'hidden' id='count' value='{$v1}'>";
+                		$container .= "<input type = 'hidden' id='array_val' value='{$array_val}'>";
 				$container .=	"<input type = 'hidden' id='curent_variation' value=1>";
+					}
+                                  
                 		foreach ($ans as $rep) {
                         		$valid = $rep->ID; }
-                		$container .=  "<input type = 'hidden' id='last' value='$valid'>";
+                		$container .=  "<input type = 'hidden' id='last' value='{$valid}'>";
 
 				print_r($container);
 				die();
@@ -763,7 +765,7 @@ print_r("Successfully Deleted");die;
 	 * add template on option values
 	 * check whether already name exists If so return false else true
 	 **/
-	public function saiob_checkbulkcomposertemplate()
+	public static function saiob_checkbulkcomposertemplate()
          {
                 $templatename = $_REQUEST['type'];
                 $mode = $_REQUEST['mode'];
@@ -965,14 +967,18 @@ print_r("Successfully Deleted");die;
 				$variation = get_option('__wp_saiob_variation');
                              	$set = count($variation);
                            	foreach ( $variation as $key => $outputresult ) {
-                           	$arrayvalue[$key] = $outputresult;
-                            	$finid = $variation[0]['ID'];
-                          	$fintitle = $arrayvalue[0]['post_title'];
-                           	$fincontent1 = $arrayvalue[0]['post_content'];
-                          	$fincontent = preg_replace("/<img[^>]+\>/i", "", $fincontent1);
-                            	$output = preg_match_all('/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $fincontent1, $matches);
-                               	$imgcount = count($matches[1]);
-                              	$finimage = $matches[1][0]; }
+                           		$arrayvalue[$key] = $outputresult;
+                            		$finid = $variation[0]['ID'];
+                          		$fintitle = $arrayvalue[0]['post_title'];
+                           		$fincontent1 = $arrayvalue[0]['post_content'];
+                          		$fincontent = preg_replace("/<img[^>]+\>/i", "", $fincontent1);
+                            		$output = preg_match_all('/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $fincontent1, $matches);
+                               		$imgcount = count($matches[1]);
+					if($imgcount > 0)
+                              			$finimage = $matches[1][0];
+					else
+						$finimage = 'null';
+				}
 				$res = $fintitle.'_'.$fincontent.'_'.$finimage.'_'.$finid;
                                 print_r(json_encode($res));  
 			}die;
@@ -1020,7 +1026,10 @@ print_r("Successfully Deleted");die;
 				if ( strlen($postcontent) > 270 )
 				{
 					$stringCut = substr($postcontent, 0, 270);
-					$result1 = substr($stringCut, 0, strpos($stringCut, ' ')).'...'; 
+					$result1 = substr($stringCut, 0, strrpos($stringCut, ' ')).'...'; 
+				}
+				else {
+					$result1 = substr($postcontent, 0, strrpos($postcontent, ' ')).'...';
 				}
 				if ( strlen($postitle) <= 50 )
 				{
@@ -1034,7 +1043,7 @@ print_r("Successfully Deleted");die;
 				if(isset($provider) && $provider == 'twitter') {
 					if ( strlen($posct1) > 80 ){
                                         $stringCut = substr($postcontent, 0, 80);
-                                        $result1 = substr($stringCut, 0, strpos($stringCut, ' ')).'...';
+                                        $result1 = substr($stringCut, 0, strrpos($stringCut, ' ')).'...';
                                 	}
 				}
 				if($imgcount > 0)
@@ -1093,6 +1102,9 @@ print_r("Successfully Deleted");die;
                                         $stringCut = substr($posct1, 0, 270);
                                         $result1 = substr($stringCut, 0, strrpos($stringCut, ' ')).'...';
                                 }
+				else {
+					$result1 = substr($posct1, 0, strrpos($posct1, ' ')).'...';
+				}
                                 if ( strlen($postit1) <= 50 )
                                 {
                                         $result = $postit1;
@@ -1240,7 +1252,7 @@ print_r("Successfully Deleted");die;
                         $dropdown_selected = '';
 			if(isset($templatevalue['settingstype']))
                         {
-                        	if($singledropdownlist == $templatevalue['type'])	{
+                        	if($singledropdownlist == $templatevalue['type']) {
                                 	$dropdown_selected = "selected = 'selected'";
 				}
 			}
@@ -1314,7 +1326,10 @@ print_r("Successfully Deleted");die;
                                                                               
                                         <button type='button' style = 'margin-left:200px'  class='btn btn-primary' id = 'schedule' onclick = 'scheduleinfo(this.form)' data-loading-text='<span class = \"fa fa-spinner fa-spin\"></span> Scheduling Template...'>  Schedule </button>&emsp;
 					<button type='button' style = 'margin-left:50px'  class='btn btn-primary' id = 'preview' data-toggle='modal' data-target='.bs-example-modal-sm' onclick = 'previewinfo(this.form)'> Preview </button>";
-
+		if($select_temp == '' ) {
+				$container .= "";
+		}
+		else {
 		$container .=  "<div class='modal fade bs-example-modal-sm' tabindex='-1' role='dialog' aria-labelledby='myLargeModalLabel' aria-hidden='true'>
   						<div class='modal-dialog modal-lg'>
     						<div class='modal-content'>
@@ -1343,9 +1358,10 @@ print_r("Successfully Deleted");die;
 						</div></div>
 					
                                 </div>
-                                </div>
+                                </div></div>";
+			}
 			
-                        </div> 
+                        $container .= "
                         </form>
                         <script type = 'text/javascript'>
                         jQuery(document).ready(function() {
@@ -1517,7 +1533,7 @@ print_r("Successfully Deleted");die;
                                 }
                                 else
                                 {
-                                        $message = mysql_real_escape_string($response['message']);
+                                        $message = addslashes($response['message']);
                                         $wpdb->query("update $queuetablename set socialresponse = '$message' where id = $id");
                                 }
                         }

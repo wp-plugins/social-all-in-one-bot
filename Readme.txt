@@ -3,10 +3,10 @@ Author: smackcoders
 Author URI: http://profiles.wordpress.org/smackcoders/
 Contributors: smackcoders
 Tags: facebook, google, google+, twitter, social, social media, admin, page, content, post, comments, posts, image, links, images, plugin, shortcode, sidebar, widget, pinterest, stumbleupon, scoopit, linkedin, marketing, media, eCommerce, reviews, rating
-Requires at least: 3.8
-Tested up to: 4.0
-Stable tag: 1.2.11
-Version: 1.2.11
+Requires at least: 3.9
+Tested up to: 4.1
+Stable tag: 1.2.12
+Version: 1.2.12
 License: GPLv2 or later
 Donate link: https://www.smackcoders.com/store/donate.html
 
@@ -14,7 +14,7 @@ Smart bot to Manage and Control your social media updates based on proven record
 
 == Description ==
 
-Now version 1.2.11 is available for dynamic debug mode enable/disable options in settings along with improved UI and users can create twitter cards and their type (5 types) automatically to tweeted by plugin. 
+Now version 1.2.12 is available for latest wordpress version 4.1. The dynamic debug mode, enable/disable options in settings along with improved UI and users can create twitter cards and their type (5 types) automatically to tweeted by plugin. 
 
 Social all in one plugin is a Smart bot to Manage and Control your social media updates based on proven records and stats in an automated way. From evaluating various stats and info available, it is proven that posting your social network updates at right time gets you more result. This plugin will automate your social media updates in preconfigured scheduling without losing much of the resources. There will be an AB testing integration available in nearby future to improve your social campaigns based on performance and results.
 
@@ -201,6 +201,12 @@ Or view our how to guide video guide in our [Youtube Channel](http://youtube.com
 
 == Changelog ==
 
+= 1.2.12 =
+* Added: Wordpress 4.1 compatibility.
+* Updated: Latest Facebook SDK version 4.0.
+* Added: Validations to select source,date/id.
+* Fixed: Issues in preview option. 
+
 = 1.2.11 =
 * Added: Debug mode enable / disable option in settings module.
 * Added: Menu order to avoid blank screen.
@@ -230,6 +236,9 @@ UI improvements along with easy usability.
 
 == Upgrade Notice ==
 
+== 1.2.12 ==
+* Upgrade now for latest plugin updates and bug fixes
+
 == 1.2.11 ==
 * Upgrade now for dynamic debug mode enable/disable feature.
 
@@ -244,11 +253,3 @@ UI improvements along with easy usability.
 
 = 1.0.0 Beta =	
 * Initial Beta Upgrade now for log and most improved features.
-
-
-
-
-
-
-
-

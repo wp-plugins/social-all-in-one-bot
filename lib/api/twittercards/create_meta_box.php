@@ -1,5 +1,5 @@
 <?php
-class ADD_META_BOX {
+class Twitter_Box {
 	protected $meta_box;
 	//Create meta box based on given data
 	function __construct( $meta_box )
@@ -119,5 +119,5 @@ $meta_box[]=array(
                                                       );
 foreach( $meta_box as $meta_b )
 {
-	new ADD_META_BOX( $meta_b );
+	new Twitter_Box($meta_b);
 }
